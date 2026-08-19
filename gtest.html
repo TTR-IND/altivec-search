@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mâsdorado Games | Dope Wars - Ruler of the Street</title>
-    <meta name="description" content="Play Dope Wars - Ruler of the Street free on Mâsdorado Games. Build your street empire. Classic flash game portal.">
+    <title>Afterburner Games | Dope Wars - Ruler of the Street</title>
+    <meta name="description" content="Play Dope Wars - Ruler of the Street free on Afterburner Games. Build your street empire. Classic flash-style game portal.">
     <style>
         /* ============================================================
-           RESET & BASE
+           RESET & BASE — Newgrounds-inspired dark portal
            ============================================================ */
         *,
         *::before,
@@ -18,28 +18,27 @@
         }
 
         :root {
-            --ms-blue: #1a6db5;
-            --ms-blue-dark: #0f4a7a;
-            --ms-blue-light: #4a9fd8;
-            --ms-orange: #ff6600;
-            --ms-orange-dark: #cc5200;
-            --ms-green: #00c853;
-            --ms-green-dark: #009624;
-            --bg-dark: #0d0d0d;
-            --bg-darker: #1a1a1a;
-            --bg-light: #f0f4f8;
-            --bg-card: #ffffff;
-            --text-dark: #222;
-            --text-light: #f5f5f5;
-            --border-light: #d0d8e0;
-            --border-dark: #333;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
-            --radius-sm: 4px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            --font-retro: 'Arial', 'Helvetica', 'Verdana', 'Tahoma', sans-serif;
+            --ng-orange: #ff6600;
+            --ng-orange-hot: #ff8c1a;
+            --ng-orange-dark: #cc5200;
+            --ng-cyan: #00e5ff;
+            --ng-cyan-dim: #00b8d4;
+            --ng-blue: #1a8cff;
+            --bg-black: #0a0a0a;
+            --bg-dark: #111111;
+            --bg-panel: #161616;
+            --bg-card: #1c1c1c;
+            --border-dark: #2a2a2a;
+            --border-glow: #333;
+            --text-main: #e8e8e8;
+            --text-muted: #999;
+            --text-dim: #666;
+            --shadow-glow: 0 0 20px rgba(255, 102, 0, 0.25);
+            --shadow-cyan: 0 0 18px rgba(0, 229, 255, 0.2);
+            --radius-sm: 3px;
+            --radius-md: 6px;
+            --radius-lg: 10px;
+            --font-main: 'Arial', 'Helvetica', 'Verdana', sans-serif;
             --game-box-height: 520px;
             --game-box-height-mobile: 65vh;
         }
@@ -52,9 +51,9 @@
         }
 
         body {
-            font-family: var(--font-retro);
-            background: var(--bg-light);
-            color: var(--text-dark);
+            font-family: var(--font-main);
+            background: var(--bg-black);
+            color: var(--text-main);
             line-height: 1.5;
             min-height: 100vh;
             min-height: 100dvh;
@@ -71,13 +70,14 @@
         }
 
         a {
-            color: var(--ms-blue);
+            color: var(--ng-orange);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: color 0.15s, text-shadow 0.15s;
         }
         a:hover {
-            color: var(--ms-orange);
-            text-decoration: underline;
+            color: var(--ng-orange-hot);
+            text-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
+            text-decoration: none;
         }
 
         img {
@@ -87,7 +87,7 @@
         }
 
         button {
-            font-family: var(--font-retro);
+            font-family: var(--font-main);
             cursor: pointer;
             border: none;
             outline: none;
@@ -95,17 +95,16 @@
         }
 
         /* ============================================================
-           TOP NAVIGATION BAR
+           TOP NAV — black bar, orange underline, cyan logo glow
            ============================================================ */
         .top-nav {
-            background: linear-gradient(180deg, #1a1a1a 0%, var(--bg-darker) 50%, #111 100%);
-            border-bottom: 3px solid var(--ms-orange);
+            background: linear-gradient(180deg, #151515 0%, #0d0d0d 100%);
+            border-bottom: 3px solid var(--ng-orange);
             padding: 0 16px;
             position: relative;
             z-index: 1000;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 102, 0, 0.08);
             user-select: none;
-            transition: all 0.2s;
         }
 
         body.theatre-mode .top-nav {
@@ -118,7 +117,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 60px;
+            height: 64px;
             gap: 16px;
         }
 
@@ -127,55 +126,60 @@
             align-items: center;
             height: 100%;
             flex-shrink: 0;
+            filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.35));
+            transition: filter 0.2s;
+        }
+        .nav-logo:hover {
+            filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.55));
         }
         .nav-logo img {
-            height: 42px;
+            height: 44px;
             width: auto;
-            max-width: 200px;
+            max-width: 260px;
             object-fit: contain;
-            display: block;
-            transition: opacity 0.2s;
             image-rendering: auto;
         }
-        .nav-logo:hover img {
-            opacity: 0.85;
-        }
         .nav-logo-text-fallback {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 900;
             color: #fff;
             text-transform: uppercase;
-            letter-spacing: -0.5px;
+            letter-spacing: 1px;
             white-space: nowrap;
             display: none;
+            text-shadow: 0 0 12px var(--ng-cyan);
         }
 
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 2px;
             list-style: none;
             flex-wrap: nowrap;
         }
         .nav-links li a {
-            color: #ccc;
-            font-size: 0.82rem;
-            font-weight: 700;
+            color: #aaa;
+            font-size: 0.78rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 8px 14px;
+            letter-spacing: 0.8px;
+            padding: 9px 16px;
             border-radius: var(--radius-sm);
-            transition: all 0.2s;
+            transition: all 0.15s;
             white-space: nowrap;
+            border: 1px solid transparent;
         }
         .nav-links li a:hover {
             color: #fff;
-            background: rgba(255, 102, 0, 0.15);
-            text-decoration: none;
+            background: rgba(255, 102, 0, 0.12);
+            border-color: rgba(255, 102, 0, 0.3);
+            text-shadow: none;
         }
         .nav-links li a.active {
-            color: var(--ms-orange);
-            background: rgba(255, 102, 0, 0.1);
+            color: var(--ng-orange);
+            background: rgba(255, 102, 0, 0.15);
+            border-color: rgba(255, 102, 0, 0.4);
+            text-shadow: 0 0 8px rgba(255, 102, 0, 0.4);
         }
 
         .nav-hamburger {
@@ -188,20 +192,19 @@
             transition: background 0.2s;
         }
         .nav-hamburger:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         /* ============================================================
-           BREADCRUMB BAR
+           BREADCRUMB
            ============================================================ */
         .breadcrumb-bar {
-            background: #fff;
-            border-bottom: 1px solid var(--border-light);
-            padding: 6px 16px;
-            font-size: 0.72rem;
-            color: #777;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border-dark);
+            padding: 7px 16px;
+            font-size: 0.7rem;
+            color: var(--text-dim);
             user-select: none;
-            transition: all 0.2s;
         }
 
         body.theatre-mode .breadcrumb-bar {
@@ -217,14 +220,15 @@
             flex-wrap: wrap;
         }
         .breadcrumb-bar span {
-            color: #999;
+            color: #555;
         }
         .breadcrumb-bar a {
-            color: var(--ms-blue);
+            color: var(--ng-cyan-dim);
             font-weight: 600;
         }
         .breadcrumb-bar a:hover {
-            color: var(--ms-orange);
+            color: var(--ng-cyan);
+            text-shadow: 0 0 6px rgba(0, 229, 255, 0.4);
         }
 
         /* ============================================================
@@ -234,9 +238,8 @@
             flex: 1;
             max-width: 1100px;
             margin: 0 auto;
-            padding: 20px 16px 40px;
+            padding: 22px 16px 40px;
             width: 100%;
-            transition: all 0.2s;
         }
 
         body.theatre-mode .main-content {
@@ -249,7 +252,7 @@
         }
 
         /* ============================================================
-           GAME HEADER
+           GAME HEADER — dark panel with orange/cyan accents
            ============================================================ */
         .game-header {
             display: flex;
@@ -258,12 +261,12 @@
             gap: 20px;
             flex-wrap: wrap;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border: 1px solid var(--border-light);
+            background: linear-gradient(145deg, #1a1a1a 0%, #121212 100%);
+            border: 1px solid var(--border-dark);
+            border-left: 4px solid var(--ng-orange);
             border-radius: var(--radius-md);
             padding: 18px 20px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
         }
 
         body.theatre-mode .game-header {
@@ -275,32 +278,39 @@
             min-width: 200px;
         }
         .game-title {
-            font-size: 1.7rem;
+            font-size: 1.75rem;
             font-weight: 900;
-            color: #1a1a1a;
+            color: #fff;
             letter-spacing: -0.5px;
-            line-height: 1.2;
+            line-height: 1.15;
             text-transform: uppercase;
             margin-bottom: 6px;
+            text-shadow: 0 2px 0 #000;
         }
         .game-title .title-dope {
-            color: var(--ms-orange);
+            color: var(--ng-orange);
+            text-shadow: 0 0 14px rgba(255, 102, 0, 0.45);
         }
         .game-title .title-wars {
-            color: var(--ms-green-dark);
+            color: var(--ng-cyan);
+            text-shadow: 0 0 14px rgba(0, 229, 255, 0.4);
         }
         .game-subtitle {
-            font-size: 0.85rem;
-            color: #666;
+            font-size: 0.84rem;
+            color: var(--text-muted);
             margin-bottom: 8px;
         }
         .game-author {
-            font-size: 0.78rem;
-            color: #555;
+            font-size: 0.76rem;
+            color: #777;
         }
         .game-author .author-link {
-            color: var(--ms-blue);
+            color: var(--ng-cyan);
             font-weight: 700;
+        }
+        .game-author .author-link:hover {
+            color: #fff;
+            text-shadow: 0 0 8px var(--ng-cyan);
         }
 
         .game-header-right {
@@ -309,45 +319,46 @@
             gap: 8px;
         }
         .btn-share {
-            padding: 8px 16px;
-            font-size: 0.72rem;
-            font-weight: 700;
+            padding: 8px 15px;
+            font-size: 0.7rem;
+            font-weight: 800;
             border-radius: var(--radius-sm);
             text-transform: uppercase;
-            letter-spacing: 0.3px;
-            transition: all 0.2s;
+            letter-spacing: 0.4px;
+            transition: all 0.15s;
             display: flex;
             align-items: center;
-            gap: 4px;
-            border: 1px solid var(--border-light);
-            background: #f8f8f8;
-            color: #555;
+            gap: 5px;
+            border: 1px solid #333;
+            background: #1a1a1a;
+            color: #aaa;
         }
         .btn-share:hover {
-            background: #e3f2fd;
-            border-color: var(--ms-blue);
-            color: var(--ms-blue);
+            background: rgba(0, 229, 255, 0.1);
+            border-color: var(--ng-cyan-dim);
+            color: var(--ng-cyan);
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.15);
         }
 
         /* ============================================================
-           GAME BOX (BLACK BOX)
+           GAME BOX
            ============================================================ */
         .game-box-wrapper {
             position: relative;
             margin-bottom: 12px;
             border-radius: var(--radius-md);
             overflow: hidden;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px #222;
             background: #000;
-            border: 3px solid #222;
+            border: 2px solid #1a1a1a;
             transition: all 0.3s;
             user-select: none;
             -webkit-user-select: none;
         }
 
         .game-box-wrapper:focus-within {
-            border-color: var(--ms-blue);
-            box-shadow: 0 0 0 3px rgba(26, 109, 181, 0.4), var(--shadow-md);
+            border-color: var(--ng-orange);
+            box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.35), 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
         body.theatre-mode .game-box-wrapper {
@@ -411,12 +422,13 @@
         }
 
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #333;
-            border-top-color: var(--ms-orange);
+            width: 48px;
+            height: 48px;
+            border: 3px solid #222;
+            border-top-color: var(--ng-orange);
+            border-right-color: var(--ng-cyan);
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 0.7s linear infinite;
             margin-bottom: 16px;
         }
         @keyframes spin {
@@ -424,23 +436,23 @@
         }
 
         .loading-text {
-            color: #ccc;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 1px;
+            color: #bbb;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-bottom: 10px;
-            animation: pulse 1.5s ease-in-out infinite;
+            margin-bottom: 12px;
+            animation: pulse 1.4s ease-in-out infinite;
         }
         @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
+            0%, 100% { opacity: 0.45; }
             50% { opacity: 1; }
         }
 
         .loading-bar-track {
             width: 200px;
-            height: 8px;
-            background: #222;
+            height: 7px;
+            background: #1a1a1a;
             border-radius: 4px;
             overflow: hidden;
             border: 1px solid #333;
@@ -448,14 +460,15 @@
         .loading-bar-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--ms-orange), var(--ms-green));
+            background: linear-gradient(90deg, var(--ng-orange), var(--ng-cyan));
             border-radius: 4px;
             transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
         }
         .loading-percent {
-            color: #888;
-            font-size: 0.7rem;
-            margin-top: 6px;
+            color: #666;
+            font-size: 0.68rem;
+            margin-top: 7px;
             font-family: monospace;
         }
 
@@ -464,11 +477,11 @@
             top: 16px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             color: #fff;
             padding: 8px 16px;
             border-radius: 20px;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             z-index: 20;
@@ -476,7 +489,7 @@
             opacity: 0;
             transition: opacity 0.4s;
             white-space: nowrap;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 102, 0, 0.4);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
         }
@@ -492,7 +505,7 @@
         }
 
         /* ============================================================
-           GAME CONTROLS BAR (hidden in theatre mode)
+           GAME CONTROLS
            ============================================================ */
         .game-controls-bar {
             display: flex;
@@ -500,9 +513,8 @@
             justify-content: center;
             gap: 12px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             padding: 10px 0;
-            transition: all 0.2s;
         }
 
         body.theatre-mode .game-controls-bar {
@@ -513,83 +525,85 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 24px;
-            font-size: 0.9rem;
+            padding: 11px 26px;
+            font-size: 0.88rem;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
             border-radius: var(--radius-md);
-            background: linear-gradient(180deg, #00e676 0%, var(--ms-green) 40%, var(--ms-green-dark) 100%);
+            background: linear-gradient(180deg, #ff8c1a 0%, var(--ng-orange) 45%, var(--ng-orange-dark) 100%);
             color: #fff;
-            border: 2px solid #00a844;
-            box-shadow: 0 4px 12px rgba(0, 200, 83, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            transition: all 0.2s;
+            border: 2px solid #e55a00;
+            box-shadow: 0 4px 16px rgba(255, 102, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            transition: all 0.15s;
             position: relative;
             overflow: hidden;
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
         }
         .btn-enlarge:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 200, 83, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            background: linear-gradient(180deg, #00f57d 0%, #00d661 40%, #00a844 100%);
+            box-shadow: 0 6px 24px rgba(255, 102, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            background: linear-gradient(180deg, #ff9f3a 0%, #ff7510 45%, #e55a00 100%);
         }
         .btn-enlarge:active {
             transform: translateY(1px);
-            box-shadow: 0 2px 8px rgba(0, 200, 83, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(255, 102, 0, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.25);
         }
         .btn-enlarge .enlarge-icon {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             line-height: 1;
         }
         .btn-enlarge .esc-hint {
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             font-weight: 600;
             opacity: 0.85;
-            letter-spacing: 0.5px;
-            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.4px;
+            border-left: 1px solid rgba(255, 255, 255, 0.35);
             padding-left: 8px;
             margin-left: 2px;
         }
 
         .btn-secondary-game {
             padding: 10px 16px;
-            font-size: 0.78rem;
-            font-weight: 700;
+            font-size: 0.76rem;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             border-radius: var(--radius-md);
-            background: #fff;
-            color: #555;
-            border: 2px solid var(--border-light);
-            transition: all 0.2s;
+            background: #1a1a1a;
+            color: #bbb;
+            border: 2px solid #333;
+            transition: all 0.15s;
             display: flex;
             align-items: center;
             gap: 6px;
             user-select: none;
         }
         .btn-secondary-game:hover {
-            border-color: var(--ms-blue);
-            color: var(--ms-blue);
-            background: #f5f9ff;
+            border-color: var(--ng-cyan-dim);
+            color: var(--ng-cyan);
+            background: rgba(0, 229, 255, 0.08);
+            box-shadow: 0 0 14px rgba(0, 229, 255, 0.12);
         }
         .btn-secondary-game:active {
             transform: translateY(1px);
         }
 
         /* ============================================================
-           THEATRE MODE EXIT BAR
+           THEATRE EXIT BAR
            ============================================================ */
         .theatre-exit-bar {
             display: none;
-            background: #111;
-            border-bottom: 2px solid var(--ms-orange);
+            background: #0d0d0d;
+            border-bottom: 2px solid var(--ng-orange);
             padding: 6px 14px;
             align-items: center;
             justify-content: space-between;
             color: #fff;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             z-index: 100;
             user-select: none;
         }
@@ -600,27 +614,27 @@
 
         .theatre-exit-bar .btn-theatre-exit {
             background: transparent;
-            color: #ccc;
-            border: 1px solid #555;
+            color: #aaa;
+            border: 1px solid #444;
             padding: 6px 12px;
             border-radius: var(--radius-sm);
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: all 0.2s;
+            transition: all 0.15s;
             display: flex;
             align-items: center;
             gap: 4px;
         }
         .theatre-exit-bar .btn-theatre-exit:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--ms-orange);
+            background: rgba(255, 102, 0, 0.15);
+            border-color: var(--ng-orange);
             color: #fff;
         }
 
         .theatre-exit-bar .theatre-title {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 800;
             color: #fff;
             text-transform: uppercase;
@@ -631,21 +645,21 @@
         }
 
         /* ============================================================
-           MODAL DIALOG
+           MODAL
            ============================================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.75);
             z-index: 10000;
             display: none;
             align-items: center;
             justify-content: center;
             padding: 20px;
             opacity: 0;
-            transition: opacity 0.3s;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            transition: opacity 0.25s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         .modal-overlay.active {
             display: flex;
@@ -653,41 +667,41 @@
         }
 
         .modal-box {
-            background: #fff;
+            background: #161616;
             border-radius: var(--radius-lg);
             max-width: 420px;
             width: 100%;
             padding: 24px 20px 20px;
-            box-shadow: var(--shadow-lg);
-            border: 2px solid var(--ms-orange);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px #333;
+            border: 2px solid var(--ng-orange);
             text-align: center;
-            animation: modalPop 0.25s ease;
+            animation: modalPop 0.22s ease;
         }
         @keyframes modalPop {
-            from { transform: scale(0.9); opacity: 0; }
+            from { transform: scale(0.92); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
 
         .modal-icon {
-            font-size: 2.5rem;
+            font-size: 2.4rem;
             margin-bottom: 12px;
         }
         .modal-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 900;
-            color: #222;
+            color: #fff;
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         .modal-message {
-            font-size: 0.82rem;
-            color: #555;
+            font-size: 0.8rem;
+            color: #aaa;
             margin-bottom: 16px;
             line-height: 1.6;
         }
         .modal-message strong {
-            color: #d32f2f;
+            color: var(--ng-orange);
         }
 
         .modal-buttons {
@@ -697,50 +711,50 @@
             flex-wrap: wrap;
         }
         .modal-btn {
-            padding: 10px 20px;
-            font-size: 0.8rem;
+            padding: 10px 18px;
+            font-size: 0.78rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             border-radius: var(--radius-sm);
-            transition: all 0.2s;
+            transition: all 0.15s;
             min-width: 100px;
             touch-action: manipulation;
         }
         .modal-btn-confirm {
-            background: var(--ms-green);
+            background: linear-gradient(180deg, #ff8c1a, var(--ng-orange));
             color: #fff;
-            border: 2px solid var(--ms-green-dark);
-            box-shadow: 0 2px 8px rgba(0, 200, 83, 0.4);
+            border: 2px solid var(--ng-orange-dark);
+            box-shadow: 0 3px 12px rgba(255, 102, 0, 0.35);
         }
         .modal-btn-confirm:hover {
-            background: var(--ms-green-dark);
+            background: linear-gradient(180deg, #ff9f3a, #ff7510);
             transform: translateY(-1px);
         }
         .modal-btn-cancel {
-            background: #f5f5f5;
-            color: #555;
-            border: 2px solid #ccc;
+            background: #222;
+            color: #bbb;
+            border: 2px solid #444;
         }
         .modal-btn-cancel:hover {
-            background: #eee;
-            border-color: #aaa;
+            background: #2a2a2a;
+            border-color: #666;
+            color: #fff;
             transform: translateY(-1px);
         }
 
         /* ============================================================
-           INFO SECTION (hidden in theatre mode)
+           INFO TABS
            ============================================================ */
         .info-tabs {
             display: flex;
             gap: 0;
-            border-bottom: 2px solid var(--border-light);
-            margin-bottom: 20px;
+            border-bottom: 2px solid #222;
+            margin-bottom: 18px;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
             user-select: none;
-            transition: all 0.2s;
         }
 
         body.theatre-mode .info-tabs,
@@ -750,50 +764,53 @@
 
         .info-tab {
             padding: 10px 18px;
-            font-size: 0.8rem;
-            font-weight: 700;
+            font-size: 0.78rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
             color: #777;
             background: transparent;
             border: none;
             border-bottom: 3px solid transparent;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.2s;
-            font-family: var(--font-retro);
+            transition: all 0.15s;
+            font-family: var(--font-main);
         }
         .info-tab:hover {
-            color: var(--ms-blue);
-            background: #f5f9ff;
+            color: var(--ng-cyan);
+            background: rgba(0, 229, 255, 0.05);
         }
         .info-tab.active {
-            color: var(--ms-blue);
-            border-bottom-color: var(--ms-orange);
-            background: #fafcff;
+            color: var(--ng-orange);
+            border-bottom-color: var(--ng-orange);
+            background: rgba(255, 102, 0, 0.06);
+            text-shadow: 0 0 8px rgba(255, 102, 0, 0.3);
         }
 
         .tab-panel {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.25s ease;
         }
         .tab-panel.active {
             display: block;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .tab-panel h3 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 800;
             margin-bottom: 10px;
-            color: #333;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
         .tab-panel p {
-            font-size: 0.85rem;
-            color: #555;
+            font-size: 0.84rem;
+            color: #aaa;
             margin-bottom: 10px;
             line-height: 1.7;
         }
@@ -803,55 +820,59 @@
             margin: 0;
         }
         .tab-panel ul li {
-            font-size: 0.82rem;
-            color: #555;
-            padding: 6px 0 6px 20px;
+            font-size: 0.8rem;
+            color: #aaa;
+            padding: 7px 0 7px 20px;
             position: relative;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #1a1a1a;
         }
         .tab-panel ul li::before {
             content: '▸';
             position: absolute;
             left: 4px;
-            color: var(--ms-orange);
+            color: var(--ng-orange);
             font-weight: 900;
+        }
+        .tab-panel ul li strong {
+            color: #ddd;
         }
 
         .tag-chips {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
         .tag-chip {
-            padding: 4px 12px;
-            font-size: 0.7rem;
+            padding: 4px 11px;
+            font-size: 0.68rem;
             font-weight: 700;
-            background: #e3f2fd;
-            color: var(--ms-blue);
-            border-radius: 14px;
+            background: rgba(255, 102, 0, 0.1);
+            color: var(--ng-orange);
+            border-radius: 12px;
             letter-spacing: 0.3px;
-            border: 1px solid #bbdefb;
+            border: 1px solid rgba(255, 102, 0, 0.25);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
         }
         .tag-chip:hover {
-            background: #bbdefb;
-            transform: scale(1.05);
+            background: rgba(255, 102, 0, 0.2);
+            border-color: var(--ng-orange);
+            transform: scale(1.04);
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
         }
 
         /* ============================================================
-           FOOTER (hidden in theatre mode)
+           FOOTER
            ============================================================ */
         .site-footer {
-            background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
-            border-top: 3px solid var(--ms-orange);
-            padding: 20px 16px;
-            color: #888;
-            font-size: 0.72rem;
+            background: linear-gradient(180deg, #0d0d0d 0%, #050505 100%);
+            border-top: 3px solid var(--ng-orange);
+            padding: 22px 16px;
+            color: #666;
+            font-size: 0.7rem;
             text-align: center;
             margin-top: auto;
-            transition: all 0.2s;
         }
 
         body.theatre-mode .site-footer {
@@ -868,32 +889,32 @@
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 18px;
             flex-wrap: wrap;
         }
         .footer-links a {
-            color: #aaa;
+            color: #888;
             font-weight: 600;
-            transition: color 0.2s;
+            transition: color 0.15s;
         }
         .footer-links a:hover {
-            color: var(--ms-orange);
-            text-decoration: none;
+            color: var(--ng-orange);
+            text-shadow: 0 0 8px rgba(255, 102, 0, 0.4);
         }
         .footer-copyright {
             color: #555;
-            font-size: 0.68rem;
+            font-size: 0.66rem;
         }
         .footer-disclaimer {
             color: #444;
-            font-size: 0.6rem;
-            max-width: 600px;
+            font-size: 0.58rem;
+            max-width: 620px;
             margin: 0 auto;
             line-height: 1.5;
         }
 
         /* ============================================================
-           THEATRE MODE OVERRIDES (no fullscreen overlay)
+           THEATRE MODE OVERRIDES
            ============================================================ */
         body.theatre-mode .game-box-wrapper,
         body.theatre-mode .game-box {
@@ -901,10 +922,13 @@
             min-height: 0;
         }
 
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 900px) {
             .nav-links li a {
-                font-size: 0.72rem;
-                padding: 6px 10px;
+                font-size: 0.7rem;
+                padding: 7px 11px;
             }
             .game-box {
                 height: 420px;
@@ -927,35 +951,35 @@
                 padding: 0 8px;
             }
             .top-nav-inner {
-                height: 52px;
+                height: 54px;
                 gap: 8px;
             }
             .nav-logo img {
-                height: 32px;
-                max-width: 160px;
+                height: 34px;
+                max-width: 180px;
             }
             .nav-links {
                 display: none;
                 position: absolute;
-                top: 52px;
+                top: 54px;
                 left: 0;
                 right: 0;
-                background: #1a1a1a;
+                background: #111;
                 flex-direction: column;
-                padding: 10px 16px;
+                padding: 10px 14px;
                 gap: 2px;
-                border-bottom: 2px solid var(--ms-orange);
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+                border-bottom: 2px solid var(--ng-orange);
+                box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
             }
             .nav-links.open {
                 display: flex;
             }
             .nav-links li a {
-                font-size: 0.85rem;
+                font-size: 0.84rem;
                 padding: 12px 10px;
                 display: block;
                 width: 100%;
-                border-bottom: 1px solid #333;
+                border-bottom: 1px solid #222;
             }
             .nav-links li:last-child a {
                 border-bottom: none;
@@ -965,18 +989,18 @@
             }
 
             .breadcrumb-bar {
-                font-size: 0.65rem;
-                padding: 4px 8px;
+                font-size: 0.62rem;
+                padding: 5px 8px;
             }
 
             .main-content {
-                padding: 10px 0 30px;
+                padding: 12px 0 30px;
             }
 
             .game-box-wrapper {
                 border-radius: 0;
-                border-left: 1px solid #222;
-                border-right: 1px solid #222;
+                border-left: none;
+                border-right: none;
                 box-shadow: none;
             }
             .game-box {
@@ -986,11 +1010,12 @@
             }
 
             .game-header {
-                padding: 12px 14px;
+                padding: 14px 14px;
                 gap: 10px;
                 border-radius: 0;
                 border-left: none;
                 border-right: none;
+                border-top: 1px solid #222;
                 flex-direction: column;
                 align-items: center;
             }
@@ -1000,18 +1025,18 @@
             }
             .game-subtitle {
                 text-align: center;
-                font-size: 0.75rem;
+                font-size: 0.74rem;
             }
             .game-author {
                 text-align: center;
-                font-size: 0.7rem;
+                font-size: 0.68rem;
             }
             .game-header-right {
                 width: 100%;
                 justify-content: center;
             }
             .btn-share {
-                font-size: 0.65rem;
+                font-size: 0.64rem;
                 padding: 6px 12px;
             }
 
@@ -1020,29 +1045,29 @@
                 padding: 6px 10px;
             }
             .btn-enlarge {
-                padding: 10px 18px;
-                font-size: 0.8rem;
-                letter-spacing: 0.5px;
+                padding: 11px 18px;
+                font-size: 0.78rem;
+                letter-spacing: 0.6px;
                 flex: 1;
                 max-width: 300px;
                 justify-content: center;
             }
             .btn-enlarge .esc-hint {
-                font-size: 0.55rem;
+                font-size: 0.54rem;
                 padding-left: 6px;
                 margin-left: 0;
             }
             .btn-secondary-game {
                 padding: 10px 12px;
-                font-size: 0.7rem;
+                font-size: 0.68rem;
             }
 
             .info-tabs {
                 padding: 0 8px;
             }
             .info-tab {
-                padding: 8px 12px;
-                font-size: 0.7rem;
+                padding: 9px 12px;
+                font-size: 0.68rem;
             }
 
             .tab-panel {
@@ -1052,31 +1077,31 @@
                 font-size: 0.95rem;
             }
             .tab-panel p {
-                font-size: 0.78rem;
+                font-size: 0.76rem;
             }
             .tab-panel ul li {
-                font-size: 0.75rem;
-                padding: 5px 0 5px 16px;
+                font-size: 0.74rem;
+                padding: 6px 0 6px 16px;
             }
 
             .tag-chip {
-                font-size: 0.62rem;
-                padding: 3px 10px;
+                font-size: 0.6rem;
+                padding: 3px 9px;
             }
 
             .site-footer {
-                font-size: 0.65rem;
-                padding: 14px 10px;
+                font-size: 0.64rem;
+                padding: 16px 10px;
             }
             .footer-links {
-                gap: 10px;
+                gap: 12px;
             }
 
             .loading-bar-track {
                 width: 160px;
             }
             .loading-text {
-                font-size: 0.7rem;
+                font-size: 0.68rem;
             }
             .loading-spinner {
                 width: 36px;
@@ -1085,7 +1110,7 @@
             }
 
             .fullscreen-hint {
-                font-size: 0.65rem;
+                font-size: 0.64rem;
                 padding: 6px 12px;
                 top: 10px;
             }
@@ -1097,25 +1122,24 @@
                 font-size: 1rem;
             }
             .modal-message {
-                font-size: 0.75rem;
+                font-size: 0.74rem;
             }
             .modal-btn {
-                font-size: 0.7rem;
+                font-size: 0.68rem;
                 padding: 8px 14px;
                 min-width: 80px;
             }
 
-            /* Theatre mode exit bar on mobile */
             .theatre-exit-bar {
-                padding: 4px 10px;
-                font-size: 0.7rem;
+                padding: 5px 10px;
+                font-size: 0.68rem;
             }
             .theatre-exit-bar .btn-theatre-exit {
-                font-size: 0.62rem;
+                font-size: 0.6rem;
                 padding: 5px 10px;
             }
             .theatre-exit-bar .theatre-title {
-                font-size: 0.7rem;
+                font-size: 0.68rem;
             }
         }
 
@@ -1127,11 +1151,11 @@
                 font-size: 1rem;
             }
             .btn-enlarge {
-                font-size: 0.7rem;
-                padding: 8px 12px;
+                font-size: 0.68rem;
+                padding: 9px 12px;
             }
             .btn-secondary-game {
-                font-size: 0.62rem;
+                font-size: 0.6rem;
                 padding: 8px 8px;
             }
         }
@@ -1174,14 +1198,14 @@
     ============================================================ -->
     <nav class="top-nav" id="topNav">
         <div class="top-nav-inner">
-            <a href="#" class="nav-logo" id="navLogoLink" aria-label="Mâsdorado Games Home">
-                <img src="logo.png" alt="Mâsdorado Games Logo" id="siteLogoImg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="nav-logo-text-fallback">MÂSDORADO</span>
+            <a href="#" class="nav-logo" id="navLogoLink" aria-label="Afterburner Games Home">
+                <img src="logo.png" alt="Afterburner Games Logo" id="siteLogoImg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="nav-logo-text-fallback">AFTERBURNER</span>
             </a>
             <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">☰</button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#" class="active" id="navGamesLink">Games</a></li>
-                <li><a href="#" id="navAboutLink">About Us</a></li>
+                <li><a href="#" id="navAboutLink">About</a></li>
             </ul>
         </div>
     </nav>
@@ -1195,7 +1219,7 @@
             <span>›</span>
             <a href="#" id="breadcrumbGames">Games</a>
             <span>›</span>
-            <span style="color:#333;font-weight:700;">Dope Wars - Ruler of the Street</span>
+            <span style="color:#ccc;font-weight:700;">Dope Wars — Ruler of the Street</span>
         </div>
     </div>
 
@@ -1210,9 +1234,9 @@
                 <h1 class="game-title">
                     <span class="title-dope">DOPE</span> <span class="title-wars">WARS</span> — Ruler of the Street
                 </h1>
-                <p class="game-subtitle">Buy low. Sell high. Own the block. 🌆💵</p>
+                <p class="game-subtitle">Buy low. Sell high. Own the block.</p>
                 <div class="game-author">
-                    by <a href="#" class="author-link">Mâsdorado Studios</a>
+                    by <a href="#" class="author-link">Afterburner Studios</a>
                 </div>
             </div>
             <div class="game-header-right">
@@ -1263,8 +1287,8 @@
 
         <!-- Info Tabs -->
         <div class="info-tabs" id="infoTabs" role="tablist">
-            <button class="info-tab active" data-tab="description" role="tab" aria-selected="true">📝 Description</button>
-            <button class="info-tab" data-tab="howto" role="tab" aria-selected="false">🎯 How to Play</button>
+            <button class="info-tab active" data-tab="description" role="tab" aria-selected="true">Description</button>
+            <button class="info-tab" data-tab="howto" role="tab" aria-selected="false">How to Play</button>
         </div>
 
         <div class="tab-panel active" id="panel-description" role="tabpanel">
@@ -1297,13 +1321,13 @@
             <p>Master the street economy with these simple rules:</p>
             <ul>
                 <li><strong>Buy Low:</strong> Check the market prices and buy when product is cheap.</li>
-                <li><strong>Sell High:</strong> Prices fluctuate when you travel Sell when you see a profit.</li>
+                <li><strong>Sell High:</strong> Prices fluctuate when you travel. Sell when you see a profit.</li>
                 <li><strong>Manage Inventory:</strong> Don't get into debt or the loan-shark may destroy your plot.</li>
                 <li><strong>Avoid the Cops:</strong> Random police raids can wipe your inventory. Stay alert.</li>
                 <li><strong>Build Your Rep:</strong> Levelling up unlocks buildings and locations.</li>
                 <li><strong>Goal:</strong> Turn $1,000 into $1,000,000 to become the King.</li>
             </ul>
-            <p>💡 <strong>Pro Tip:</strong> Buy when prices are in the green, sell in the red. Always keep some cash in reserve.</p>
+            <p><strong>Pro Tip:</strong> Buy when prices are in the green, sell in the red. Always keep some cash in reserve.</p>
         </div>
 
     </main>
@@ -1312,14 +1336,14 @@
     THEATRE MODE EXIT BAR
     ============================================================ -->
     <div class="theatre-exit-bar" id="theatreExitBar">
-        <span class="theatre-title">🎮 Dope Wars — Theatre Mode</span>
+        <span class="theatre-title">Dope Wars — Theatre Mode</span>
         <button class="btn-theatre-exit" id="btnTheatreExit">
             ✕ Exit Theatre
         </button>
     </div>
 
     <!-- ============================================================
-    MODAL DIALOG (warning before reload)
+    MODAL DIALOG
     ============================================================ -->
     <div class="modal-overlay" id="fullscreenModal" aria-hidden="true">
         <div class="modal-box">
@@ -1343,17 +1367,17 @@
     <footer class="site-footer">
         <div class="site-footer-inner">
             <div class="footer-links">
-                <a href="#">About Us</a>
+                <a href="#">About</a>
                 <a href="#">Games</a>
                 <a href="#">Contact</a>
             </div>
             <div class="footer-copyright">
-                &copy; 2026 Mâsdorado Games — A loving homage to Flash portals. All rights reserved.
+                &copy; 2026 Afterburner Games — A loving homage to Flash portals. All rights reserved.
             </div>
             <div class="footer-disclaimer">
                 This is a fan-made parody/tribute. "Dope Wars" is a classic flash game concept.
                 All product names are fictional. This page is for entertainment purposes only.
-                Please play responsibly. 🎮
+                Please play responsibly.
             </div>
         </div>
     </footer>
@@ -1389,9 +1413,6 @@
                     const nowMobile = window.innerWidth <= 768 ||
                         /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(navigator.userAgent);
                     document.body.classList.toggle('is-mobile', nowMobile);
-                    if (deviceIndicator) {
-                        deviceIndicator.textContent = `${nowMobile ? '📱 Mobile' : '🖥️ Desktop'} | ${window.innerWidth}px`;
-                    }
                 }, 250);
             });
 
@@ -1425,21 +1446,21 @@
             if (navAboutLink) {
                 navAboutLink.addEventListener('click', function(e) {
                     e.preventDefault();
-                    alert('✨ Mâsdorado Games — About Us page coming soon! (Demo)');
+                    alert('Afterburner Games — About page coming soon! (Demo)');
                 });
             }
             const navGamesLink = document.getElementById('navGamesLink');
             if (navGamesLink) {
                 navGamesLink.addEventListener('click', function(e) {
                     e.preventDefault();
-                    alert('🎮 Games homepage — You are currently viewing the Dope Wars page.');
+                    alert('Games homepage — You are currently viewing the Dope Wars page.');
                 });
             }
             const navLogoLink = document.getElementById('navLogoLink');
             if (navLogoLink) {
                 navLogoLink.addEventListener('click', function(e) {
                     e.preventDefault();
-                    alert('🏠 Mâsdorado Games homepage — More Coming Soon! (Demo)');
+                    alert('Afterburner Games homepage — More Coming Soon! (Demo)');
                 });
             }
             const breadcrumbHome = document.getElementById('breadcrumbHome');
@@ -1447,13 +1468,13 @@
             if (breadcrumbHome) {
                 breadcrumbHome.addEventListener('click', function(e) {
                     e.preventDefault();
-                    alert('🏠 Mâsdorado Games homepage — More Coming Soon!');
+                    alert('Afterburner Games homepage — More Coming Soon!');
                 });
             }
             if (breadcrumbGames) {
                 breadcrumbGames.addEventListener('click', function(e) {
                     e.preventDefault();
-                    alert('🎮 Games homepage — More Coming Soon!');
+                    alert('Games homepage — More Coming Soon!');
                 });
             }
 
@@ -1559,29 +1580,23 @@
             }
 
             function enterTheatreMode() {
-                // Show confirmation modal
                 modalOverlay.classList.add('active');
                 modalOverlay.setAttribute('aria-hidden', 'false');
             }
 
             function performTheatreEntry() {
-                // Close modal
                 modalOverlay.classList.remove('active');
                 modalOverlay.setAttribute('aria-hidden', 'true');
 
-                // Reload the game iframe completely
                 reloadGameIframe();
 
-                // Add theatre mode class to body
                 document.body.classList.add('theatre-mode');
                 isTheatreMode = true;
 
-                // Show exit bar
                 if (theatreExitBar) {
                     theatreExitBar.style.display = 'flex';
                 }
 
-                // Show hint
                 if (fullscreenHint) {
                     fullscreenHint.classList.remove('visible');
                     void fullscreenHint.offsetWidth;
@@ -1591,7 +1606,6 @@
                     }, 3000);
                 }
 
-                // Update button text
                 updateEnlargeButton();
             }
 
@@ -1652,7 +1666,6 @@
                 btnTheatreExit.addEventListener('click', exitTheatreMode);
             }
 
-            // ESC key exits theatre mode and closes modal
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
                     if (modalOverlay && modalOverlay.classList.contains('active')) {
@@ -1701,7 +1714,7 @@
                     if (navigator.share && isMobileDevice) {
                         navigator.share({
                             title: 'Dope Wars - Ruler of the Street',
-                            text: 'Check out this awesome game on Mâsdorado Games!',
+                            text: 'Check out this game on Afterburner Games!',
                             url: url,
                         }).catch(() => {
                             window.prompt('Copy the link to share:', url);
@@ -1709,7 +1722,7 @@
                     } else {
                         if (navigator.clipboard) {
                             navigator.clipboard.writeText(url).then(() => {
-                                alert('🔗 Link copied to clipboard!');
+                                alert('Link copied to clipboard!');
                             }).catch(() => {
                                 window.prompt('Copy the link:', url);
                             });
@@ -1763,8 +1776,8 @@
             // INITIAL STATE
             // ============================================================
             updateEnlargeButton();
-            console.log('🎮 Mâsdorado Games — Dope Wars landing page loaded!');
-            console.log('💡 Press F to toggle theatre mode, R to restart, ESC to exit theatre mode.');
+            console.log('Afterburner Games — Dope Wars landing page loaded!');
+            console.log('Press F to toggle theatre mode, R to restart, ESC to exit theatre mode.');
 
         })();
     </script>
