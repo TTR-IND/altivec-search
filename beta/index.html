@@ -1,0 +1,1201 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/.
+   -
+   - Copyright (c) 2026 Technologyst Labs
+   -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>⌥ ALTIVEC — G4 Resource Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="weather.css">
+    <link rel="stylesheet" href="god.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════ *
+ *  MOBILE DETECTION  (runs before render — no desktop flash)
+ *
+ *  Desktop is the SAFE DEFAULT. We only switch to the mobile interface when
+ *  ALL of the following hold, so a PowerMac G4 (narrow window, old WebKit,
+ *  no touch) can never be misrouted:
+ *    1. a manual override is not forcing desktop
+ *    2. OR a manual override is forcing mobile
+ *    3. otherwise: narrow viewport AND touch input AND a modern-feature check
+ *
+ *  Override is stored via the page's own consent-gated storage key so it
+ *  respects the cookie banner. We also read a URL hash (#desktop / #mobile)
+ *  as a no-storage fallback for users who rejected functional storage.
+ * ════════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+    var OVERRIDE_KEY = 'altivec_iface';   // values: 'mobile' | 'desktop'
+    var override = '';
+
+    // 1. URL hash wins and is storage-free (works even with consent rejected).
+    var h = (window.location.hash || '').toLowerCase();
+    if (h === '#desktop') override = 'desktop';
+    else if (h === '#mobile') override = 'mobile';
+
+    // 2. Otherwise fall back to a previously saved preference, if any.
+    if (!override) {
+        try {
+            var v = window.localStorage ? localStorage.getItem(OVERRIDE_KEY) : null;
+            if (v === 'mobile' || v === 'desktop') override = v;
+        } catch (e) {}
+    }
+
+    function looksLikeMobile() {
+        // Width gate first — this alone protects a typical G4 desktop window,
+        // and is the most reliable signal across ancient and modern engines.
+        var w = window.innerWidth || document.documentElement.clientWidth || 9999;
+        if (w > 820) return false;
+
+        // Touch capability. We require a POSITIVE touch signal, not merely the
+        // presence of an `ontouchstart` property (some desktop engines define
+        // it as null without being touch devices). maxTouchPoints > 0 is the
+        // trustworthy modern signal; the ontouchstart-as-function / TouchEvent
+        // checks cover old Mobile Safari which predates maxTouchPoints.
+        var mtp = (typeof navigator.maxTouchPoints === 'number') ? navigator.maxTouchPoints :
+                  (typeof navigator.msMaxTouchPoints === 'number') ? navigator.msMaxTouchPoints : 0;
+        var hasTouch = (mtp > 0) ||
+                       (typeof window.ontouchstart === 'function') ||
+                       (('TouchEvent' in window) && ('orientation' in window));
+        if (!hasTouch) return false;
+
+        // Belt-and-braces modern-feature sniff. Absent on the very old engines
+        // we must protect → fall back to desktop.
+        if (!document.querySelectorAll || !window.addEventListener) return false;
+
+        return true;
+    }
+
+    var useMobile;
+    if (override === 'mobile') useMobile = true;
+    else if (override === 'desktop') useMobile = false;
+    else useMobile = looksLikeMobile();
+
+    if (useMobile) {
+        var de = document.documentElement;
+        de.className = (de.className ? de.className + ' ' : '') + 'm-mobile';
+    }
+
+    // Expose a tiny switcher for the manual override links (defined later).
+    window.altivecSetInterface = function (which) {
+        try { if (window.localStorage) localStorage.setItem(OVERRIDE_KEY, which); } catch (e) {}
+        // Hash guarantees the choice survives even without storage.
+        window.location.hash = (which === 'mobile') ? 'mobile' : 'desktop';
+        window.location.reload();
+    };
+})();
+</script>
+
+<!-- Cookie Consent Banner (hidden until first visit) -->
+<div class="cookie-consent-banner hidden" id="cookieConsentBanner">
+    <div class="cookie-banner-buttons">
+        <button class="cookie-btn cookie-btn-reject" id="cookieRejectBtn">Reject All</button>
+        <button class="cookie-btn cookie-btn-accept" id="cookieAcceptBtn">Accept All</button>
+    </div>
+    <div class="cookie-banner-text">
+        We use local storage for weather &amp; widget preferences. <a id="cookieSettingsLink" role="button" tabindex="0">Manage settings</a>.
+    </div>
+</div>
+
+<!-- Cookie Settings Modal (single functional toggle) -->
+<div class="cookie-settings-overlay" id="cookieSettingsOverlay">
+    <div class="cookie-settings-box">
+        <h3>Cookie Preferences</h3>
+        <p>We only store a small amount of data to remember your weather location, widget preferences (news or god says, and whether the widgets are hidden), theme preference, and whether you've dismissed our Aquafox reminder. You can turn this off below.</p>
+        <div class="cookie-toggle-row">
+            <span class="cookie-toggle-label">Functional <small>Remember my weather location, widget preferences & banner dismissal</small></span>
+            <label class="cookie-toggle">
+                <input type="checkbox" id="cookieFunctionalToggle">
+                <span class="cookie-slider"></span>
+            </label>
+        </div>
+        <div class="cookie-settings-actions">
+            <button class="btn" id="cookieSaveSettings">Save Settings</button>
+        </div>
+    </div>
+</div>
+
+<!-- Everything else unchanged -->
+<div class="nag-banner" id="nagBanner">
+    <span class="nag-icon">🦊</span> Altivec recommends <a href="#" id="nagLink">Aquafox</a> for the best G4 browsing experience.
+    <button class="nag-close" id="nagClose">&times;</button>
+</div>
+
+<div class="header">
+    <div class="header-top m-topbar">
+        <!-- Mobile-only logo row (desktop uses the SVG logo below). -->
+        <div class="m-logo-row">
+            <span class="m-opt">&#8997;</span><span class="m-wordmark">ALTIVEC</span>
+            <span class="m-slogan">the web, distilled for g4</span>
+        </div>
+        <a href="/" style="text-decoration:none;">
+        <div class="logo">
+            <div class="logo-row">
+                <span>⌥</span>
+                <svg width="185" height="26" viewBox="0 0 185 26" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0a500"/><stop offset="100%" stop-color="#ff6680"/></linearGradient></defs>
+                    <text x="0" y="22" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-weight="800" letter-spacing="1"><tspan fill="url(#logoGrad)" font-size="26">ALTIVEC</tspan><tspan class="logo-fyi" fill="rgba(255,255,255,0.3)" font-size="13" font-weight="600" letter-spacing="0.5"> .fyi</tspan></text>
+                </svg>
+            </div>
+            <div class="logo-slogan">the web, distilled for g4</div>
+        </div>
+        </a>
+        <div class="search">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Search G4 resources... e.g. Halo, Aquafox, Sorbet">
+            <button id="searchBtn"><i class="fas fa-arrow-right"></i></button>
+        </div>
+        <div class="widgets-wrap" id="widgetsWrap">
+        <div class="weather-widget" id="weatherWidget">
+            <div class="weather-inner">
+                <canvas id="weatherCanvas"></canvas>
+                <div class="weather-glass">
+                    <div class="wx-idle" id="wxIdle">
+                        <div class="wx-current">
+                            <div class="wx-top">
+                                <div class="weather-icon">&#x1F326;</div>
+                                <div class="weather-temp wx-idle-temp">--°C</div>
+                            </div>
+                            <div class="weather-desc wx-idle-text">-- set location --</div>
+                            <div class="weather-loc wx-idle-text">click ⚙ to configure</div>
+                        </div>
+                        <div class="wx-forecast">
+                            <div class="forecast-day forecast-day-idle"><div class="forecast-dow">---</div><div class="forecast-icon">&#x1F326;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
+                            <div class="forecast-day forecast-day-idle forecast-day-last"><div class="forecast-dow">---</div><div class="forecast-icon">&#x1F326;</div><div class="forecast-hi">--°</div><div class="forecast-lo">--°</div></div>
+                        </div>
+                    </div>
+                    <div class="weather-result" id="weatherResult">
+                        <div class="wx-current">
+                            <div class="wx-top">
+                                <div class="weather-icon" id="weatherIcon"></div>
+                                <div class="weather-temp" id="weatherTemp"></div>
+                            </div>
+                            <div class="weather-desc" id="weatherDesc"></div>
+                            <div class="weather-loc" id="weatherLoc"></div>
+                        </div>
+                        <div class="wx-forecast" id="wxForecast"></div>
+                    </div>
+                    <div class="weather-error" id="weatherError">NOT FOUND</div>
+                </div>
+                <button class="weather-cog" id="weatherCog" title="Set location">⚙</button>
+            </div>
+        </div>
+        <div class="god-widget" id="godWidget" title="Click for revelation">
+            <div class="god-glow"></div>
+            <div class="god-scanlines"></div>
+            <button id="godModeToggle" class="god-mode-toggle" title="Switch mode">MODE</button>
+            <div class="god-inner">
+                <div class="god-header" id="godHeader">&#9670; NEWS &#9670;</div>
+                <div class="god-scroll" id="godScroll">
+                    <div class="god-text idle" id="godText">fetching news&#8230;</div>
+                </div>
+                <button class="god-scroll-btn" id="godScrollBtn" title="Scroll down">&#9660;</button>
+            </div>
+        </div>
+        </div><!-- /.widgets-wrap -->
+        <div class="weather-settings" id="weatherSettings">
+            <div class="weather-settings-row">
+                <label id="weatherLabel">···</label>
+                <input type="text" id="weatherInput" placeholder="······" maxlength="10">
+                <button id="weatherBtn">&#x1F326; GO</button>
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom">
+        <div class="hub-nav" id="tabs"></div>
+        <div class="forecast-strip" id="forecastStrip"></div>
+    </div>
+    <button class="widget-collapse-btn" id="widgetCollapseBtn" title="Hide widgets">&#x25B6;</button>
+</div>
+
+<div class="altivec-shell">
+    <div class="portal-mast">
+        <div class="portal-kicker">ALTIVEC / POWERPC G4</div>
+        <button class="shell-account-btn" id="accountMenuBtn">ACCOUNT</button>
+        <div class="shell-account-menu" id="accountMenu">
+            <div class="account-menu-name" id="accountMenuName">LOCAL ACCOUNT</div>
+            <a href="#" id="createLocalAccount">CREATE LOCAL ACCOUNT</a>
+            <a href="#" id="exportLocalData">EXPORT YOUR DATA</a>
+            <a href="#" id="importLocalData">IMPORT YOUR DATA</a>
+            <a href="#" id="logoutLocalAccount">LOG OUT</a>
+            <input type="file" id="importLocalFile" accept="application/json,.json" style="display:none">
+        </div>
+        <h1>WELCOME TO ALTIVEC.</h1>
+        <div class="portal-sub">A place for people who use PowerPC Macs. Games, software, repair notes and useful places on the web.</div>
+        <div class="shell-weather-bay" id="shellWeatherBay"></div>
+        <div class="portal-search">
+            <div class="search portal-search-inner">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="portalSearchInput" placeholder="Search ALTIVEC">
+                <button id="portalSearchBtn">SEARCH</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="portal-status" id="portalStatus">
+        <span class="status-led"></span><strong>ALTIVEC</strong>
+        <span class="status-copy" id="portalStatusCopy">START WHERE YOU LIKE.</span>
+        <span class="status-right" id="portalVisitCopy"></span>
+    </div>
+
+    <div class="room-grid">
+        <a href="#signal" class="room room-play" data-room="gaming">
+            <div class="room-no">01</div><div class="room-word">PLAY</div>
+            <div class="room-tag">A CURATED GAME SHELF</div>
+            <p>Games worth playing on PowerPC and Universal Binary OS X, with notes and tested settings.</p>
+            <div class="room-footer">BROWSE GAMES <span>&rarr;</span></div>
+        </a>
+        <a href="#signal" class="room room-fix" data-room="hardware">
+            <div class="room-no">02</div><div class="room-word">FIX</div>
+            <div class="room-tag">REPAIR / UPGRADE / REFERENCE</div>
+            <p>Repair notes, hardware information and practical guides for keeping your Mac working.</p>
+            <div class="room-footer">OPEN REPAIR NOTES <span>&rarr;</span></div>
+        </a>
+        <a href="#signal" class="room room-software" data-room="software">
+            <div class="room-no">03</div><div class="room-word">SOFTWARE</div>
+            <div class="room-tag">APPLICATIONS AND UTILITIES</div>
+            <p>Software we use and recommend, with installation notes and compatibility information.</p>
+            <div class="room-footer">BROWSE SOFTWARE <span>&rarr;</span></div>
+        </a>
+        <a href="#signal" class="room room-web" data-room="web">
+            <div class="room-no">04</div><div class="room-word">WEB</div>
+            <div class="room-tag">USEFUL PLACES ONLINE</div>
+            <p>Sites, communities and services worth visiting from a PowerPC Mac.</p>
+            <div class="room-footer">EXPLORE THE WEB <span>&rarr;</span></div>
+        </a>
+    </div>
+
+    <div class="portal-lower">
+        <div class="desk-zone">
+            <div class="section-eyebrow">YOUR DESK</div>
+            <h2 id="deskGreeting">YOUR PINNED ARTICLES</h2>
+            <div id="deskContent" class="desk-content">
+                <p>Create a local account to give this desk a name and keep articles you want to come back to.</p>
+            </div>
+        </div>
+        <div class="signal-zone">
+            <div class="section-eyebrow">NEWS</div>
+            <div class="shell-news-bay" id="shellNewsBay"></div>
+            <div class="signal-links">
+                <a href="#signal" id="showSignal">SHOW ARTICLES</a>
+                <a href="#" id="showSearch">SEARCH</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout hub-layout signal-results" id="signal">
+        <div class="results-panel hub-panel" id="resultsPanel">
+            <div id="resultsList"></div>
+            <div class="results-footer">&copy; 2026 Technologyst Labs &middot; <a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank">Support this site</a> &middot; <a id="footerCookieSettings" role="button" tabindex="0">Cookie settings</a> &middot; <a id="ifaceSwitch" role="button" tabindex="0">View desktop site</a> &middot; <a id="themeToggle" role="button" tabindex="0">Light mode</a></div>
+        </div>
+        <div class="preview-panel desk-panel" id="previewPanel"></div>
+    </div>
+</div>
+
+<div class="account-overlay" id="accountOverlay">
+    <div class="account-box">
+        <button class="account-close" id="accountCloseBtn">&times;</button>
+        <div class="section-eyebrow">CREATE LOCAL ACCOUNT</div>
+        <h2>WHAT SHOULD WE CALL YOU?</h2>
+        <p>ALTIVEC does not store account information on a server. Your display name, pinned articles and preferences stay on this machine.</p>
+        <input type="text" id="displayNameInput" maxlength="32" placeholder="Display name">
+        <div class="account-actions"><button class="btn" id="accountSaveBtn">CREATE ACCOUNT</button></div>
+    </div>
+</div>
+<div id="compatModal" class="compat-overlay">
+    <div class="compat-box">
+        <h3>⚠ COMPATIBILITY WARNING</h3>
+        <p>This site may not render correctly in Safari Leopard WebKit or other legacy browsers. Heavy JavaScript, modern CSS, or TLS certificate requirements could cause issues on your G4. We recommend <strong>Aquafox</strong> for the best experience.</p>
+        <p>Consider reading the local article first — it may have direct download links or lightweight alternatives.</p>
+        <div class="compat-url" id="compatUrl"></div>
+        <div class="compat-actions">
+            <button class="btn" id="compatReadInstead">📖 Read Article Instead</button>
+            <a class="btn btn-caution" id="compatOpenAnyway" href="#" target="_blank">⚠ Open Anyway</a>
+            <button class="btn" id="compatCancel">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="readerModal" class="reader-overlay">
+    <div class="reader">
+        <div class="reader-close" id="readerCloseBtn">&times;</div>
+        <button class="reader-pin" id="readerPinBtn">PIN ARTICLE</button>
+        <div class="reader-main" id="readerMain"></div>
+        <div class="reader-sidebar" id="readerSidebar"></div>
+    </div>
+</div>
+
+<!-- ── MOBILE-ONLY UI (hidden on desktop, shown under html.m-mobile) ── -->
+
+<!-- Preview slides up from the bottom on tap; replaces the desktop side panel. -->
+<div class="m-sheet" id="mSheet">
+    <div class="m-sheet-bar">
+        <button class="m-sheet-back" id="mSheetBack">&#8592; Back to results</button>
+    </div>
+    <div class="m-sheet-body" id="mSheetBody"></div>
+</div>
+
+<!-- Floating button + drawer for the weather & oracle widgets. JS moves the
+     real widgets in here on mobile init so there's only one copy of each. -->
+<!-- Inline widget carousel (weather / God Says). Populated and positioned at
+     the top of the results panel by the mobile init script. -->
+<div class="m-carousel" id="mCarousel">
+    <button class="m-carousel-arrow" id="mCarouselArrow" aria-label="Show God Says">&#8250;</button>
+</div>
+
+<script>
+    // ── COOKIE CONSENT MANAGEMENT (UK Compliant) ──
+    var CONSENT_KEY = 'altivec_cookie_consent';
+    var consentData = { functional: false, timestamp: 0 };
+
+    function loadConsent() {
+        try {
+            var stored = localStorage.getItem(CONSENT_KEY);
+            if (stored) { consentData = JSON.parse(stored); }
+        } catch(e) {}
+    }
+
+    function saveConsent() {
+        try {
+            consentData.timestamp = new Date().getTime();
+            localStorage.setItem(CONSENT_KEY, JSON.stringify(consentData));
+        } catch(e) {}
+    }
+
+    function isFunctionalAllowed() { return consentData.functional === true; }
+
+    function showCookieBanner() { document.getElementById('cookieConsentBanner').classList.remove('hidden'); }
+    function hideCookieBanner() { document.getElementById('cookieConsentBanner').classList.add('hidden'); }
+
+    function openCookieSettings() {
+        var overlay = document.getElementById('cookieSettingsOverlay');
+        document.getElementById('cookieFunctionalToggle').checked = isFunctionalAllowed();
+        overlay.classList.add('active');
+    }
+    function closeCookieSettings() { document.getElementById('cookieSettingsOverlay').classList.remove('active'); }
+
+    function applyConsent() {
+        hideCookieBanner();
+        if (!consentData.functional) {
+            try { localStorage.removeItem('altivec_town'); } catch(e) {}
+            try { localStorage.removeItem('altivec_nag_dismissed'); } catch(e) {}
+            try { localStorage.removeItem('altivec_widget_mode'); } catch(e) {}
+            try { localStorage.removeItem('altivec_widgets_hidden'); } catch(e) {}
+        }
+    }
+
+    function acceptAll() { consentData.functional = true; saveConsent(); applyConsent(); if (window.Altivec && window.Altivec.initWeather) window.Altivec.initWeather(); }
+    function rejectAll() { consentData.functional = false; saveConsent(); applyConsent(); }
+
+    function saveSettingsFromModal() {
+        consentData.functional = document.getElementById('cookieFunctionalToggle').checked;
+        saveConsent();
+        closeCookieSettings();
+        applyConsent();
+    }
+
+    // Safe localStorage wrapper
+    function safeSetItem(key, value) {
+        if (key === CONSENT_KEY) { try { localStorage.setItem(key, value); } catch(e) {} return; }
+        if (key === 'altivec_town' || key === 'altivec_nag_dismissed' || key === 'altivec_widget_mode' || key === 'altivec_widgets_hidden') {
+            if (!isFunctionalAllowed()) return;
+        }
+        try { localStorage.setItem(key, value); } catch(e) {}
+    }
+
+    // Wire cookie events
+    document.addEventListener('DOMContentLoaded', function() {
+        loadConsent();
+        if (!consentData.timestamp) showCookieBanner();
+        if (window.Altivec && window.Altivec.initWeather) window.Altivec.initWeather();
+
+        document.getElementById('cookieAcceptBtn').onclick = acceptAll;
+        document.getElementById('cookieRejectBtn').onclick = rejectAll;
+        document.getElementById('cookieSettingsLink').onclick = openCookieSettings;
+        document.getElementById('footerCookieSettings').onclick = openCookieSettings;
+        document.getElementById('cookieSaveSettings').onclick = saveSettingsFromModal;
+        document.getElementById('cookieSettingsOverlay').onclick = function(e) {
+            if (e.target === this) closeCookieSettings();
+        };
+    });
+
+    // ── XHR helper ──
+    function xhrGet(url, onSuccess, onError) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== 4) return;
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try { onSuccess(JSON.parse(xhr.responseText)); } catch(e) { if (onError) onError(e); }
+            } else { if (onError) onError(new Error('HTTP ' + xhr.status)); }
+        };
+        xhr.send();
+    }
+
+    // Expose shared helpers to the separately-loaded widget files (weather.js,
+    // god.js) via a small namespace.
+    window.Altivec = window.Altivec || {};
+    window.Altivec.xhrGet = xhrGet;
+    window.Altivec.safeSetItem = safeSetItem;
+    window.Altivec.isFunctionalAllowed = isFunctionalAllowed;
+
+    // ── THEME (dark / light) ──
+    var THEME_KEY = 'altivec_theme';
+    function applyTheme(theme) {
+        var de = document.documentElement;
+        if (theme === 'light') { addClass(de, 'light'); } else { removeClass(de, 'light'); }
+        var lnk = document.getElementById('themeToggle');
+        if (lnk) lnk.innerHTML = theme === 'light' ? 'Dark mode' : 'Light mode';
+    }
+    function loadTheme() {
+        var saved = '';
+        try { saved = localStorage.getItem(THEME_KEY) || ''; } catch(e) {}
+        applyTheme(saved === 'light' ? 'light' : 'dark');
+    }
+    loadTheme();
+    document.getElementById('themeToggle').onclick = function() {
+        var isLight = (' ' + document.documentElement.className + ' ').indexOf(' light ') >= 0;
+        var next = isLight ? 'dark' : 'light';
+        applyTheme(next);
+        safeSetItem(THEME_KEY, next);
+    };
+
+
+
+
+    // ── ARTICLES (unchanged) ──
+    var articles = [];
+    var currentTab = 'featured';
+    var searchTerm = '';
+    var selectedArticleId = null;
+
+    var TABS = [
+        { id:'featured', name:'FEATURED' }, { id:'gaming', name:'PLAY' }, { id:'software', name:'SOFTWARE' },
+        { id:'hardware', name:'HARDWARE' }, { id:'music', name:'MUSIC' }, { id:'web', name:'WEB' }
+    ];
+
+    function isG4Friendly(a) { return a.g4_friendly === 1 || a.g4_friendly === '1'; }
+    var SEARCH_STOP = { 'a':1,'an':1,'and':1,'the':1,'of':1,'on':1,'in':1,'to':1,'for':1,'your':1,'my':1,'with':1,'how':1,'is':1 };
+    var SEARCH_MIN_SCORE = 1.2;
+    function searchNorm(s) { return String(s||'').toLowerCase().replace(/<[^>]*>/g,' ').replace(/[^a-z0-9]+/g,' ').replace(/^ +| +$/g,''); }
+    function triSet(text) {
+        var set = {}, words = text.split(' '), i, j, w, p;
+        for (i = 0; i < words.length; i++) {
+            w = words[i]; if (!w) continue;
+            p = '  ' + w + ' ';
+            for (j = 0; j < p.length - 2; j++) set[p.substring(j, j + 3)] = true;
+        }
+        return set;
+    }
+    function triSim(a, b) {
+        var inter = 0, union = 0, k;
+        for (k in a) { if (a.hasOwnProperty(k)) { union++; if (b[k]) inter++; } }
+        for (k in b) { if (b.hasOwnProperty(k) && !a[k]) union++; }
+        return union === 0 ? 0 : inter / union;
+    }
+    function buildSearchIndex(a) {
+        var title = searchNorm(a.title), tags = searchNorm(a.tags ? a.tags.join(' ') : ''), desc = searchNorm(a.description),
+            cat = searchNorm(a.category);
+        a._idx = { title: title, tags: tags, desc: desc, cat: cat,
+            triTitle: triSet(title), triTags: triSet(tags), triDesc: triSet(desc) };
+    }
+    function fieldScore(ftext, weight, qNorm, qTokens) {
+        var s = 0, ti, t, padded = ' ' + ftext + ' ';
+        if (qNorm.length >= 2 && ftext.indexOf(qNorm) >= 0) s += weight * 2;
+        for (ti = 0; ti < qTokens.length; ti++) {
+            t = qTokens[ti]; if (t.length < 2) continue;
+            if (ftext.indexOf(t) >= 0) { s += weight; if (padded.indexOf(' ' + t + ' ') >= 0) s += weight * 0.5; }
+        }
+        return s;
+    }
+    function scoreArticle(a, qNorm, qTokens, qTri) {
+        var idx = a._idx; if (!idx) return 0;
+        var s = fieldScore(idx.title,10,qNorm,qTokens) + fieldScore(idx.tags,8,qNorm,qTokens) +
+                fieldScore(idx.desc,4,qNorm,qTokens) + fieldScore(idx.cat,4,qNorm,qTokens);
+        s += triSim(qTri, idx.triTitle)*14 + triSim(qTri, idx.triTags)*10 + triSim(qTri, idx.triDesc)*4;
+        return s;
+    }
+    function searchArticles(query) {
+        var qNorm = searchNorm(query); if (!qNorm) return [];
+        var raw = qNorm.split(' '), qTokens = [], i, s;
+        for (i = 0; i < raw.length; i++) { if (raw[i] && !SEARCH_STOP[raw[i]]) qTokens.push(raw[i]); }
+        if (qTokens.length === 0) qTokens = raw;
+        var qTri = triSet(qTokens.join(' ')), scored = [];
+        for (i = 0; i < articles.length; i++) {
+            s = scoreArticle(articles[i], qNorm, qTokens, qTri);
+            if (s >= SEARCH_MIN_SCORE) scored.push({ a: articles[i], s: s });
+        }
+        scored.sort(function (x, y) { return y.s - x.s; });
+        var out = []; for (i = 0; i < scored.length; i++) out.push(scored[i].a);
+        return out;
+    }
+
+    function addClass(el, cls) { if ((' ' + el.className + ' ').indexOf(' ' + cls + ' ') < 0) el.className += ' ' + cls; }
+    function removeClass(el, cls) { el.className = el.className.replace(new RegExp('\\b' + cls + '\\b', 'g'), '').replace(/\s+/,' ').replace(/^\s|\s$/,''); }
+    function hasClass(el, cls) { return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') >= 0; }
+    function escapeHtml(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function renderTabs() {
+        var container = document.getElementById('tabs'), html = '';
+        for (var i = 0; i < TABS.length; i++) {
+            html += '<div class="tab' + (currentTab === TABS[i].id ? ' active' : '') + '" data-tab="' + TABS[i].id + '">' + TABS[i].name + '</div>';
+        }
+        container.innerHTML = html;
+        var tabs = container.getElementsByTagName('div');
+        for (var j = 0; j < tabs.length; j++) {
+            (function(tab) {
+                tab.onclick = function() {
+                    currentTab = tab.getAttribute('data-tab');
+                    searchTerm = ''; document.getElementById('searchInput').value = '';
+                    selectedArticleId = null; renderTabs(); renderResults(); renderRooms();
+                };
+            })(tabs[j]);
+        }
+    }
+
+    function renderResults() {
+        var results = [], i;
+        if (searchTerm !== '') { results = searchArticles(searchTerm); }
+        else if (currentTab === 'featured') {
+            for (i = 0; i < articles.length; i++) if (articles[i].featured === 1 || articles[i].featured === '1') results.push(articles[i]);
+        } else {
+            for (i = 0; i < articles.length; i++) if (articles[i].category === currentTab) results.push(articles[i]);
+        }
+        var container = document.getElementById('resultsList');
+        if (results.length === 0) { container.innerHTML = '<div class="empty">No articles found</div>'; return; }
+        var html = '<div class="tile-heading">' + escapeHtml(searchTerm ? 'SEARCH RESULTS' : (currentTab === 'featured' ? 'FEATURED' : currentTab.toUpperCase())) + '</div><div class="article-tile-grid">';
+        for (i = 0; i < results.length; i++) {
+            var item = results[i], desc = escapeHtml(item.description || '');
+            if (desc.length > 150) desc = desc.substring(0, 150) + '...';
+            var pinned = window.altivecIsPinned && window.altivecIsPinned(item.id);
+            var tileThumb = item.thumb && /^https?:\/\//i.test(item.thumb) ?
+                '<img src="' + escapeHtml(item.thumb) + '" alt="" class="article-tile-image">' :
+                '<span class="article-tile-symbol">' + escapeHtml(item.thumb || '') + '</span>';
+            html += '<div class="article-tile' + ((i % 3 === 2) ? ' tile-row-end' : '') + '" data-id="' + item.id + '">' +
+                '<div class="article-tile-thumb">' + tileThumb + '</div>' +
+                '<button class="tile-pin' + (pinned ? ' pinned' : '') + '" data-pin="' + item.id + '">' + (pinned ? 'PINNED' : 'PIN') + '</button>' +
+                '<div class="article-tile-category">' + escapeHtml((item.category || 'article').toUpperCase()) + '</div>' +
+                '<div class="article-tile-title">' + escapeHtml(item.title) + '</div>' +
+                '<div class="article-tile-desc">' + desc + '</div>' +
+                '<button class="tile-open" data-open="' + item.id + '">READ ARTICLE</button></div>';
+        }
+        html += '</div>'; container.innerHTML = html;
+        var buttons = container.getElementsByTagName('button');
+        for (i = 0; i < buttons.length; i++) (function(btn){
+            var pin = btn.getAttribute('data-pin'), open = btn.getAttribute('data-open');
+            if (pin) btn.onclick = function(e){ if(e)e.preventDefault(); if(window.altivecTogglePin) window.altivecTogglePin(pin); return false; };
+            if (open) btn.onclick = function(e){ if(e)e.preventDefault(); openReader(open); return false; };
+        })(buttons[i]);
+    }
+
+    function showPreview(articleId) {
+        var article = null;
+        for (var i = 0; i < articles.length; i++) if (articles[i].id === articleId) { article = articles[i]; break; }
+        if (!article) return;
+        var previewPanel = document.getElementById('previewPanel');
+        var thumbHtml = article.thumb && /^https?:\/\//i.test(article.thumb) ?
+            '<img src="' + article.thumb + '" alt="" style="width:100%;height:100%;object-fit:contain;">' : (article.thumb || '?');
+        var displayUrl = article.url ? article.url.replace(/^https?:\/\//, '').replace(/\/$/, '') : '';
+        var openBtn = '';
+        if (article.url) {
+            if (isG4Friendly(article)) openBtn = '<a href="' + article.url + '" target="_blank" class="btn btn-open">Open Website</a>';
+            else openBtn = '<button class="btn btn-caution" id="previewOpenBtn"><span class="btn-icon">&#9888;</span> Open Website</button>';
+        }
+        previewPanel.innerHTML =
+            '<div class="preview-content"><div class="preview-thumb">' + thumbHtml + '</div>' +
+            '<div class="preview-title">' + escapeHtml(article.title) + '</div>' +
+            '<div class="preview-url">' + escapeHtml(displayUrl) + '</div>' +
+            '<div class="preview-desc">' + escapeHtml(article.description) + '</div>' +
+            '<div class="preview-actions"><button class="btn" id="previewReadBtn"><span class="btn-icon">&#x1F4D6;</span> Read Article</button>' + openBtn + '</div></div>';
+        document.getElementById('previewReadBtn').onclick = function() { openReader(articleId); };
+        var cautionBtn = document.getElementById('previewOpenBtn');
+        if (cautionBtn) cautionBtn.onclick = function() { showCompatWarning(article); };
+    }
+
+    function showCompatWarning(article) {
+        var modal = document.getElementById('compatModal');
+        document.getElementById('compatUrl').innerHTML = escapeHtml(article.url || '');
+        document.getElementById('compatOpenAnyway').href = article.url || '#';
+        addClass(modal, 'active');
+        document.getElementById('compatReadInstead').onclick = function() { removeClass(modal,'active'); openReader(article.id); };
+        document.getElementById('compatCancel').onclick = function() { removeClass(modal,'active'); };
+        document.getElementById('compatOpenAnyway').onclick = function() { removeClass(modal,'active'); };
+    }
+    document.getElementById('compatModal').onclick = function(e) {
+        if (e.target === this) removeClass(this, 'active');
+    };
+
+    // Minimal Markdown-to-HTML converter (headings, paragraphs, bold, code, lists, links)
+    function mdToHtml(md) {
+        var lines = md.split('\n'), out = [], inList = false, inPre = false, buf = [];
+        function flushPara() { if (buf.length) { out.push('<p>' + buf.join(' ') + '</p>'); buf = []; } }
+        function inlineFormat(s) {
+            s = s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img src="$2" alt="$1" style="max-width:100%;height:auto;margin:12px 0;border-radius:6px;">');
+            s = s.replace(/`([^`]+)`/g,'<code>$1</code>');
+            s = s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+            s = s.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+            s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+            return s;
+        }
+        for (var i = 0; i < lines.length; i++) {
+            var l = lines[i];
+            if (/^```/.test(l)) { if (!inPre) { flushPara(); out.push('<pre><code>'); inPre=true; } else { out.push('</code></pre>'); inPre=false; } continue; }
+            if (inPre) { out.push(l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '\n'); continue; }
+            if (/^#{1,6} /.test(l)) { flushPara(); var m=l.match(/^(#{1,6}) (.*)/); var lv=m[1].length; out.push('<h'+lv+'>'+inlineFormat(m[2])+'</h'+lv+'>'); continue; }
+            if (/^[-*] /.test(l)) { if (!inList) { flushPara(); out.push('<ul>'); inList=true; } out.push('<li>'+inlineFormat(l.slice(2))+'</li>'); continue; }
+            if (inList) { out.push('</ul>'); inList=false; }
+            if (l.trim()==='') { flushPara(); continue; }
+            buf.push(inlineFormat(l.trim()));
+        }
+        if (inList) out.push('</ul>');
+        flushPara();
+        return out.join('\n');
+    }
+
+    function openReader(articleId) {
+        var article = null;
+        for (var i = 0; i < articles.length; i++) if (articles[i].id === articleId) { article = articles[i]; break; }
+        if (!article) return;
+        if (window.altivecRememberArticle) window.altivecRememberArticle(article.id, article.title);
+        var pinBtn = document.getElementById('readerPinBtn');
+        if (pinBtn) { pinBtn.innerHTML = (window.altivecIsPinned && window.altivecIsPinned(article.id)) ? 'UNPIN ARTICLE' : 'PIN ARTICLE'; pinBtn.onclick = function(){ if(window.altivecTogglePin) window.altivecTogglePin(article.id); pinBtn.innerHTML = (window.altivecIsPinned && window.altivecIsPinned(article.id)) ? 'UNPIN ARTICLE' : 'PIN ARTICLE'; }; }
+        var modal = document.getElementById('readerModal'), main = document.getElementById('readerMain'), sidebar = document.getElementById('readerSidebar');
+        addClass(modal, 'active');
+        addClass(document.documentElement, 'reader-open');   // lock page scroll behind the reader
+
+        var sh = '';
+        if (article.downloads && article.downloads.length) {
+            sh += '<div class="sidebar-section"><h4>DOWNLOADS</h4>';
+            for (var d = 0; d < article.downloads.length; d++) {
+                sh += '<a href="' + article.downloads[d].url + '" target="_blank" class="download-link">' + escapeHtml(article.downloads[d].name) + '</a>';
+            }
+            sh += '</div>';
+        }
+        if (article.url) sh += '<div class="sidebar-section"><h4>EXTERNAL LINK</h4><a href="' + article.url + '" target="_blank" class="download-link download-link-ext">Visit Website</a></div>';
+        sh += '<div class="sidebar-section"><a href="https://buymeacoffee.com/f0r3v3r50f7" target="_blank" class="bmc-link">&#9749; Buy me a coffee</a></div>';
+        sh += '<div class="sidebar-section"><h4>INFO</h4><p class="sidebar-info">Community resource for PowerMac G4.</p></div>';
+        sidebar.innerHTML = sh;
+
+        var header = '<div class="article-header"><h1 class="article-title">' + escapeHtml(article.title) + '</h1>' +
+            '<div class="article-meta">' + (article.date||'') + ' by ' + escapeHtml(article.author||'Technologyst Labs') + '</div></div>';
+
+        if (article._cachedContent) {
+            main.innerHTML = header + '<div class="article-body">' + article._cachedContent + '</div>';
+            return;
+        }
+
+        main.innerHTML = header + '<div class="article-body" id="readerBodyLoading"><p class="reader-loading">Loading...</p></div>';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', article.content, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== 4) return;
+            var bodyEl = document.getElementById('readerBodyLoading');
+            if (xhr.status >= 200 && xhr.status < 300) {
+                article._cachedContent = mdToHtml(xhr.responseText);
+                if (bodyEl) bodyEl.innerHTML = article._cachedContent;
+            } else {
+                if (bodyEl) bodyEl.innerHTML = '<p class="reader-error">Could not load article.</p>';
+            }
+        };
+        xhr.send();
+    }
+
+    document.getElementById('searchBtn').onclick = function() {
+        searchTerm = document.getElementById('searchInput').value;
+        if (searchTerm) { currentTab = 'featured'; selectedArticleId = null; renderTabs(); renderResults(); }
+    };
+    document.getElementById('searchInput').onkeypress = function(e) {
+        if ((e ? e.keyCode : window.event.keyCode) === 13) document.getElementById('searchBtn').onclick();
+    };
+    document.getElementById('readerCloseBtn').onclick = function() {
+        removeClass(document.getElementById('readerModal'), 'active');
+        removeClass(document.documentElement, 'reader-open');
+    };
+    document.getElementById('readerModal').onclick = function(e) {
+        if (e.target === this) {
+            removeClass(this, 'active');
+            removeClass(document.documentElement, 'reader-open');
+        }
+    };
+
+    function loadArticles() {
+        var resultsEl = document.getElementById('resultsList');
+        resultsEl.innerHTML = '<div class="empty">Loading...</div>';
+        xhrGet('articles/db.json', function(loaded) {
+            if (!loaded || !loaded.length) { resultsEl.innerHTML = '<div class="empty">No articles found</div>'; return; }
+            onAllLoaded(loaded);
+        }, function() { resultsEl.innerHTML = '<div class="empty">Could not load articles.</div>'; });
+    }
+
+    function onAllLoaded(loaded) {
+        // Derive each article's id from its Markdown filename (e.g.
+        // "articles/frogfind.md" -> "frogfind"). Avoids storing a redundant
+        // id field in db.json that just duplicates the content path.
+        for (var k = 0; k < loaded.length; k++) {
+            if (!loaded[k].id && loaded[k].content) {
+                var p = loaded[k].content.replace(/^.*\//, '').replace(/\.md$/i, '');
+                loaded[k].id = p;
+            }
+        }
+        loaded.sort(function(a,b) { return (b.date||'') < (a.date||'') ? -1 : 1; });
+        articles = loaded;
+        if (!articles.length) { document.getElementById('resultsList').innerHTML = '<div class="empty">No articles found</div>'; return; }
+        for (var i = 0; i < articles.length; i++) buildSearchIndex(articles[i]);
+        selectedArticleId = articles[0].id;
+        renderTabs(); renderResults();
+    }
+
+
+    function renderRooms() {
+        var play=document.getElementById('playNow'), fix=document.getElementById('fixLinks');
+        if(!play || !articles) return;
+        var games=[], repairs=[];
+        for(var i=0;i<articles.length;i++){
+            var a=articles[i], title=(a.title||'').toLowerCase(), cat=(a.category||'').toLowerCase();
+            if(cat==='gaming' || /halo|unreal|warcraft|age of empires|call of duty|wolfenstein|battlefront/.test(title)) games.push(a);
+            if(cat==='hardware' || /psu|radeon|repair|power mac|mdd/.test(title)) repairs.push(a);
+        }
+        var g=games.slice(0,3), s='';
+        if(g.length){
+            s+='<div class="shelf-label">ON THE SHELF</div>';
+            for(i=0;i<g.length;i++){
+                s+='<a href="#" class="shelf-game" data-article="'+g[i].id+'"><strong>'+escapeHtml(g[i].title||'Untitled')+'</strong><span>READ PLAY NOTES &rarr;</span></a>';
+            }
+        } else s='<div class="loading-line">THE GAME SHELF IS BEING BUILT.</div>';
+        play.innerHTML=s;
+        var links='';
+        for(i=0;i<repairs.slice(0,5).length;i++){
+            var r=repairs[i]; links+='<a href="#" data-article="'+r.id+'">'+escapeHtml(r.title||'Untitled')+' &rarr;</a>';
+        }
+        if(!links) links='<span>No workshop notes indexed yet.</span>';
+        fix.innerHTML=links;
+        function bind(root){var as=root.getElementsByTagName('a');for(var j=0;j<as.length;j++)(function(el){var id=el.getAttribute('data-article');if(id)el.onclick=function(e){if(e)e.preventDefault();openReader(id);};})(as[j]);}
+        bind(play); bind(fix);
+    }
+
+    /* Homepage uses the shell below. The old experimental portal renderer is disabled. */
+    currentTab = 'featured';
+    searchTerm = '';
+    selectedArticleId = null;
+
+    loadArticles();
+
+    // ── AQUAFOX NAG BANNER (consent‑respecting) ──
+    (function() {
+        // The Aquafox recommendation banner is desktop/G4 only.
+        // On mobile it's irrelevant and its layout margin-push created dead space, so skip it entirely.
+        var IS_MOBILE = (' ' + document.documentElement.className + ' ').indexOf(' m-mobile ') >= 0;
+        if (IS_MOBILE) return;
+
+        var ua = navigator.userAgent || '', isAquafox = ua.indexOf('Aquafox') >= 0, dismissed = false;
+        if (isFunctionalAllowed()) {
+            try { dismissed = localStorage.getItem('altivec_nag_dismissed') === '1'; } catch(e) {}
+        }
+        if (!isAquafox && !dismissed) {
+            document.getElementById('nagBanner').style.display = 'block';
+        }
+        document.getElementById('nagClose').onclick = function() {
+            document.getElementById('nagBanner').style.display = 'none';
+            safeSetItem('altivec_nag_dismissed', '1');
+        };
+        document.getElementById('nagLink').onclick = function(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            else window.event.returnValue = false;
+            for (var i = 0; i < articles.length; i++) if (articles[i].id === 'aquafox-guide') { openReader('aquafox-guide'); return; }
+            selectedArticleId = 'aquafox-guide'; renderResults();
+        };
+    })();
+
+    // ── MOBILE INTERFACE BEHAVIOUR ───────────────────────────────────
+    // Everything below is a no-op unless <html> has class "m-mobile".
+    // The desktop code path above is left completely unchanged; on mobile
+    // we just intercept preview rendering and add a few touch affordances.
+    (function () {
+        var MOBILE = (' ' + document.documentElement.className + ' ').indexOf(' m-mobile ') >= 0;
+
+        // The switch link works in BOTH modes (label differs).
+        var sw = document.getElementById('ifaceSwitch');
+        if (sw) {
+            sw.innerHTML = MOBILE ? 'View desktop site' : 'View mobile site';
+            sw.onclick = function () {
+                if (window.altivecSetInterface) window.altivecSetInterface(MOBILE ? 'desktop' : 'mobile');
+            };
+        }
+
+        if (!MOBILE) return;   // desktop / G4: stop here.
+
+        // The mobile header (logo, search, tabs) sits in normal document flow
+        // at the top of the page, so the results simply follow it. No offset
+        // measurement needed.
+
+        // Inline widget carousel at the top of the results panel. Both the
+        // weather and God Says widgets live here; one is shown at a time, with
+        // a nav arrow to move between them. Weather first (arrow ›), God Says
+        // second (arrow ‹ back to weather). Nothing is hidden behind a button.
+        var wx = document.getElementById('weatherWidget');
+        var god = document.getElementById('godWidget');
+        var resultsPanel = document.getElementById('resultsPanel');
+
+        var carousel = document.getElementById('mCarousel');
+        var arrow = document.getElementById('mCarouselArrow');
+        if (carousel && wx && god && resultsPanel) {
+            // Move both real widgets into the carousel (canvas/state preserved).
+            carousel.appendChild(wx);
+            carousel.appendChild(god);
+            // Carousel sits at the very top of the results list.
+            resultsPanel.insertBefore(carousel, resultsPanel.firstChild);
+
+            var pane = 0;   // 0 = weather, 1 = god says
+            function showPane(n) {
+                pane = n;
+                if (n === 0) {
+                    wx.style.display = 'block';
+                    god.style.display = 'none';
+                    arrow.innerHTML = '\u203A';                 // ›
+                    arrow.setAttribute('aria-label', 'Show God Says');
+                } else {
+                    wx.style.display = 'none';
+                    god.style.display = 'block';
+                    arrow.innerHTML = '\u2039';                 // ‹
+                    arrow.setAttribute('aria-label', 'Show weather');
+                }
+            }
+            arrow.onclick = function () { showPane(pane === 0 ? 1 : 0); };
+            showPane(0);
+
+            // Hide/show carousel via toggle button in the stats bar.
+            // Re-bind each time renderResults rebuilds the stats div.
+            var carouselCollapsed = false;
+            function bindCarouselToggle() {
+                var btn = document.getElementById('mCarouselToggle');
+                if (!btn) return;
+                btn.innerHTML = carouselCollapsed ? '&#x25BC;' : '&#x25B2;';
+                btn.onclick = function(e) { if (e && e.stopPropagation) e.stopPropagation(); else if (window.event) window.event.cancelBubble = true;
+                    carouselCollapsed = !carouselCollapsed;
+                    if (carouselCollapsed) {
+                        carousel.style.maxHeight = '0';
+                        carousel.style.overflow = 'hidden';
+                        carousel.style.marginTop = '0';
+                        carousel.style.marginBottom = '0';
+                    } else {
+                        carousel.style.maxHeight = '120px';
+                        carousel.style.overflow = 'visible';
+                        carousel.style.marginTop = '8px';
+                        carousel.style.marginBottom = '14px';
+                    }
+                    btn.innerHTML = carouselCollapsed ? '&#x25BC;' : '&#x25B2;';
+                };
+            }
+            // Patch renderResults to re-bind after each redraw.
+            var _origRender = window.renderResults || renderResults;
+            renderResults = function() {
+                _origRender.apply(this, arguments);
+                bindCarouselToggle();
+            };
+            bindCarouselToggle();
+        }
+
+        // ---- Preview as a bottom sheet instead of the side panel ----
+        var sheet = document.getElementById('mSheet');
+        var sheetBody = document.getElementById('mSheetBody');
+        var sheetBack = document.getElementById('mSheetBack');
+        if (sheetBack) sheetBack.onclick = function () {
+            if (sheet) sheet.className = 'm-sheet';
+        };
+
+        // Reuse the desktop showPreview to build the markup, then relocate it
+        // into the sheet and open it. We wrap rather than replace so any future
+        // desktop edits to showPreview flow through automatically.
+        var desktopShowPreview = window.showPreview || showPreview;
+        showPreview = function (articleId) {
+            var pp = document.getElementById('previewPanel');
+            desktopShowPreview(articleId);          // renders into #previewPanel
+            if (pp && sheetBody) {
+                sheetBody.innerHTML = pp.innerHTML;  // copy rendered preview
+                // Re-bind the buttons inside the copied markup.
+                var article = null, i;
+                for (i = 0; i < articles.length; i++) if (articles[i].id === articleId) { article = articles[i]; break; }
+                var readBtn = sheetBody.querySelector ? sheetBody.querySelector('#previewReadBtn') : null;
+                if (readBtn) readBtn.onclick = function () { openReader(articleId); };
+                var openBtn = sheetBody.querySelector ? sheetBody.querySelector('#previewOpenBtn') : null;
+                if (openBtn && article) openBtn.onclick = function () { showCompatWarning(article); };
+            }
+        };
+
+        // Opening a result should slide the sheet up. renderResults() already
+        // calls showPreview on tap, but we also need the sheet to appear, so
+        // intercept clicks at the results container level.
+        var rl = document.getElementById('resultsList');
+        if (rl) rl.onclick = function () {
+            // showPreview has just populated the sheet; reveal it.
+            if (sheet) sheet.className = 'm-sheet open';
+        };
+    })();
+</script>
+
+<!-- Widget modules, loaded after the main script so window.Altivec exists. -->
+<script src="weather.js"></script>
+<script>
+// ── NEWS / GOD SAYS toggle ──
+(function () {
+    var GOD_NEWS = 'news';
+    var GOD_ORACLE = 'oracle';
+    var mode = GOD_NEWS;
+    var godJsLoaded = false;
+
+    var textEl    = document.getElementById('godText');
+    var headEl    = document.getElementById('godHeader');
+    var toggleBtn = document.getElementById('godModeToggle');
+    var widget    = document.getElementById('godWidget');
+
+    // Fetch top world headline via rss2json + BBC World RSS (no key, CORS-friendly)
+    function fetchHeadline(cb) {
+        var rss = encodeURIComponent('https://feeds.bbci.co.uk/news/world/rss.xml');
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://api.rss2json.com/v1/api.json?rss_url=' + rss, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState !== 4) return;
+            if (xhr.status < 200 || xhr.status >= 300) { cb(null, 'error ' + xhr.status); return; }
+            try {
+                var data = JSON.parse(xhr.responseText);
+                if (data.status === 'ok' && data.items && data.items.length) {
+                    cb(data.items[0].title, null);
+                } else {
+                    cb(null, 'no headline found');
+                }
+            } catch (e) { cb(null, 'parse error'); }
+        };
+        xhr.onerror = function () { cb(null, 'fetch failed'); };
+        xhr.send();
+    }
+
+    function setNewsMode(headline, err) {
+        mode = GOD_NEWS;
+        headEl.innerHTML = '&#9670; NEWS &#9670;';
+        toggleBtn.textContent = 'GOD SAYS';
+        widget.title = 'Latest world headline from 68k.news';
+        widget.onclick = null;
+        if (err) {
+            textEl.className = 'god-text idle';
+            textEl.textContent = err;
+        } else {
+            textEl.className = 'god-text';
+            textEl.textContent = headline;
+        }
+    }
+
+    function setOracleMode() {
+        mode = GOD_ORACLE;
+        headEl.innerHTML = '&#9670; GOD SAYS &#9670;';
+        toggleBtn.textContent = 'NEWS';
+        widget.title = 'Click for revelation';
+        textEl.className = 'god-text idle';
+        textEl.textContent = 'click for revelation';
+        // Load god.js dynamically the first time, then re-init
+        if (!godJsLoaded) {
+            godJsLoaded = true;
+            var s = document.createElement('script');
+            s.src = 'god.js';
+            s.onload = function () {
+                if (window.Altivec && window.Altivec.initGod) window.Altivec.initGod();
+            };
+            document.body.appendChild(s);
+        } else if (window.Altivec && window.Altivec.initGod) {
+            window.Altivec.initGod();
+        }
+    }
+
+    toggleBtn.onclick = function (e) {
+        e.stopPropagation();
+        if (mode === GOD_NEWS) {
+            setOracleMode();
+        } else {
+            textEl.className = 'god-text idle';
+            textEl.textContent = 'fetching\u2026';
+            fetchHeadline(function (h, e) { setNewsMode(h, e); });
+        }
+    };
+
+    // Scroll button logic
+    var godScroll = document.getElementById('godScroll');
+    var scrollBtn = document.getElementById('godScrollBtn');
+    var scrolledDown = false;
+
+    function updateScrollBtn() {
+        if (!godScroll) return;
+        var overflows = godScroll.scrollHeight > godScroll.clientHeight + 2;
+        scrollBtn.style.display = overflows ? 'block' : 'none';
+        scrollBtn.innerHTML = scrolledDown ? '&#9650;' : '&#9660;';
+        scrollBtn.title = scrolledDown ? 'Scroll up' : 'Scroll down';
+    }
+
+    if (scrollBtn) {
+        scrollBtn.onclick = function (e) {
+            e.stopPropagation();
+            if (scrolledDown) {
+                godScroll.scrollTop = 0;
+                scrolledDown = false;
+            } else {
+                godScroll.scrollTop = godScroll.scrollHeight;
+                scrolledDown = true;
+            }
+            updateScrollBtn();
+        };
+    }
+
+    // Call after setting news text so button appears if needed
+    var _origSetNewsMode = setNewsMode;
+    setNewsMode = function (h, e) {
+        _origSetNewsMode(h, e);
+        scrolledDown = false;
+        setTimeout(function () {
+            godScroll.scrollTop = 0;
+            updateScrollBtn();
+        }, 50);
+        safeSetItem('altivec_widget_mode', 'news');
+    };
+
+    var _origSetOracleMode = setOracleMode;
+    setOracleMode = function () {
+        _origSetOracleMode();
+        safeSetItem('altivec_widget_mode', 'oracle');
+    };
+
+    // ── Collapse button ──
+    var collapseBtn  = document.getElementById('widgetCollapseBtn');
+    var widgetsWrap  = document.getElementById('widgetsWrap');
+    var widgetsHidden = false;
+
+    function setCollapsed(hidden, animate) {
+        widgetsHidden = hidden;
+        if (hidden) {
+            widgetsWrap.classList.add('collapsed');
+            collapseBtn.innerHTML = '&#x25C0;';
+            collapseBtn.title = 'Show widgets';
+        } else {
+            widgetsWrap.classList.remove('collapsed');
+            collapseBtn.innerHTML = '&#x25B6;';
+            collapseBtn.title = 'Hide widgets';
+        }
+        safeSetItem('altivec_widgets_hidden', hidden ? '1' : '0');
+    }
+
+    if (collapseBtn) {
+        collapseBtn.onclick = function () { setCollapsed(!widgetsHidden); };
+    }
+
+    // Boot: restore saved preferences
+    (function () {
+        var savedMode = '';
+        var savedHidden = '';
+        try { savedMode   = localStorage.getItem('altivec_widget_mode') || ''; } catch(e) {}
+        try { savedHidden = localStorage.getItem('altivec_widgets_hidden') || ''; } catch(e) {}
+
+        if (savedHidden === '1') {
+            // Collapse without transition on load
+            widgetsWrap.style.transition = 'none';
+            collapseBtn.style.transition = 'none';
+            setCollapsed(true);
+            setTimeout(function () {
+                widgetsWrap.style.transition = '';
+                collapseBtn.style.transition = '';
+            }, 50);
+        }
+
+        if (savedMode === 'oracle') {
+            setOracleMode();
+        } else {
+            fetchHeadline(function (h, e) { setNewsMode(h, e); });
+        }
+    })();
+})();
+</script>
+<script>
+/* ALTIVEC local account and desk. Everything stays in localStorage. */
+(function(){
+  function storageOK(){ try{return !!window.localStorage;}catch(e){return false;} }
+  var ACCOUNT='altivec_local_account', PINS='altivec_pins';
+  function getAccount(){ if(!storageOK())return null; try{return JSON.parse(localStorage.getItem(ACCOUNT));}catch(e){return null;} }
+  function setAccount(a){ if(storageOK())try{localStorage.setItem(ACCOUNT,JSON.stringify(a));}catch(e){} }
+  function getPins(){ if(!storageOK())return []; try{return JSON.parse(localStorage.getItem(PINS))||[];}catch(e){return [];} }
+  function setPins(p){ if(storageOK())try{localStorage.setItem(PINS,JSON.stringify(p));}catch(e){} }
+  function articleById(id){ var i; if(!window.articles)return null; for(i=0;i<articles.length;i++)if(articles[i].id===id)return articles[i]; return null; }
+  function updateAccountUI(){
+    var a=getAccount(), name=a&&a.displayName?a.displayName:'';
+    var menuName=document.getElementById('accountMenuName'), create=document.getElementById('createLocalAccount'), exp=document.getElementById('exportLocalData'), imp=document.getElementById('importLocalData'), out=document.getElementById('logoutLocalAccount');
+    if(menuName)menuName.innerHTML=name?escapeHtml(name):'LOCAL ACCOUNT';
+    if(create)create.style.display=name?'none':'block'; if(exp)exp.style.display=name?'block':'none'; if(out)out.style.display=name?'block':'none'; if(imp)imp.style.display='block';
+  }
+  function updateDesk(){
+    var box=document.getElementById('deskContent'), heading=document.getElementById('deskGreeting'), a=getAccount(), pins=getPins(), i, art, html=''; if(!box)return;
+    if(heading) heading.innerHTML=(a&&a.displayName)?escapeHtml(a.displayName.toUpperCase())+"'S DESK":'YOUR DESK';
+    if(!pins.length){ box.innerHTML='<p>'+(a?'Nothing pinned yet. Use the PIN button on any article to keep it here.':'Create a local account to give this desk a name. You can still pin articles after creating it.')+'</p>'; return; }
+    html='<div class="pinned-grid">'; for(i=0;i<pins.length;i++){ art=articleById(pins[i]); if(art) html+='<a href="#" data-pinned-open="'+art.id+'"><span>'+escapeHtml((art.category||'ARTICLE').toUpperCase())+'</span>'+escapeHtml(art.title)+'</a>'; } html+='</div>'; box.innerHTML=html;
+    var links=box.getElementsByTagName('a'); for(i=0;i<links.length;i++)(function(link){link.onclick=function(e){if(e)e.preventDefault(); if(typeof openReader==='function')openReader(link.getAttribute('data-pinned-open')); return false;};})(links[i]);
+  }
+  window.altivecIsPinned=function(id){ var p=getPins(),i; for(i=0;i<p.length;i++)if(p[i]===id)return true; return false; };
+  window.altivecTogglePin=function(id){ var p=getPins(),i; for(i=0;i<p.length;i++)if(p[i]===id){p.splice(i,1);setPins(p);updateDesk();if(typeof renderResults==='function')renderResults();return;} p.unshift(id);p=p.slice(0,50);setPins(p);updateDesk();if(typeof renderResults==='function')renderResults(); };
+  window.altivecRememberArticle=function(){};
+  function openAccount(){ document.getElementById('accountOverlay').className='account-overlay active'; var x=document.getElementById('displayNameInput'); if(x)setTimeout(function(){x.focus();},10); }
+  function closeAccount(){ document.getElementById('accountOverlay').className='account-overlay'; }
+  var menuBtn=document.getElementById('accountMenuBtn'), menu=document.getElementById('accountMenu'); if(menuBtn&&menu)menuBtn.onclick=function(){ menu.className=menu.className.indexOf('active')>=0?'shell-account-menu':'shell-account-menu active'; return false; };
+  document.getElementById('createLocalAccount').onclick=function(e){if(e)e.preventDefault(); if(menu)menu.className='shell-account-menu'; openAccount(); return false;};
+  document.getElementById('accountCloseBtn').onclick=closeAccount;
+  document.getElementById('accountSaveBtn').onclick=function(){var x=document.getElementById('displayNameInput'),n=(x.value||'').replace(/^\s+|\s+$/g,'');if(!n){x.focus();return;}setAccount({displayName:n,created:(new Date()).toString()});closeAccount();updateAccountUI();updateDesk();};
+  document.getElementById('logoutLocalAccount').onclick=function(e){if(e)e.preventDefault();if(storageOK())try{localStorage.removeItem(ACCOUNT);}catch(ex){}updateAccountUI();updateDesk();return false;};
+  document.getElementById('exportLocalData').onclick=function(e){if(e)e.preventDefault();var data={format:'altivec-local-account',version:1,account:getAccount(),pins:getPins()},text=JSON.stringify(data,null,2),blob,url,a;if(window.Blob&&window.URL&&URL.createObjectURL){blob=new Blob([text],{type:'application/json'});url=URL.createObjectURL(blob);a=document.createElement('a');a.href=url;a.download='altivec-'+((data.account&&data.account.displayName)||'account').replace(/[^a-z0-9_-]+/ig,'-')+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},1000);}else{prompt('Copy this ALTIVEC account data and save it somewhere safe:',text);}return false;};
+  document.getElementById('importLocalData').onclick=function(e){if(e)e.preventDefault();if(window.FileReader){document.getElementById('importLocalFile').click();}else{var raw=prompt('Paste your ALTIVEC account data here:'),d;if(!raw)return false;try{d=JSON.parse(raw);if(d.format!=='altivec-local-account')throw 0;if(d.account)setAccount(d.account);if(d.pins)setPins(d.pins);updateAccountUI();updateDesk();if(typeof renderResults==='function')renderResults();}catch(ex){alert('That does not look like an ALTIVEC account file.');}}return false;};
+  document.getElementById('importLocalFile').onchange=function(){var f=this.files&&this.files[0],r;if(!f)return;r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);if(d.format!=='altivec-local-account')throw 0;if(d.account)setAccount(d.account);if(d.pins)setPins(d.pins);updateAccountUI();updateDesk();if(typeof renderResults==='function')renderResults();}catch(e){alert('That does not look like an ALTIVEC account file.');}};r.readAsText(f);};
+  function wireSearch(a,b){ var i=document.getElementById(a),x=document.getElementById(b);if(!i||!x)return;x.onclick=function(){var q=i.value,main=document.getElementById('searchInput');if(main){main.value=q;if(document.getElementById('searchBtn'))document.getElementById('searchBtn').click();}window.location.hash='signal';return false;};i.onkeydown=function(e){e=e||window.event;if(e.keyCode===13)return x.onclick();}; }
+  wireSearch('portalSearchInput','portalSearchBtn');
+  var ss=document.getElementById('showSearch');if(ss)ss.onclick=function(e){if(e)e.preventDefault();var i=document.getElementById('portalSearchInput');if(i)i.focus();return false;};
+  updateAccountUI(); updateDesk();
+})();
+</script>
+
+<script type="text/javascript">
+/* Shell consolidation: the legacy header is no longer part of the page. Widgets are
+   physically moved into the shell so existing weather/news code keeps its IDs. */
+document.addEventListener('DOMContentLoaded', function(){
+  var wx=document.getElementById('weatherWidget'), news=document.getElementById('godWidget');
+  var wb=document.getElementById('shellWeatherBay'), nb=document.getElementById('shellNewsBay');
+  if(wx&&wb) wb.appendChild(wx);
+  if(news&&nb) nb.appendChild(news);
+  var a=document.getElementById('searchInput'), b=document.getElementById('portalSearchInput');
+  if(a&&b){ b.onkeyup=function(){ a.value=b.value; }; }
+  var ab=document.getElementById('searchBtn'), bb=document.getElementById('portalSearchBtn');
+  if(ab&&bb){ bb.onclick=function(){ a.value=b.value; ab.click(); return false; }; }
+  function jumpToSignal(){
+    var target=document.getElementById('signal');
+    if(target){ if(target.scrollIntoView) target.scrollIntoView(true); else window.location.hash='signal'; }
+  }
+  var rooms=document.getElementsByTagName('a');
+  for(var i=0;i<rooms.length;i++){
+    (function(link){
+      var room=link.getAttribute('data-room');
+      if(!room)return;
+      link.onclick=function(e){
+        if(e&&e.preventDefault)e.preventDefault();
+        currentTab=room; searchTerm=''; selectedArticleId=null;
+        if(typeof renderResults==='function') renderResults();
+        window.setTimeout(jumpToSignal,20);
+        return false;
+      };
+    })(rooms[i]);
+  }
+  var sn=document.getElementById('showSignal');
+  if(sn) sn.onclick=function(e){ if(e&&e.preventDefault)e.preventDefault(); currentTab='home'; searchTerm=''; if(typeof renderResults==='function') renderResults(); jumpToSignal(); return false; };
+});
+</script>
+</body>
+</html>
