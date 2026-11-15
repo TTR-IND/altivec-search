@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GonzOS — a desktop operating system built to keep your computer useful.">
+  <title>GonzOS — Your computer. Still yours.</title>
+  <link rel="icon" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="announcement">
+    <span>PREVIEW</span>
+    Release Preview · available tomorrow
+    <a href="#release">Release model</a>
+  </div>
+
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#" aria-label="GonzOS home">
+        <span class="brand-name">GonzOS</span>
+      </a>
+      <button class="menu-btn" data-menu aria-label="Open menu">Menu</button>
+      <nav class="nav-links" data-nav>
+        <a href="#why">Why</a>
+        <a href="#system">System</a>
+        <a href="#numate">NuMATE</a>
+        <a href="#release">Release</a>
+        <a href="#roadmap">Roadmap</a>
+        <a class="nav-cta" href="#download">Get GonzOS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <h1>Your computer.<br><em>Still yours.</em></h1>
+        <p class="lede">GonzOS is a focused desktop operating system built as a flavor of Devuan. It uses runit, preempt and XLibre on that base. The machine stays responsive, understandable, and useful.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#download">Download GonzOS</a>
+          <a class="btn btn-ghost" href="#system">See the system</a>
+        </div>
+        <div class="hero-shot">
+          <img src="assets/desktop.jpg" alt="GonzOS NuMATE desktop">
+        </div>
+      </div>
+    </section>
+
+    <div class="principle">
+      <div class="wrap">
+        <strong>Software should serve the machine.</strong>
+        And the machine should stay yours.
+      </div>
+    </div>
+
+    <section id="why">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Why GonzOS</p>
+          <h2>Modern software.<br>Without the modern bloat.</h2>
+          <p>Old hardware is not disposable. A Core 2 Duo should be able to load a wiki. A well-kept workstation should remain a useful computer for years. GonzOS was developed on an Acer 5920G and a Dell Inspiron 1545. All types of hardware are first-class.</p>
+        </div>
+        <div class="values">
+          <article><b>Responsive</b><p>Interactive work stays first-class when the browser, compiler, or background jobs get busy.</p></article>
+          <article><b>Predictable</b><p>System policy is explicit. Services have owners. Packages define the contract.</p></article>
+          <article><b>Observable</b><p>Memory pressure, page-cache behavior, CPU policy and system state are exposed instead of hidden behind magic.</p></article>
+          <article><b>Familiar</b><p>NuMATE keeps the classic desktop model: panel, menu, windows, desktop, files and settings.</p></article>
+          <article><b>Lean</b><p>A Devuan flavor. runit. XLibre. C-based components where they belong. No framework parade. The stack stays light and planted exactly where it is.</p></article>
+          <article><b>Long-lived</b><p>No further major rebuilds of any codebases for the foreseeable future. No rewrite in Rust, Qt, or anything else. The stack remains light-weight and stays where it already works. The release model starts a five-year support window that does not throw away the desktop every release.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="system" class="dark-band">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">The machine</p>
+          <h2>GonzOS owns the computer.<br>NuMATE owns the session.</h2>
+          <p>Two layers. Clear responsibilities. No desktop component needs to become the operating system. GonzOS is a Devuan flavor—credit where it is due. We are happy with this stack. It will not be rewritten in Rust, Qt, or any other language. No further major rebuilds of the codebases for the foreseeable future. It stays light-weight and planted firmly where it is already.</p>
+        </div>
+        <div class="architecture">
+          <div class="arch-row"><span>Kernel</span><strong>preempt</strong><small>Optional in Drift · real-time scheduling when you need it</small></div>
+          <div class="arch-row"><span>PID 1</span><strong>runit</strong><small>Simple service supervision and explicit service state</small></div>
+          <div class="arch-row"><span>Display</span><strong>XLibre</strong><small>The graphical server underneath the session</small></div>
+          <div class="arch-row"><span>Policy</span><strong>gonzod</strong><small>Topology · cgroups · cpufreq · IRQ · dirty · scheduling lanes</small></div>
+          <div class="arch-row"><span>Memory</span><strong>detritusd</strong><small>PSI · ZRAM · freeze · discard · drain</small></div>
+          <div class="arch-row"><span>Cache</span><strong>gonzocache</strong><small>Launch scores · page-cache hold · watermark</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="numate">
+      <div class="wrap split">
+        <div class="shot-frame">
+          <img src="assets/wall.jpg" alt="NuMATE desktop wallpaper and panel">
+        </div>
+        <div class="split-copy">
+          <p class="section-label">NuMATE</p>
+          <h2>A desktop with a point of view.</h2>
+          <p>NuMATE is the session around GonzOS. Axiom-panel owns the panel and notifications. Nemo owns the desktop and files. Marco composes. mate-session holds the login together.</p>
+          <p>It is deliberately familiar. You should not have to learn an operating system before you can use one.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap split reverse">
+        <div class="shot-frame portrait">
+          <img src="assets/panels.jpg" alt="NuMATE notifications and quick settings">
+        </div>
+        <div class="split-copy">
+          <p class="section-label">The shell</p>
+          <h2>One place for the things you change.</h2>
+          <p>Axiom-panel handles the panel, launcher, running applications, status and notifications. Quick settings are immediate. Notifications are clear and actionable.</p>
+          <p>The desktop is familiar, direct, and deliberately consistent.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap split">
+        <div class="shot-frame">
+          <img src="assets/settings.jpg" alt="NuMATE Settings">
+        </div>
+        <div class="split-copy">
+          <p class="section-label">Settings</p>
+          <h2>One window, all your Settings.</h2>
+          <p>NuMATE Settings replaces the old control-center sprawl with one application and one sidebar. Appearance, display, sound, input, power, users, network and defaults live together.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark-band" id="release">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Release model</p>
+          <h2>One public channel.<br>One RC track.</h2>
+          <p>Tomorrow's Release Preview is not Drift RC1. It establishes the initial user-facing release channel and gathers feedback. Drift RC1 begins when the Drift feature set is frozen and the integrated system is ready for release qualification.</p>
+        </div>
+        <div class="release-grid">
+          <article class="release-card"><b>Release Preview</b><p>Tomorrow. The existing public preview. Initial user-facing channel for feedback.</p></article>
+          <article class="release-card"><b>Drift RC1</b><p>Following months. First formal release candidate. Feature-complete, tested, suitable for serious evaluation.</p></article>
+          <article class="release-card"><b>Drift RC2</b><p>Conditional. Only if RC1 exposes defects that justify another candidate. No arbitrary RC schedule.</p></article>
+          <article class="release-card"><b>Drift Stable</b><p>GA. Promote the final validated candidate. No rebuild between candidate approval and stable publication.</p></article>
+        </div>
+        <p class="release-note">One audience to build: the people willing to try GonzOS. No parallel Beta, Dev, or separate Release Preview audiences. The future split should be driven by users, not by organisational ambition.</p>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">Roadmap</p>
+          <h2>Build it once.<br>Keep it coherent.</h2>
+        </div>
+        <div class="timeline">
+          <div class="milestone current"><span>Tomorrow</span><strong>Release Preview</strong><p>The existing public preview. Establishes the initial user-facing release channel and gathers feedback. Not Drift RC1.</p></div>
+          <div class="milestone"><span>Following months</span><strong>Drift RC1</strong><p>First formal release candidate. Feature-complete, tested, and suitable for serious evaluation.</p></div>
+          <div class="milestone"><span>Conditional</span><strong>Drift RC2</strong><p>Only if RC1 exposes defects that justify another candidate. No arbitrary RC schedule.</p></div>
+          <div class="milestone"><span>GA</span><strong>Drift Stable</strong><p>Promote the final validated candidate. No rebuild between candidate approval and stable publication.</p></div>
+          <div class="milestone"><span>Q3 2027 → Q2 2028</span><strong>Laminar</strong><p>Finish Settings, establish audio policy, settle the visual contract and choose a store model.</p></div>
+          <div class="milestone"><span>Q3 2028 → Q4 2029</span><strong>Halo</strong><p>Make GonzOS installable by a stranger and preserve the same session through upgrades.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto">
+      <div class="wrap">
+        <p class="section-label">The standard</p>
+        <h2>Open the menu.<br>Launch an app.<br>Open a file.<br>Load a wiki.<br>Get back to work.</h2>
+        <p>That is what a computer is for.</p>
+      </div>
+    </section>
+
+    <section id="download" class="download">
+      <div class="wrap">
+        <p class="section-label">Get GonzOS</p>
+        <h2>Start with the Preview.</h2>
+        <p>One public Release Preview. One active release-candidate track. RC1, followed by RC2 only when necessary. One Stable release.</p>
+        <div class="branches">
+          <article class="branch branch-stable">
+            <div class="branch-top">
+              <span class="branch-tag">Available tomorrow</span>
+              <span class="branch-version">Release Preview</span>
+            </div>
+            <h3>Try the public channel.</h3>
+            <p>The existing public preview. Establishes the initial user-facing release channel and gathers feedback. Not Drift RC1.</p>
+            <ul>
+              <li>Current public image</li>
+              <li>NuMATE desktop included</li>
+              <li>Feedback welcome</li>
+            </ul>
+            <a class="btn btn-primary" href="#">Download Release Preview</a>
+          </article>
+
+          <article class="branch branch-experimental">
+            <div class="branch-top">
+              <span class="branch-tag">Coming</span>
+              <span class="branch-version">Drift RC1 → Stable</span>
+            </div>
+            <h3>One RC track.</h3>
+            <p>Drift RC1 is the first formal release candidate. RC2 only if needed. Then Stable. No parallel candidate channels until the userbase divides.</p>
+            <ul>
+              <li>Feature-complete RC</li>
+              <li>Conditional RC2</li>
+              <li>Then GA</li>
+            </ul>
+            <a class="btn btn-ghost" href="#release">See the model</a>
+          </article>
+        </div>
+        <small>When GonzOS has enough users that some want early access while others want predictable, conservative updates, then introduce another channel. Not before.</small>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-grid">
+      <div><div class="foot-brand">GonzOS</div><p>An operating system built around the idea that your hardware still matters.</p></div>
+      <div><h4>System</h4><a href="#system">Architecture</a><a href="#numate">NuMATE</a><a href="#release">Release</a></div>
+      <div><h4>Project</h4><a href="#roadmap">Roadmap</a><a href="#">Source</a><a href="#">Documentation</a></div>
+      <div><h4>Components</h4><a href="#">gonzod</a><a href="#">detritusd</a><a href="#">gonzocache</a></div>
+    </div>
+    <div class="wrap legal"><span>© 2026 TechnyxLabs</span><span>GonzOS · NuMATE</span></div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

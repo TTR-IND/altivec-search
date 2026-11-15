@@ -1,0 +1,56 @@
+:root {
+  --bg:#090a0b; --surface:#111315; --card:#17191c; --text:#f5f6f7; --muted:#9da2a8;
+  --faint:#656b72; --line:rgba(255,255,255,.09); --accent:#d9573f; --accent2:#ef7258;
+  --max:1160px; --header:66px; --radius:20px;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--text);
+font:17px/1.58 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none} img{display:block;max-width:100%}.wrap{width:min(var(--max),calc(100% - 44px));margin:auto}
+.announcement{padding:8px 16px;text-align:center;background:#141619;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}
+.announcement span{display:inline-block;padding:2px 7px;margin-right:8px;border-radius:5px;background:#2b1b18;color:#ff8a73;font-size:10px;font-weight:700;letter-spacing:.12em}
+.announcement a{margin-left:8px;color:var(--accent2)}
+header{position:sticky;top:0;z-index:50;height:var(--header);background:rgba(9,10,11,.78);backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line)}
+.nav{height:100%;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;font-weight:800;font-size:22px;letter-spacing:0.02em}
+.brand-name{font-family:"Orbitron",sans-serif;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;font-size:18px;color:var(--text)}
+.nav-links{display:flex;align-items:center;gap:4px}.nav-links a{padding:8px 12px;border-radius:9px;color:var(--muted);font-size:14px}.nav-links a:hover{color:var(--text);background:#ffffff09}
+.nav-links .nav-cta{background:var(--accent);color:#fff;padding-inline:15px}.nav-links .nav-cta:hover{background:var(--accent2)}
+.menu-btn{display:none;border:0;background:none;color:var(--text);font:inherit}
+
+.hero{padding:104px 0 72px;text-align:center}.kicker,.section-label{color:var(--accent2);font-size:12px;font-weight:700;letter-spacing:.17em;text-transform:uppercase}
+.kicker{margin:0 0 18px}.hero h1,h2{letter-spacing:-.065em;line-height:.98}.hero h1{margin:0 auto 24px;max-width:900px;font-size:clamp(54px,9vw,104px);font-weight:700}.hero h1 em{font-style:normal;color:#c8ccd0}
+.lede{max-width:680px;margin:0 auto 34px;color:var(--muted);font-size:20px;line-height:1.45}.actions{display:flex;justify-content:center;gap:11px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;padding:12px 20px;border-radius:11px;font-size:14px;font-weight:600;border:1px solid transparent}.btn-primary{background:var(--accent);color:white}.btn-primary:hover{background:var(--accent2)}
+.btn-ghost{border-color:var(--line);background:#ffffff03}.btn-ghost:hover{background:#ffffff08}
+.hero-shot{margin:62px auto 0;max-width:1040px;position:relative}.hero-shot:before{content:"";position:absolute;inset:8% 5%;background:radial-gradient(ellipse,var(--accent) 0,transparent 66%);opacity:.19;filter:blur(45px)}
+.hero-shot img{position:relative;border:1px solid var(--line);border-radius:15px;box-shadow:0 35px 100px #000c}
+.principle{border-block:1px solid var(--line);background:#101214;padding:18px 0;color:var(--muted);text-align:center}.principle strong{color:var(--text);margin-right:6px}
+section{padding:104px 0}.section-head{max-width:720px;margin-bottom:54px}.section-label{margin:0 0 13px}.section-head h2{font-size:clamp(38px,5vw,58px);margin:0 0 18px}.section-head>p:last-child{margin:0;color:var(--muted);font-size:18px}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.values article,.release-card{padding:25px;border:1px solid var(--line);background:var(--card);border-radius:17px}.values b{font-size:18px}.values p,.release-card p{margin:7px 0 0;color:var(--muted);font-size:15px}
+.dark-band{background:#101214;border-block:1px solid var(--line)}.architecture{border-top:1px solid var(--line)}.arch-row{display:grid;grid-template-columns:110px 180px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:baseline}.arch-row span{color:var(--faint);font-size:13px;text-transform:uppercase;letter-spacing:.09em}.arch-row strong{font-family:"IBM Plex Mono",monospace;font-size:16px}.arch-row small{color:var(--muted)}
+.split{display:grid;grid-template-columns:1.12fr .88fr;gap:64px;align-items:center}.split.reverse{grid-template-columns:.72fr 1.28fr}.split.reverse>.shot-frame{order:2}.shot-frame{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:#0e0f10;box-shadow:0 25px 70px #0009}.shot-frame img{width:100%}.shot-frame.portrait{max-width:440px}.split-copy h2{font-size:clamp(36px,4vw,52px);margin:0 0 18px}.split-copy p{color:var(--muted);margin:0 0 13px}.release-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.release-card{background:#16181b}.release-card b{font-size:17px}
+.release-note{margin:28px 0 0;color:var(--muted);font-size:15px;max-width:720px;line-height:1.55}
+.timeline{border-left:1px solid var(--line);margin-left:8px}.milestone{position:relative;padding:0 0 54px 36px}.milestone:before{content:"";position:absolute;left:-5px;top:4px;width:9px;height:9px;border-radius:50%;background:#51565c}.milestone.current:before{background:var(--accent);box-shadow:0 0 0 5px #d9573f22}.milestone span{display:block;color:var(--accent2);font:12px "IBM Plex Mono",monospace;margin-bottom:7px}.milestone strong{font-size:28px;letter-spacing:-.04em}.milestone p{color:var(--muted);max-width:680px;margin:7px 0 0}
+.manifesto{padding:115px 0;background:linear-gradient(180deg,#0b0c0e,#111315)}.manifesto h2{font-size:clamp(48px,7vw,86px);margin:0 0 22px}.manifesto>div>p:last-child{color:var(--muted);font-size:20px}
+.download{text-align:center;border-top:1px solid var(--line)}.download h2{font-size:clamp(44px,6vw,70px);margin:0 0 15px}.download>div>p:not(.section-label){max-width:600px;margin:0 auto 28px;color:var(--muted)}.download small{display:block;color:var(--faint);margin-top:22px}
+footer{border-top:1px solid var(--line);padding:50px 0 28px;color:var(--muted);font-size:14px}.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:42px}.foot-brand{font-family:"Orbitron",sans-serif;font-weight:800;font-size:18px;letter-spacing:0.04em;text-transform:uppercase;color:var(--text);margin-bottom:7px}.foot-grid p{max-width:330px}.foot-grid h4{margin:0 0 11px;color:var(--text);font-size:12px;text-transform:uppercase;letter-spacing:.1em}.foot-grid a{display:block;margin:0 0 8px}.foot-grid a:hover{color:var(--text)}.legal{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:19px;font-size:12px}
+@media(max-width:850px){.menu-btn{display:block}.nav-links{display:none;position:absolute;left:0;right:0;top:var(--header);padding:12px 22px 18px;background:#0c0d0f;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch}.nav-links.open{display:flex}.nav-links a{text-align:center}.hero{padding-top:68px}section{padding:72px 0}.values,.release-grid,.split,.split.reverse,.foot-grid{grid-template-columns:1fr}.split.reverse>.shot-frame{order:0}.arch-row{grid-template-columns:82px 1fr}.arch-row small{grid-column:2}.hero h1{font-size:clamp(50px,14vw,82px)}.foot-grid{gap:24px}}
+@media(max-width:520px){.wrap{width:min(var(--max),calc(100% - 30px))}.values{gap:12px}.hero-shot{margin-top:42px}.manifesto h2{font-size:48px}.legal{display:block}.legal span{display:block;margin-bottom:7px}}
+
+
+/* Download branches */
+.branches{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:0 auto;text-align:left}
+.branch{padding:30px;border:1px solid var(--line);background:var(--card);border-radius:20px}
+.branch-stable{border-color:rgba(217,87,63,.38);background:linear-gradient(145deg,#1a1717,#151719)}
+.branch-experimental{background:linear-gradient(145deg,#17191c,#131518)}
+.branch-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.branch-tag{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2)}
+.branch-experimental .branch-tag{color:#b4bac0}
+.branch-version{font:13px "IBM Plex Mono",monospace;color:var(--faint)}
+.branch h3{font-size:25px;letter-spacing:-.04em;margin:0 0 9px}
+.branch p{color:var(--muted);font-size:15px;line-height:1.55;min-height:74px}
+.branch ul{list-style:none;padding:0;margin:20px 0 26px;border-top:1px solid var(--line)}
+.branch li{padding:9px 0;border-bottom:1px solid var(--line);font-size:13px;color:#c4c8cc}
+.branch li:before{content:"✓";margin-right:9px;color:var(--accent2)}
+.branch-experimental li:before{content:"→";color:#9da2a8}
+@media(max-width:700px){.branches{grid-template-columns:1fr}.branch p{min-height:0}}
