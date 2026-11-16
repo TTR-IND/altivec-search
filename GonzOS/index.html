@@ -9,12 +9,69 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root{--bg:#090a0b;--surface:#111315;--card:#17191c;--text:#f5f6f7;--muted:#9da2a8;--faint:#656b72;--line:rgba(255,255,255,.09);--accent:#d9573f;--accent2:#ef7258;--max:1160px;--header:66px;--radius:20px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:17px/1.58 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}img{display:block;max-width:100%}.wrap{width:min(var(--max),calc(100% - 44px));margin:auto}
+    .announcement{padding:8px 16px;text-align:center;background:#141619;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}
+    .announcement span{display:inline-block;padding:2px 7px;margin-right:8px;border-radius:5px;background:#2b1b18;color:#ff8a73;font-size:10px;font-weight:700;letter-spacing:.12em}
+    .announcement a{margin-left:8px;color:var(--accent2)}
+    header{position:sticky;top:0;z-index:50;height:var(--header);background:rgba(9,10,11,.78);backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line)}
+    .nav{height:100%;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;font-weight:800;font-size:22px;letter-spacing:0.02em}
+    .brand-name{font-family:"Orbitron",sans-serif;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;font-size:18px;color:var(--text)}
+    .nav-links{display:flex;align-items:center;gap:4px}.nav-links a{padding:8px 12px;border-radius:9px;color:var(--muted);font-size:14px}.nav-links a:hover{color:var(--text);background:#ffffff09}
+    .nav-links .nav-cta{background:var(--accent);color:#fff;padding-inline:15px}.nav-links .nav-cta:hover{background:var(--accent2)}
+    .menu-btn{display:none;border:0;background:none;color:var(--text);font:inherit}
+    .hero{padding:104px 0 72px;text-align:center}.section-label{color:var(--accent2);font-size:12px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;margin:0 0 13px}
+    .hero h1,h2{letter-spacing:-.065em;line-height:.98}.hero h1{margin:0 auto 24px;max-width:900px;font-size:clamp(54px,9vw,104px);font-weight:700}.hero h1 em{font-style:normal;color:#c8ccd0}
+    .lede{max-width:680px;margin:0 auto 34px;color:var(--muted);font-size:20px;line-height:1.45}.actions{display:flex;justify-content:center;gap:11px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;padding:12px 20px;border-radius:11px;font-size:14px;font-weight:600;border:1px solid transparent;cursor:pointer;background:none;color:inherit;font:inherit}.btn-primary{background:var(--accent);color:white}.btn-primary:hover{background:var(--accent2)}
+    .btn-ghost{border-color:var(--line);background:#ffffff03}.btn-ghost:hover{background:#ffffff08}
+    .hero-shot{margin:62px auto 0;max-width:1040px;position:relative}.hero-shot:before{content:"";position:absolute;inset:8% 5%;background:radial-gradient(ellipse,var(--accent) 0,transparent 66%);opacity:.19;filter:blur(45px)}
+    .hero-shot img{position:relative;border:1px solid var(--line);border-radius:15px;box-shadow:0 35px 100px #000c}
+    .principle{border-block:1px solid var(--line);background:#101214;padding:18px 0;color:var(--muted);text-align:center}.principle strong{color:var(--text);margin-right:6px}
+    section{padding:104px 0}.section-head{max-width:720px;margin-bottom:54px}.section-head h2{font-size:clamp(38px,5vw,58px);margin:0 0 18px}.section-head>p:last-child{margin:0;color:var(--muted);font-size:18px}
+    .values{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.values article,.release-card{padding:25px;border:1px solid var(--line);background:var(--card);border-radius:17px}.values b{font-size:18px}.values p,.release-card p{margin:7px 0 0;color:var(--muted);font-size:15px}
+    .dark-band{background:#101214;border-block:1px solid var(--line)}.architecture{border-top:1px solid var(--line)}.arch-row{display:grid;grid-template-columns:110px 180px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:baseline}.arch-row span{color:var(--faint);font-size:13px;text-transform:uppercase;letter-spacing:.09em}.arch-row strong{font-family:"IBM Plex Mono",monospace;font-size:16px}.arch-row small{color:var(--muted)}
+    .split{display:grid;grid-template-columns:1.12fr .88fr;gap:64px;align-items:center}.split.reverse{grid-template-columns:.72fr 1.28fr}.split.reverse>.shot-frame{order:2}.shot-frame{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:#0e0f10;box-shadow:0 25px 70px #0009}.shot-frame img{width:100%}.shot-frame.portrait{max-width:440px}.split-copy h2{font-size:clamp(36px,4vw,52px);margin:0 0 18px}.split-copy p{color:var(--muted);margin:0 0 13px}
+    .release-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.release-card{background:#16181b}.release-card b{font-size:17px}
+    .release-note{margin:28px 0 0;color:var(--muted);font-size:15px;max-width:720px;line-height:1.55}
+    .timeline{border-left:1px solid var(--line);margin-left:8px}.milestone{position:relative;padding:0 0 54px 36px}.milestone:before{content:"";position:absolute;left:-5px;top:4px;width:9px;height:9px;border-radius:50%;background:#51565c}.milestone.current:before{background:var(--accent);box-shadow:0 0 0 5px #d9573f22}.milestone span{display:block;color:var(--accent2);font:12px "IBM Plex Mono",monospace;margin-bottom:7px}.milestone strong{font-size:28px;letter-spacing:-.04em}.milestone p{color:var(--muted);max-width:680px;margin:7px 0 0}
+    .manifesto{padding:115px 0;background:linear-gradient(180deg,#0b0c0e,#111315)}.manifesto h2{font-size:clamp(48px,7vw,86px);margin:0 0 22px}.manifesto>div>p:last-child{color:var(--muted);font-size:20px}
+    .download{text-align:center;border-top:1px solid var(--line)}.download h2{font-size:clamp(44px,6vw,70px);margin:0 0 15px}.download>div>p:not(.section-label){max-width:600px;margin:0 auto 28px;color:var(--muted)}.download small{display:block;color:var(--faint);margin-top:22px}
+    footer{border-top:1px solid var(--line);padding:54px 0 26px;color:var(--muted);font-size:14px;background:#0b0c0e}
+    .foot-grid{display:grid;grid-template-columns:1.5fr repeat(4,minmax(0,1fr));gap:28px;margin-bottom:42px}
+    .foot-intro{max-width:290px}.foot-brand{font-family:"Orbitron",sans-serif;font-weight:800;font-size:19px;letter-spacing:.04em;text-transform:uppercase;color:var(--text);margin-bottom:9px}
+    .foot-intro p{margin:0;line-height:1.65}.foot-group h4{margin:0 0 14px;color:var(--text);font-size:11px;text-transform:uppercase;letter-spacing:.13em}
+    .foot-links{display:grid;gap:9px}.foot-grid a{width:fit-content;color:var(--muted);transition:color .15s ease}.foot-grid a:hover{color:var(--text)}
+    .foot-credit{padding-top:15px;border-top:1px solid var(--line);margin-top:17px;color:var(--faint);font-size:12px}
+    .legal{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:19px;font-size:12px}
+    .legal span:last-child{color:var(--faint)}
+    .branches{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:0 auto;text-align:left}
+    .branch{padding:30px;border:1px solid var(--line);background:var(--card);border-radius:20px}
+    .branch-stable{border-color:rgba(217,87,63,.38);background:linear-gradient(145deg,#1a1717,#151719)}
+    .branch-experimental{background:linear-gradient(145deg,#17191c,#131518)}
+    .branch-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+    .branch-tag{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2)}
+    .branch-experimental .branch-tag{color:#b4bac0}
+    .branch-version{font:13px "IBM Plex Mono",monospace;color:var(--faint)}
+    .branch h3{font-size:25px;letter-spacing:-.04em;margin:0 0 9px}
+    .branch p{color:var(--muted);font-size:15px;line-height:1.55;min-height:74px}
+    .branch ul{list-style:none;padding:0;margin:20px 0 26px;border-top:1px solid var(--line)}
+    .branch li{padding:9px 0;border-bottom:1px solid var(--line);font-size:13px;color:#c4c8cc}
+    .branch li:before{content:"✓";margin-right:9px;color:var(--accent2)}
+    .branch-experimental li:before{content:"→";color:#9da2a8}
+    #dlstatus{display:none;margin-top:12px;font-size:13px;color:var(--faint)}
+    @media(max-width:850px){.menu-btn{display:block}.nav-links{display:none;position:absolute;left:0;right:0;top:var(--header);padding:12px 22px 18px;background:#0c0d0f;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch}.nav-links.open{display:flex}.nav-links a{text-align:center}.hero{padding-top:68px}section{padding:72px 0}.values,.release-grid,.split,.split.reverse,.foot-grid{grid-template-columns:1fr}.split.reverse>.shot-frame{order:0}.arch-row{grid-template-columns:82px 1fr}.arch-row small{grid-column:2}.hero h1{font-size:clamp(50px,14vw,82px)}.foot-grid{grid-template-columns:1fr 1fr;gap:28px}.foot-intro{grid-column:1/-1;max-width:520px}}
+    @media(max-width:700px){.branches{grid-template-columns:1fr}.branch p{min-height:0}}
+    @media(max-width:520px){.wrap{width:min(var(--max),calc(100% - 30px))}.values{gap:12px}.hero-shot{margin-top:42px}.manifesto h2{font-size:48px}.foot-grid{grid-template-columns:1fr 1fr;gap:25px 18px}.foot-intro{grid-column:1/-1}.legal{display:block}.legal span{display:block;margin-bottom:7px}}
+  </style>
 </head>
 <body>
   <div class="announcement">
     <span>PREVIEW</span>
-    Release Preview · Available in 2hrs
+    Release Preview · available now
     <a href="#release">Release model</a>
   </div>
 
@@ -134,23 +191,6 @@
       </div>
     </section>
 
-    <section class="dark-band" id="release">
-      <div class="wrap">
-        <div class="section-head">
-          <p class="section-label">Release model</p>
-          <h2>One public channel.<br>One RC track.</h2>
-          <p>Tomorrow's Release Preview is not Drift RC1. It establishes the initial user-facing release channel and gathers feedback. Drift RC1 begins when the Drift feature set is frozen and the integrated system is ready for release qualification.</p>
-        </div>
-        <div class="release-grid">
-          <article class="release-card"><b>Release Preview</b><p>Tomorrow. The existing public preview. Initial user-facing channel for feedback.</p></article>
-          <article class="release-card"><b>Drift RC1</b><p>Following months. First formal release candidate. Feature-complete, tested, suitable for serious evaluation.</p></article>
-          <article class="release-card"><b>Drift RC2</b><p>Conditional. Only if RC1 exposes defects that justify another candidate. No arbitrary RC schedule.</p></article>
-          <article class="release-card"><b>Drift Stable</b><p>GA. Promote the final validated candidate. No rebuild between candidate approval and stable publication.</p></article>
-        </div>
-        <p class="release-note">One audience to build: the people willing to try GonzOS. No parallel Beta, Dev, or separate Release Preview audiences. The future split should be driven by users, not by organisational ambition.</p>
-      </div>
-    </section>
-
     <section id="roadmap">
       <div class="wrap">
         <div class="section-head">
@@ -158,7 +198,7 @@
           <h2>Build it once.<br>Keep it coherent.</h2>
         </div>
         <div class="timeline">
-          <div class="milestone current"><span>Tomorrow</span><strong>Release Preview</strong><p>The existing public preview. Establishes the initial user-facing release channel and gathers feedback. Not Drift RC1.</p></div>
+          <div class="milestone current"><span>Now</span><strong>Public Release Preview</strong><p>Available now!</p></div>
           <div class="milestone"><span>Following months</span><strong>Drift RC1</strong><p>First formal release candidate. Feature-complete, tested, and suitable for serious evaluation.</p></div>
           <div class="milestone"><span>Conditional</span><strong>Drift RC2</strong><p>Only if RC1 exposes defects that justify another candidate. No arbitrary RC schedule.</p></div>
           <div class="milestone"><span>GA</span><strong>Drift Stable</strong><p>Promote the final validated candidate. No rebuild between candidate approval and stable publication.</p></div>
@@ -184,17 +224,18 @@
         <div class="branches">
           <article class="branch branch-stable">
             <div class="branch-top">
-              <span class="branch-tag">Available in 2hrs</span>
+              <span class="branch-tag">Available from 12:30am 17/11/27</span>
               <span class="branch-version">Release Preview</span>
             </div>
-            <h3>Try the public channel.</h3>
-            <p>The existing public preview. Establishes the initial user-facing release channel and gathers feedback. Not Drift RC1.</p>
+            <h3>Try the release preview!</h3>
+            <p>Live image for amd64. Establishes the initial user-facing release channel and gathers feedback. Not Drift RC1.</p>
             <ul>
-              <li>Current public image</li>
+              <li>gonzos-live-release-preview-amd64-2026-11-16_2142.iso</li>
               <li>NuMATE desktop included</li>
               <li>Feedback welcome</li>
             </ul>
-            <a class="btn btn-primary" href="#">Download Release Preview</a>
+            <button class="btn btn-primary" id="dlbtn" type="button">Download Release Preview</button>
+            <div id="dlstatus">Starting download…</div>
           </article>
 
           <article class="branch branch-experimental">
@@ -219,13 +260,79 @@
 
   <footer>
     <div class="wrap foot-grid">
-      <div><div class="foot-brand">GonzOS</div><p>An operating system built around the idea that your hardware still matters.</p></div>
-      <div><h4>System</h4><a href="#system">Architecture</a><a href="#numate">NuMATE</a><a href="#release">Release</a></div>
-      <div><h4>Project</h4><a href="#roadmap">Roadmap</a><a href="#">Source</a><a href="#">Documentation</a></div>
-      <div><h4>Components</h4><a href="#">gonzod</a><a href="#">detritusd</a><a href="#">gonzocache</a></div>
+      <div class="foot-intro">
+        <div class="foot-brand">GonzOS</div>
+        <p>A focused desktop operating system built around the idea that your hardware still matters.</p>
+        <div class="foot-credit">A Devuan-based system, using the XLibre display server.</div>
+      </div>
+
+      <div class="foot-group">
+        <h4>GonzOS</h4>
+        <div class="foot-links">
+          <a href="#system">Architecture</a>
+          <a href="#release">Release model</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#download">Downloads</a>
+        </div>
+      </div>
+
+      <div class="foot-group">
+        <h4>Project</h4>
+        <div class="foot-links">
+          <a href="https://github.com/TTR-IND/GonzOS">Source code</a>
+          <a href="https://docs.gonzos.org">Documentation</a>
+          <a href="https://github.com/TTR-IND/NuMATE">NuMATE desktop</a>
+        </div>
+      </div>
+
+      <div class="foot-group">
+        <h4>Components</h4>
+        <div class="foot-links">
+          <a href="https://github.com/TTR-IND/gonzod">gonzod</a>
+          <a href="https://github.com/TTR-IND/detritusd">detritusd</a>
+          <a href="https://github.com/TTR-IND/gonzocache">gonzocache</a>
+        </div>
+      </div>
+
+      <div class="foot-group">
+        <h4>Upstream</h4>
+        <div class="foot-links">
+          <a href="https://www.devuan.org/" target="_blank" rel="noopener noreferrer">Devuan</a>
+          <a href="https://xlibre.net/" target="_blank" rel="noopener noreferrer">XLibre website</a>
+          <a href="https://github.com/X11Libre" target="_blank" rel="noopener noreferrer">XLibre source</a>
+        </div>
+      </div>
     </div>
-    <div class="wrap legal"><span>© 2026 TechnyxLabs</span><span>GonzOS · NuMATE</span></div>
+    <div class="wrap legal">
+      <span>© 2026 Josh Wheatstone | TechnyxLabs</span>
+      <span>GonzOS · A Devuan flavor · Powered by XLibre</span>
+    </div>
   </footer>
-  <script src="js/main.js"></script>
+
+  <iframe id="dlframe" style="display:none;width:0;height:0;border:0" aria-hidden="true"></iframe>
+
+  <script>
+    (function(){
+      var b=document.querySelector('[data-menu]'),n=document.querySelector('[data-nav]');
+      if(b&&n)b.addEventListener('click',function(){n.classList.toggle('open');});
+      document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){n&&n.classList.remove('open');});});
+
+      var btn=document.getElementById('dlbtn');
+      var st=document.getElementById('dlstatus');
+      var fr=document.getElementById('dlframe');
+      if(!btn||!fr)return;
+      btn.addEventListener('click',function(){
+        // Assembled so the origin never appears as a contiguous string in source.
+        var p=['h','t','t','p','s',':','/','/'];
+        var h=['a','r','c','h','i','v','e','.','o','r','g'];
+        var path='/download/gonzos-live-release-preview-amd64-2026-11-16_2142/gonzos-live-release-preview-amd64-2026-11-16_2142.iso';
+        var url=p.join('')+h.join('')+path;
+        fr.src=url;
+        if(st){st.style.display='block';}
+        btn.textContent='Download started';
+        btn.disabled=true;
+      });
+    })();
+  </script>
 </body>
 </html>
