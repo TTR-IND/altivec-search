@@ -1,1 +1,0 @@
-(function(){const b=document.querySelector('[data-menu]'),n=document.querySelector('[data-nav]');if(b&&n)b.addEventListener('click',()=>n.classList.toggle('open'));document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>n.classList.remove('open')));})();
