@@ -10,69 +10,82 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#090a0b;--surface:#111315;--card:#17191c;--text:#f5f6f7;--muted:#9da2a8;--faint:#656b72;--line:rgba(255,255,255,.09);--accent:#d9573f;--accent2:#ef7258;--max:1160px;--header:66px;--radius:20px}
+    :root{--bg:#090a0b;--surface:#111315;--card:#17191c;--text:#f5f6f7;--muted:#9da2a8;--faint:#656b72;--line:rgba(255,255,255,.09);--accent:#d9573f;--accent2:#ef7258;--max:1160px;--header:66px;--radius:22px}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:17px/1.58 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none}img{display:block;max-width:100%}.wrap{width:min(var(--max),calc(100% - 44px));margin:auto}
-    .announcement{padding:8px 16px;text-align:center;background:#141619;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}
-    .announcement span{display:inline-block;padding:2px 7px;margin-right:8px;border-radius:5px;background:#2b1b18;color:#ff8a73;font-size:10px;font-weight:700;letter-spacing:.12em}
-    .announcement a{margin-left:8px;color:var(--accent2)}
-    header{position:sticky;top:0;z-index:50;height:var(--header);background:rgba(9,10,11,.78);backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line)}
+    .announcement{padding:10px 16px;text-align:center;background:#141619;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}
+    .announcement span{display:inline-block;padding:3px 8px;margin-right:8px;border-radius:6px;background:#2b1b18;color:#ff8a73;font-size:10px;font-weight:700;letter-spacing:.12em}
+    .announcement .btn{margin-left:8px;padding:5px 12px;font-size:12px;border-radius:8px}
+    header{position:sticky;top:0;z-index:50;height:var(--header);background:rgba(9,10,11,.82);backdrop-filter:blur(20px) saturate(140%);border-bottom:1px solid var(--line)}
     .nav{height:100%;display:flex;align-items:center;justify-content:space-between}
     .brand{display:flex;align-items:center;font-weight:800;font-size:22px;letter-spacing:0.02em}
     .brand-name{font-family:"Orbitron",sans-serif;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;font-size:18px;color:var(--text)}
-    .nav-links{display:flex;align-items:center;gap:4px}.nav-links a{padding:8px 12px;border-radius:9px;color:var(--muted);font-size:14px}.nav-links a:hover{color:var(--text);background:#ffffff09}
-    .nav-links .nav-cta{background:var(--accent);color:#fff;padding-inline:15px}.nav-links .nav-cta:hover{background:var(--accent2)}
+    .nav-links{display:flex;align-items:center;gap:2px}.nav-links a{padding:8px 14px;border-radius:10px;color:var(--muted);font-size:14px;transition:all .15s ease}.nav-links a:hover{color:var(--text);background:#ffffff0c}
+    .nav-links .nav-cta{background:var(--accent);color:#fff;padding-inline:16px}.nav-links .nav-cta:hover{background:var(--accent2)}
     .menu-btn{display:none;border:0;background:none;color:var(--text);font:inherit}
-    .hero{padding:104px 0 72px;text-align:center}.section-label{color:var(--accent2);font-size:12px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;margin:0 0 13px}
-    .hero h1,h2{letter-spacing:-.065em;line-height:.98}.hero h1{margin:0 auto 24px;max-width:900px;font-size:clamp(54px,9vw,104px);font-weight:700}.hero h1 em{font-style:normal;color:#c8ccd0}
-    .lede{max-width:680px;margin:0 auto 34px;color:var(--muted);font-size:20px;line-height:1.45}.actions{display:flex;justify-content:center;gap:11px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;padding:12px 20px;border-radius:11px;font-size:14px;font-weight:600;border:1px solid transparent;cursor:pointer;background:none;color:inherit;font:inherit}.btn-primary{background:var(--accent);color:white}.btn-primary:hover{background:var(--accent2)}
-    .btn-ghost{border-color:var(--line);background:#ffffff03}.btn-ghost:hover{background:#ffffff08}
-    .hero-shot{margin:62px auto 0;max-width:1040px;position:relative}.hero-shot:before{content:"";position:absolute;inset:8% 5%;background:radial-gradient(ellipse,var(--accent) 0,transparent 66%);opacity:.19;filter:blur(45px)}
-    .hero-shot img{position:relative;border:1px solid var(--line);border-radius:15px;box-shadow:0 35px 100px #000c}
-    .principle{border-block:1px solid var(--line);background:#101214;padding:18px 0;color:var(--muted);text-align:center}.principle strong{color:var(--text);margin-right:6px}
-    section{padding:104px 0}.section-head{max-width:720px;margin-bottom:54px}.section-head h2{font-size:clamp(38px,5vw,58px);margin:0 0 18px}.section-head>p:last-child{margin:0;color:var(--muted);font-size:18px}
-    .values{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.values article,.release-card{padding:25px;border:1px solid var(--line);background:var(--card);border-radius:17px}.values b{font-size:18px}.values p,.release-card p{margin:7px 0 0;color:var(--muted);font-size:15px}
-    .dark-band{background:#101214;border-block:1px solid var(--line)}.architecture{border-top:1px solid var(--line)}.arch-row{display:grid;grid-template-columns:110px 180px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:baseline}.arch-row span{color:var(--faint);font-size:13px;text-transform:uppercase;letter-spacing:.09em}.arch-row strong{font-family:"IBM Plex Mono",monospace;font-size:16px}.arch-row small{color:var(--muted)}
-    .split{display:grid;grid-template-columns:1.12fr .88fr;gap:64px;align-items:center}.split.reverse{grid-template-columns:.72fr 1.28fr}.split.reverse>.shot-frame{order:2}.shot-frame{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:#0e0f10;box-shadow:0 25px 70px #0009}.shot-frame img{width:100%}.shot-frame.portrait{max-width:440px}.split-copy h2{font-size:clamp(36px,4vw,52px);margin:0 0 18px}.split-copy p{color:var(--muted);margin:0 0 13px}
-    .release-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.release-card{background:#16181b}.release-card b{font-size:17px}
-    .release-note{margin:28px 0 0;color:var(--muted);font-size:15px;max-width:720px;line-height:1.55}
-    .timeline{border-left:1px solid var(--line);margin-left:8px}.milestone{position:relative;padding:0 0 54px 36px}.milestone:before{content:"";position:absolute;left:-5px;top:4px;width:9px;height:9px;border-radius:50%;background:#51565c}.milestone.current:before{background:var(--accent);box-shadow:0 0 0 5px #d9573f22}.milestone span{display:block;color:var(--accent2);font:12px "IBM Plex Mono",monospace;margin-bottom:7px}.milestone strong{font-size:28px;letter-spacing:-.04em}.milestone p{color:var(--muted);max-width:680px;margin:7px 0 0}
-    .manifesto{padding:115px 0;background:linear-gradient(180deg,#0b0c0e,#111315)}.manifesto h2{font-size:clamp(48px,7vw,86px);margin:0 0 22px}.manifesto>div>p:last-child{color:var(--muted);font-size:20px}
-    .download{text-align:center;border-top:1px solid var(--line)}.download h2{font-size:clamp(44px,6vw,70px);margin:0 0 15px}.download>div>p:not(.section-label){max-width:600px;margin:0 auto 28px;color:var(--muted)}.download small{display:block;color:var(--faint);margin-top:22px}
-    footer{border-top:1px solid var(--line);padding:54px 0 26px;color:var(--muted);font-size:14px;background:#0b0c0e}
-    .foot-grid{display:grid;grid-template-columns:1.5fr repeat(4,minmax(0,1fr));gap:28px;margin-bottom:42px}
-    .foot-intro{max-width:290px}.foot-brand{font-family:"Orbitron",sans-serif;font-weight:800;font-size:19px;letter-spacing:.04em;text-transform:uppercase;color:var(--text);margin-bottom:9px}
-    .foot-intro p{margin:0;line-height:1.65}.foot-group h4{margin:0 0 14px;color:var(--text);font-size:11px;text-transform:uppercase;letter-spacing:.13em}
-    .foot-links{display:grid;gap:9px}.foot-grid a{width:fit-content;color:var(--muted);transition:color .15s ease}.foot-grid a:hover{color:var(--text)}
-    .foot-credit{padding-top:15px;border-top:1px solid var(--line);margin-top:17px;color:var(--faint);font-size:12px}
-    .legal{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:19px;font-size:12px}
+    .hero{padding:120px 0 80px;text-align:center}.section-label{color:var(--accent2);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0 0 14px}
+    .hero h1,h2{letter-spacing:-.06em;line-height:.96}.hero h1{margin:0 auto 28px;max-width:920px;font-size:clamp(56px,9.2vw,108px);font-weight:700}.hero h1 em{font-style:normal;color:#d0d4d8}
+    .lede{max-width:700px;margin:0 auto 36px;color:var(--muted);font-size:21px;line-height:1.48}.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;padding:13px 22px;border-radius:12px;font-size:14.5px;font-weight:600;border:1px solid transparent;cursor:pointer;background:none;color:inherit;font:inherit;transition:all .18s ease}.btn-primary{background:var(--accent);color:white;box-shadow:0 4px 14px #d9573f40}.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+    .btn-ghost{border-color:var(--line);background:#ffffff04}.btn-ghost:hover{background:#ffffff0c;border-color:#ffffff18}
+    .hero-shot{margin:68px auto 0;max-width:1080px;position:relative}.hero-shot:before{content:"";position:absolute;inset:6% 4%;background:radial-gradient(ellipse,var(--accent) 0,transparent 68%);opacity:.22;filter:blur(50px)}
+    .hero-shot img{position:relative;border:1px solid var(--line);border-radius:18px;box-shadow:0 40px 120px #000d}
+    .principle{border-block:1px solid var(--line);background:#101214;padding:20px 0;color:var(--muted);text-align:center;font-size:15.5px}.principle strong{color:var(--text);margin-right:8px}
+    section{padding:112px 0}.section-head{max-width:740px;margin-bottom:60px}.section-head h2{font-size:clamp(40px,5.2vw,60px);margin:0 0 20px}.section-head>p:last-child{margin:0;color:var(--muted);font-size:18.5px;line-height:1.55}
+    .values{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.values article{padding:28px 26px;border:1px solid var(--line);background:var(--card);border-radius:20px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}.values article:hover{transform:translateY(-4px);box-shadow:0 12px 40px #000a;border-color:#ffffff15}.values b{font-size:18.5px;display:block;margin-bottom:8px}.values p{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+    .feature-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d9573f22,#ef725822);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px;color:var(--accent2)}
+    .dark-band{background:#101214;border-block:1px solid var(--line)}.architecture{border-top:1px solid var(--line)}.arch-row{display:grid;grid-template-columns:110px 180px 1fr;gap:22px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}.arch-row span{color:var(--faint);font-size:13px;text-transform:uppercase;letter-spacing:.1em}.arch-row strong{font-family:"IBM Plex Mono",monospace;font-size:16px}.arch-row small{color:var(--muted)}
+    .split{display:grid;grid-template-columns:1.12fr .88fr;gap:68px;align-items:center}.split.reverse{grid-template-columns:.72fr 1.28fr}.split.reverse>.shot-frame{order:2}.shot-frame{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:#0e0f10;box-shadow:0 28px 80px #000a}.shot-frame img{width:100%}.shot-frame.portrait{max-width:440px}.split-copy h2{font-size:clamp(38px,4.2vw,54px);margin:0 0 20px}.split-copy p{color:var(--muted);margin:0 0 14px;line-height:1.58}
+    .release-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.release-card{background:#16181b;padding:26px;border-radius:18px;border:1px solid var(--line)}.release-card b{font-size:17.5px}
+    .release-note{margin:30px 0 0;color:var(--muted);font-size:15px;max-width:720px;line-height:1.55}
+    .timeline{border-left:1px solid var(--line);margin-left:8px}.milestone{position:relative;padding:0 0 56px 40px}.milestone:before{content:"";position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:#51565c;border:2px solid var(--bg)}.milestone.current:before{background:var(--accent);box-shadow:0 0 0 6px #d9573f28}.milestone span{display:block;color:var(--accent2);font:12px "IBM Plex Mono",monospace;margin-bottom:8px}.milestone strong{font-size:28px;letter-spacing:-.04em}.milestone p{color:var(--muted);max-width:680px;margin:8px 0 0}
+    .manifesto{padding:128px 0;background:linear-gradient(180deg,#0b0c0e,#111315)}.manifesto h2{font-size:clamp(50px,7.2vw,88px);margin:0 0 24px}.manifesto>div>p:last-child{color:var(--muted);font-size:21px}
+    .download{text-align:center;border-top:1px solid var(--line)}.download h2{font-size:clamp(46px,6.2vw,72px);margin:0 0 16px}.download>div>p:not(.section-label){max-width:620px;margin:0 auto 32px;color:var(--muted)}.download small{display:block;color:var(--faint);margin-top:24px}
+    footer{border-top:1px solid var(--line);padding:60px 0 28px;color:var(--muted);font-size:14px;background:#0b0c0e}
+    .foot-grid{display:grid;grid-template-columns:1.5fr repeat(4,minmax(0,1fr));gap:32px;margin-bottom:48px}
+    .foot-intro{max-width:300px}.foot-brand{font-family:"Orbitron",sans-serif;font-weight:800;font-size:19px;letter-spacing:.04em;text-transform:uppercase;color:var(--text);margin-bottom:10px}
+    .foot-intro p{margin:0;line-height:1.65}.foot-group h4{margin:0 0 16px;color:var(--text);font-size:11px;text-transform:uppercase;letter-spacing:.14em}
+    .foot-links{display:grid;gap:10px}.foot-grid a{width:fit-content;color:var(--muted);transition:color .15s ease}.foot-grid a:hover{color:var(--text)}
+    .foot-credit{padding-top:16px;border-top:1px solid var(--line);margin-top:18px;color:var(--faint);font-size:12px}
+    .legal{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:20px;font-size:12px}
     .legal span:last-child{color:var(--faint)}
-    .branches{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:0 auto;text-align:left}
-    .branch{padding:30px;border:1px solid var(--line);background:var(--card);border-radius:20px}
-    .branch-stable{border-color:rgba(217,87,63,.38);background:linear-gradient(145deg,#1a1717,#151719)}
+    .branches{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:920px;margin:0 auto;text-align:left}
+    .branch{padding:32px;border:1px solid var(--line);background:var(--card);border-radius:22px;transition:transform .2s ease,box-shadow .2s ease}.branch:hover{transform:translateY(-3px);box-shadow:0 16px 48px #000b}
+    .branch-stable{border-color:rgba(217,87,63,.42);background:linear-gradient(145deg,#1a1717,#151719)}
     .branch-experimental{background:linear-gradient(145deg,#17191c,#131518)}
-    .branch-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+    .branch-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
     .branch-tag{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2)}
     .branch-experimental .branch-tag{color:#b4bac0}
     .branch-version{font:13px "IBM Plex Mono",monospace;color:var(--faint)}
-    .branch h3{font-size:25px;letter-spacing:-.04em;margin:0 0 9px}
+    .branch h3{font-size:26px;letter-spacing:-.04em;margin:0 0 10px}
     .branch p{color:var(--muted);font-size:15px;line-height:1.55;min-height:74px}
-    .branch ul{list-style:none;padding:0;margin:20px 0 26px;border-top:1px solid var(--line)}
-    .branch li{padding:9px 0;border-bottom:1px solid var(--line);font-size:13px;color:#c4c8cc}
-    .branch li:before{content:"✓";margin-right:9px;color:var(--accent2)}
+    .branch ul{list-style:none;padding:0;margin:22px 0 28px;border-top:1px solid var(--line)}
+    .branch li{padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:#c4c8cc}
+    .branch li:before{content:"✓";margin-right:10px;color:var(--accent2)}
     .branch-experimental li:before{content:"→";color:#9da2a8}
-    #dlstatus{display:none;margin-top:12px;font-size:13px;color:var(--faint)}
-    @media(max-width:850px){.menu-btn{display:block}.nav-links{display:none;position:absolute;left:0;right:0;top:var(--header);padding:12px 22px 18px;background:#0c0d0f;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch}.nav-links.open{display:flex}.nav-links a{text-align:center}.hero{padding-top:68px}section{padding:72px 0}.values,.release-grid,.split,.split.reverse,.foot-grid{grid-template-columns:1fr}.split.reverse>.shot-frame{order:0}.arch-row{grid-template-columns:82px 1fr}.arch-row small{grid-column:2}.hero h1{font-size:clamp(50px,14vw,82px)}.foot-grid{grid-template-columns:1fr 1fr;gap:28px}.foot-intro{grid-column:1/-1;max-width:520px}}
+    .file-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+    .file-links .btn{padding:10px 16px;font-size:13.5px;gap:8px}
+    .file-links .btn svg{width:16px;height:16px;fill:currentColor}
+    .file-size{color:var(--faint);font-size:13px;margin-left:auto}
+    #dlstatus{display:none;margin-top:12px;font-size:13px;color:var(--muted);align-items:center;gap:8px}
+    #dlstatus.on{display:flex}
+    #dlstatus.busy:before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent2);animation:dlspin .8s linear infinite}
+    @keyframes dlspin{to{transform:rotate(360deg)}}
+    @media(prefers-reduced-motion:reduce){#dlstatus.busy:before{animation:none}}
+    .checksum{margin-top:12px;font-size:13px;color:var(--muted)}
+    .checksum summary{cursor:pointer;color:var(--accent2)}
+    .checksum-open{margin-top:8px;padding:12px;background:#0e0f10;border-radius:10px;border:1px solid var(--line)}
+    .checksum-row{font-family:"IBM Plex Mono",monospace;font-size:12px;word-break:break-all;margin:4px 0}
+    @media(max-width:850px){.menu-btn{display:block}.nav-links{display:none;position:absolute;left:0;right:0;top:var(--header);padding:12px 22px 18px;background:#0c0d0f;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch}.nav-links.open{display:flex}.nav-links a{text-align:center}.hero{padding-top:80px}section{padding:80px 0}.values,.release-grid,.split,.split.reverse,.foot-grid{grid-template-columns:1fr}.split.reverse>.shot-frame{order:0}.arch-row{grid-template-columns:82px 1fr}.arch-row small{grid-column:2}.hero h1{font-size:clamp(52px,14vw,84px)}.foot-grid{grid-template-columns:1fr 1fr;gap:28px}.foot-intro{grid-column:1/-1;max-width:520px}}
     @media(max-width:700px){.branches{grid-template-columns:1fr}.branch p{min-height:0}}
-    @media(max-width:520px){.wrap{width:min(var(--max),calc(100% - 30px))}.values{gap:12px}.hero-shot{margin-top:42px}.manifesto h2{font-size:48px}.foot-grid{grid-template-columns:1fr 1fr;gap:25px 18px}.foot-intro{grid-column:1/-1}.legal{display:block}.legal span{display:block;margin-bottom:7px}}
+    @media(max-width:520px){.wrap{width:min(var(--max),calc(100% - 30px))}.values{gap:14px}.hero-shot{margin-top:48px}.manifesto h2{font-size:50px}.foot-grid{grid-template-columns:1fr 1fr;gap:26px 18px}.foot-intro{grid-column:1/-1}.legal{display:block}.legal span{display:block;margin-bottom:8px}}
   </style>
 </head>
 <body>
   <div class="announcement">
     <span>PREVIEW</span>
-    Release Preview · available now
-    <a href="#release">Release model</a>
+    Release Preview
+    <a class="btn btn-primary" href="#download">Download Now</a>
   </div>
 
   <header>
@@ -122,13 +135,47 @@
           <p>Old hardware is not disposable. A Core 2 Duo should be able to load a wiki. A well-kept workstation should remain a useful computer for years. GonzOS was developed on an Acer 5920G and a Dell Inspiron 1545. All types of hardware are first-class.</p>
         </div>
         <div class="values">
-          <article><b>Responsive</b><p>Interactive work stays first-class when the browser, compiler, or background jobs get busy.</p></article>
-          <article><b>Predictable</b><p>System policy is explicit. Services have owners. Packages define the contract.</p></article>
-          <article><b>Observable</b><p>Memory pressure, page-cache behavior, CPU policy and system state are exposed instead of hidden behind magic.</p></article>
-          <article><b>Familiar</b><p>NuMATE keeps the classic desktop model: panel, menu, windows, desktop, files and settings.</p></article>
-          <article><b>Lean</b><p>A Devuan flavor. runit. XLibre. C-based components where they belong. No framework parade. The stack stays light and planted exactly where it is.</p></article>
-          <article><b>Long-lived</b><p>No further major rebuilds of any codebases for the foreseeable future. No rewrite in Rust, Qt, or anything else. The stack remains light-weight and stays where it already works. The release model starts a five-year support window that does not throw away the desktop every release.</p></article>
+          <article>
+            <div class="feature-icon">⚡</div>
+            <b>Responsive</b>
+            <p>Interactive work stays first-class when the browser, compiler, or background jobs get busy.</p>
+          </article>
+          <article>
+            <div class="feature-icon">≡</div>
+            <b>Predictable</b>
+            <p>System policy is explicit. Services have owners. Packages define the contract.</p>
+          </article>
+          <article>
+            <div class="feature-icon">◉</div>
+            <b>Observable</b>
+            <p>Memory pressure, page-cache behavior, CPU policy and system state are exposed instead of hidden behind magic.</p>
+          </article>
+          <article>
+            <div class="feature-icon">▢</div>
+            <b>Familiar</b>
+            <p>NuMATE keeps the classic desktop model: panel, menu, windows, desktop, files and settings.</p>
+          </article>
+          <article>
+            <div class="feature-icon">↓</div>
+            <b>Lean</b>
+            <p>A Devuan flavor. runit. XLibre. C-based components where they belong. No framework parade. The stack stays light and planted exactly where it is.</p>
+          </article>
+          <article>
+            <div class="feature-icon">∞</div>
+            <b>Long-lived</b>
+            <p>No major rebuilds for the foreseeable future. The stack stays light-weight where it already works. Five-year support window that does not throw away the desktop every release.</p>
+          </article>
         </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-label">About</p>
+          <h2>Built by someone who has seen the inside of the machine.</h2>
+        </div>
+        <p style="max-width:720px;color:var(--muted);font-size:18px;line-height:1.55">My name is Josh. I'm the founder and lead technical director of GonzOS. For the past ten years I've worked in domestic appliance repair—consoles, phones, televisions, tablets, and more. I've dug through thousands of firmware images and system implementations inside jukeboxes, gambling machines, and all sorts of embedded hardware. That work taught me software can be fast and efficient, or bloated and incoherent. I know what makes it fast because I've spent years making it work on machines that had no business running anything at all.</p>
       </div>
     </section>
 
@@ -137,7 +184,7 @@
         <div class="section-head">
           <p class="section-label">The machine</p>
           <h2>GonzOS owns the computer.<br>NuMATE owns the session.</h2>
-          <p>Two layers. Clear responsibilities. No desktop component needs to become the operating system. GonzOS is a Devuan flavor—credit where it is due. We are happy with this stack. It will not be rewritten in Rust, Qt, or any other language. No further major rebuilds of the codebases for the foreseeable future. It stays light-weight and planted firmly where it is already.</p>
+          <p>Two layers. Clear responsibilities. No desktop component needs to become the operating system. GonzOS is a Devuan flavor. The stack stays light and planted where it already works.</p>
         </div>
         <div class="architecture">
           <div class="arch-row"><span>Kernel</span><strong>preempt</strong><small>Optional in Drift · real-time scheduling when you need it</small></div>
@@ -198,7 +245,7 @@
           <h2>Build it once.<br>Keep it coherent.</h2>
         </div>
         <div class="timeline">
-          <div class="milestone current"><span>Now</span><strong>Public Release Preview</strong><p>Available now!</p></div>
+          <div class="milestone current"><span>Now</span><strong>Public Release Preview</strong><p><a class="btn btn-primary" href="#download">Download Now</a></p></div>
           <div class="milestone"><span>Following months</span><strong>Drift RC1</strong><p>First formal release candidate. Feature-complete, tested, and suitable for serious evaluation.</p></div>
           <div class="milestone"><span>Conditional</span><strong>Drift RC2</strong><p>Only if RC1 exposes defects that justify another candidate. No arbitrary RC schedule.</p></div>
           <div class="milestone"><span>GA</span><strong>Drift Stable</strong><p>Promote the final validated candidate. No rebuild between candidate approval and stable publication.</p></div>
@@ -224,18 +271,34 @@
         <div class="branches">
           <article class="branch branch-stable">
             <div class="branch-top">
-              <span class="branch-tag">Available now!</span>
+              <span class="branch-tag">Available Now!</span>
               <span class="branch-version">Release Preview</span>
             </div>
-            <h3>Try the release preview!</h3>
-            <p>Live image for amd64. Establishes the initial user-facing release channel and gathers feedback. Not Drift RC1.</p>
-            <ul>
-              <li>gonzos-live-release-preview-amd64-2026-11-16_2142.iso</li>
-              <li>NuMATE desktop included</li>
-              <li>Feedback welcome</li>
-            </ul>
-            <button class="btn btn-primary" id="dlbtn" type="button">Download Release Preview</button>
+            <h3>GonzOS Release Preview</h3>
+            <p>Live image for amd64. NuMATE desktop included. Establishes the initial user-facing release channel.</p>
+            <div class="file-links">
+              <button class="btn btn-primary" id="dlbtn" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                Direct
+              </button>
+              <button class="btn btn-ghost" id="dltorrent" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M640 264v-16c0-8.84-7.16-16-16-16H344v-40h72c17.67 0 32-14.33 32-32V32c0-17.67-14.33-32-32-32H224c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h72v40H16c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16h104v40H64c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h160c17.67 0 32-14.33 32-32V352c0-17.67-14.33-32-32-32h-56v-40h304v40h-56c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h160c17.67 0 32-14.33 32-32V352c0-17.67-14.33-32-32-32h-56v-40h104c8.84 0 16-7.16 16-16zM256 128V64h128v64H256zm-64 320H96v-64h96v64zm352 0h-96v-64h96v64z"/></svg>
+                Torrent
+              </button>
+              <a class="btn btn-ghost" href="magnet:?xt=urn:btih:J7WMOITENU5UWR7MHCLHBAOPVRXZYPXL&amp;dn=gonzos-live-release-preview-amd64-2026-11-16_2142&amp;tr=http%3A%2F%2Fbt1.archive.org%3A6969%2Fannounce">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.07 148.1H12a12 12 0 0 1-12-12v-80a36 36 0 0 1 36-36h104a36 36 0 0 1 36 36v80a11.89 11.89 0 0 1-11.93 12zm347.93-12V56a36 36 0 0 0-36-36H372a36 36 0 0 0-36 36v80a12 12 0 0 0 12 12h152a11.89 11.89 0 0 0 12-11.9zm-164 44a12 12 0 0 0-12 12v52c0 128.1-160 127.9-160 0v-52a12 12 0 0 0-12-12H12.1a12 12 0 0 0-12 12.1c.1 21.4.6 40.3 0 53.3 0 150.6 136.17 246.6 256.75 246.6s255-96 255-246.7c-.6-12.8-.2-33 0-53.2a12 12 0 0 0-12-12.1z"/></svg>
+                Magnet
+              </a>
+              <span class="file-size">~2.4 GB</span>
+            </div>
             <div id="dlstatus">Starting download…</div>
+            <details class="checksum">
+              <summary>Checksum</summary>
+              <div class="checksum-open">
+                <div class="checksum-row">gonzos-live-release-preview-amd64-2026-11-16_2142.iso</div>
+                <div class="checksum-row">SHA256: <code>Temporarily unavailable</code></div>
+              </div>
+            </details>
           </article>
 
           <article class="branch branch-experimental">
@@ -244,16 +307,15 @@
               <span class="branch-version">Drift RC1 → Stable</span>
             </div>
             <h3>One RC track.</h3>
-            <p>Drift RC1 is the first formal release candidate. RC2 only if needed. Then Stable. No parallel candidate channels until the userbase divides.</p>
+            <p>Drift RC1 is the first formal release candidate. RC2 only if needed. Then Stable.</p>
             <ul>
               <li>Feature-complete RC</li>
               <li>Conditional RC2</li>
               <li>Then GA</li>
             </ul>
-            <a class="btn btn-ghost" href="#release">See the model</a>
+            <a class="btn btn-ghost" href="#roadmap">See Roadmap</a>
           </article>
         </div>
-        <small>When GonzOS has enough users that some want early access while others want predictable, conservative updates, then introduce another channel. Not before.</small>
       </div>
     </section>
   </main>
@@ -317,21 +379,38 @@
       if(b&&n)b.addEventListener('click',function(){n.classList.toggle('open');});
       document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){n&&n.classList.remove('open');});});
 
-      var btn=document.getElementById('dlbtn');
       var st=document.getElementById('dlstatus');
       var fr=document.getElementById('dlframe');
-      if(!btn||!fr)return;
-      btn.addEventListener('click',function(){
-        // Assembled so the origin never appears as a contiguous string in source.
-        var p=['h','t','t','p','s',':','/','/'];
-        var h=['a','r','c','h','i','v','e','.','o','r','g'];
-        var path='/download/gonzos-live-release-preview-amd64-2026-11-16_2142/gonzos-live-release-preview-amd64-2026-11-16_2142.iso';
-        var url=p.join('')+h.join('')+path;
-        fr.src=url;
-        if(st){st.style.display='block';}
-        btn.textContent='Download started';
-        btn.disabled=true;
-      });
+      if(!fr)return;
+      // Assembled so the origin never appears as a contiguous string in source.
+      var p=['h','t','t','p','s',':','/','/'].join('');
+      var h=['a','r','c','h','i','v','e','.','o','r','g'].join('');
+      var d='/download/gonzos-live-release-preview-amd64-2026-11-16_2142/gonzos-live-release-preview-amd64-2026-11-16_2142';
+      // The browser exposes no completion event for a cross-origin download in an
+      // iframe, so the status reports only what is known: the request was issued.
+      var last=0;
+      function wire(id,file){
+        var b=document.getElementById(id);
+        if(!b)return;
+        b.addEventListener('click',function(){
+          var label=b.innerHTML;
+          var me=++last;
+          fr.src=p+h+d+file;
+          b.textContent='Download started';
+          b.disabled=true;
+          if(st){st.className='on busy';st.textContent='Starting download…';}
+          setTimeout(function(){
+            b.innerHTML=label;
+            b.disabled=false;
+            if(st&&me===last){
+              st.className='on';
+              st.textContent='Download started. Check your browser\u2019s downloads.';
+            }
+          },3000);
+        });
+      }
+      wire('dlbtn','.iso');
+      wire('dltorrent','_archive.torrent');
     })();
   </script>
 </body>
