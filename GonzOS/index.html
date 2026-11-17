@@ -3,189 +3,336 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="GonzOS — a desktop operating system built to keep your computer useful.">
+  <meta name="description" content="GonzOS — a focused Devuan-based desktop operating system built to keep your computer useful.">
   <title>GonzOS — Your computer. Still yours.</title>
   <link rel="icon" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Iceland&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#090a0b;--surface:#111315;--card:#17191c;--text:#f5f6f7;--muted:#9da2a8;--faint:#656b72;--line:rgba(255,255,255,.09);--accent:#d9573f;--accent2:#ef7258;--max:1160px;--header:66px;--radius:22px}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:17px/1.58 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
-    a{color:inherit;text-decoration:none}img{display:block;max-width:100%}.wrap{width:min(var(--max),calc(100% - 44px));margin:auto}
-    .announcement{padding:10px 16px;text-align:center;background:#141619;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}
-    .announcement span{display:inline-block;padding:3px 8px;margin-right:8px;border-radius:6px;background:#2b1b18;color:#ff8a73;font-size:10px;font-weight:700;letter-spacing:.12em}
-    .announcement .btn{margin-left:8px;padding:5px 12px;font-size:12px;border-radius:8px}
-    header{position:sticky;top:0;z-index:50;height:var(--header);background:rgba(9,10,11,.82);backdrop-filter:blur(20px) saturate(140%);border-bottom:1px solid var(--line)}
-    .nav{height:100%;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;font-weight:800;font-size:22px;letter-spacing:0.02em}
-    .brand-name{font-family:"Orbitron",sans-serif;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;font-size:18px;color:var(--text)}
-    .nav-links{display:flex;align-items:center;gap:2px}.nav-links a{padding:8px 14px;border-radius:10px;color:var(--muted);font-size:14px;transition:all .15s ease}.nav-links a:hover{color:var(--text);background:#ffffff0c}
-    .nav-links .nav-cta{background:var(--accent);color:#fff;padding-inline:16px}.nav-links .nav-cta:hover{background:var(--accent2)}
-    .menu-btn{display:none;border:0;background:none;color:var(--text);font:inherit}
-    .hero{padding:120px 0 80px;text-align:center}.section-label{color:var(--accent2);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0 0 14px}
-    .hero h1,h2{letter-spacing:-.06em;line-height:.96}.hero h1{margin:0 auto 28px;max-width:920px;font-size:clamp(56px,9.2vw,108px);font-weight:700}.hero h1 em{font-style:normal;color:#d0d4d8}
-    .lede{max-width:700px;margin:0 auto 36px;color:var(--muted);font-size:21px;line-height:1.48}.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;padding:13px 22px;border-radius:12px;font-size:14.5px;font-weight:600;border:1px solid transparent;cursor:pointer;background:none;color:inherit;font:inherit;transition:all .18s ease}.btn-primary{background:var(--accent);color:white;box-shadow:0 4px 14px #d9573f40}.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
-    .btn-ghost{border-color:var(--line);background:#ffffff04}.btn-ghost:hover{background:#ffffff0c;border-color:#ffffff18}
-    .hero-shot{margin:68px auto 0;max-width:1080px;position:relative}.hero-shot:before{content:"";position:absolute;inset:6% 4%;background:radial-gradient(ellipse,var(--accent) 0,transparent 68%);opacity:.22;filter:blur(50px)}
-    .hero-shot img{position:relative;border:1px solid var(--line);border-radius:18px;box-shadow:0 40px 120px #000d}
-    .principle{border-block:1px solid var(--line);background:#101214;padding:20px 0;color:var(--muted);text-align:center;font-size:15.5px}.principle strong{color:var(--text);margin-right:8px}
-    section{padding:112px 0}.section-head{max-width:740px;margin-bottom:60px}.section-head h2{font-size:clamp(40px,5.2vw,60px);margin:0 0 20px}.section-head>p:last-child{margin:0;color:var(--muted);font-size:18.5px;line-height:1.55}
-    .values{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.values article{padding:28px 26px;border:1px solid var(--line);background:var(--card);border-radius:20px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}.values article:hover{transform:translateY(-4px);box-shadow:0 12px 40px #000a;border-color:#ffffff15}.values b{font-size:18.5px;display:block;margin-bottom:8px}.values p{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
-    .feature-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d9573f22,#ef725822);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px;color:var(--accent2)}
-    .dark-band{background:#101214;border-block:1px solid var(--line)}.architecture{border-top:1px solid var(--line)}.arch-row{display:grid;grid-template-columns:110px 180px 1fr;gap:22px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}.arch-row span{color:var(--faint);font-size:13px;text-transform:uppercase;letter-spacing:.1em}.arch-row strong{font-family:"IBM Plex Mono",monospace;font-size:16px}.arch-row small{color:var(--muted)}
-    .split{display:grid;grid-template-columns:1.12fr .88fr;gap:68px;align-items:center}.split.reverse{grid-template-columns:.72fr 1.28fr}.split.reverse>.shot-frame{order:2}.shot-frame{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:#0e0f10;box-shadow:0 28px 80px #000a}.shot-frame img{width:100%}.shot-frame.portrait{max-width:440px}.split-copy h2{font-size:clamp(38px,4.2vw,54px);margin:0 0 20px}.split-copy p{color:var(--muted);margin:0 0 14px;line-height:1.58}
-    .release-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.release-card{background:#16181b;padding:26px;border-radius:18px;border:1px solid var(--line)}.release-card b{font-size:17.5px}
-    .release-note{margin:30px 0 0;color:var(--muted);font-size:15px;max-width:720px;line-height:1.55}
-    .timeline{border-left:1px solid var(--line);margin-left:8px}.milestone{position:relative;padding:0 0 56px 40px}.milestone:before{content:"";position:absolute;left:-6px;top:4px;width:11px;height:11px;border-radius:50%;background:#51565c;border:2px solid var(--bg)}.milestone.current:before{background:var(--accent);box-shadow:0 0 0 6px #d9573f28}.milestone span{display:block;color:var(--accent2);font:12px "IBM Plex Mono",monospace;margin-bottom:8px}.milestone strong{font-size:28px;letter-spacing:-.04em}.milestone p{color:var(--muted);max-width:680px;margin:8px 0 0}
-    .manifesto{padding:128px 0;background:linear-gradient(180deg,#0b0c0e,#111315)}.manifesto h2{font-size:clamp(50px,7.2vw,88px);margin:0 0 24px}.manifesto>div>p:last-child{color:var(--muted);font-size:21px}
-    .download{text-align:center;border-top:1px solid var(--line)}.download h2{font-size:clamp(46px,6.2vw,72px);margin:0 0 16px}.download>div>p:not(.section-label){max-width:620px;margin:0 auto 32px;color:var(--muted)}.download small{display:block;color:var(--faint);margin-top:24px}
-    footer{border-top:1px solid var(--line);padding:60px 0 28px;color:var(--muted);font-size:14px;background:#0b0c0e}
-    .foot-grid{display:grid;grid-template-columns:1.5fr repeat(4,minmax(0,1fr));gap:32px;margin-bottom:48px}
-    .foot-intro{max-width:300px}.foot-brand{font-family:"Orbitron",sans-serif;font-weight:800;font-size:19px;letter-spacing:.04em;text-transform:uppercase;color:var(--text);margin-bottom:10px}
-    .foot-intro p{margin:0;line-height:1.65}.foot-group h4{margin:0 0 16px;color:var(--text);font-size:11px;text-transform:uppercase;letter-spacing:.14em}
-    .foot-links{display:grid;gap:10px}.foot-grid a{width:fit-content;color:var(--muted);transition:color .15s ease}.foot-grid a:hover{color:var(--text)}
-    .foot-credit{padding-top:16px;border-top:1px solid var(--line);margin-top:18px;color:var(--faint);font-size:12px}
-    .legal{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:20px;font-size:12px}
-    .legal span:last-child{color:var(--faint)}
-    .branches{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:920px;margin:0 auto;text-align:left}
-    .branch{padding:32px;border:1px solid var(--line);background:var(--card);border-radius:22px;transition:transform .2s ease,box-shadow .2s ease}.branch:hover{transform:translateY(-3px);box-shadow:0 16px 48px #000b}
-    .branch-stable{border-color:rgba(217,87,63,.42);background:linear-gradient(145deg,#1a1717,#151719)}
-    .branch-experimental{background:linear-gradient(145deg,#17191c,#131518)}
-    .branch-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-    .branch-tag{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2)}
-    .branch-experimental .branch-tag{color:#b4bac0}
-    .branch-version{font:13px "IBM Plex Mono",monospace;color:var(--faint)}
-    .branch h3{font-size:26px;letter-spacing:-.04em;margin:0 0 10px}
-    .branch p{color:var(--muted);font-size:15px;line-height:1.55;min-height:74px}
-    .branch ul{list-style:none;padding:0;margin:22px 0 28px;border-top:1px solid var(--line)}
-    .branch li{padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:#c4c8cc}
-    .branch li:before{content:"✓";margin-right:10px;color:var(--accent2)}
-    .branch-experimental li:before{content:"→";color:#9da2a8}
-    .file-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
-    .file-links .btn{padding:10px 16px;font-size:13.5px;gap:8px}
-    .file-links .btn svg{width:16px;height:16px;fill:currentColor}
-    .file-size{color:var(--faint);font-size:13px;margin-left:auto}
-    #dlstatus{display:none;margin-top:12px;font-size:13px;color:var(--muted);align-items:center;gap:8px}
-    #dlstatus.on{display:flex}
-    #dlstatus.busy:before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent2);animation:dlspin .8s linear infinite}
-    @keyframes dlspin{to{transform:rotate(360deg)}}
-    @media(prefers-reduced-motion:reduce){#dlstatus.busy:before{animation:none}}
-    .checksum{margin-top:12px;font-size:13px;color:var(--muted)}
-    .checksum summary{cursor:pointer;color:var(--accent2)}
-    .checksum-open{margin-top:8px;padding:12px;background:#0e0f10;border-radius:10px;border:1px solid var(--line)}
-    .checksum-row{font-family:"IBM Plex Mono",monospace;font-size:12px;word-break:break-all;margin:4px 0}
-    @media(max-width:850px){.menu-btn{display:block}.nav-links{display:none;position:absolute;left:0;right:0;top:var(--header);padding:12px 22px 18px;background:#0c0d0f;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch}.nav-links.open{display:flex}.nav-links a{text-align:center}.hero{padding-top:80px}section{padding:80px 0}.values,.release-grid,.split,.split.reverse,.foot-grid{grid-template-columns:1fr}.split.reverse>.shot-frame{order:0}.arch-row{grid-template-columns:82px 1fr}.arch-row small{grid-column:2}.hero h1{font-size:clamp(52px,14vw,84px)}.foot-grid{grid-template-columns:1fr 1fr;gap:28px}.foot-intro{grid-column:1/-1;max-width:520px}}
-    @media(max-width:700px){.branches{grid-template-columns:1fr}.branch p{min-height:0}}
-    @media(max-width:520px){.wrap{width:min(var(--max),calc(100% - 30px))}.values{gap:14px}.hero-shot{margin-top:48px}.manifesto h2{font-size:50px}.foot-grid{grid-template-columns:1fr 1fr;gap:26px 18px}.foot-intro{grid-column:1/-1}.legal{display:block}.legal span{display:block;margin-bottom:8px}}
+    :root {
+      color-scheme: dark;
+      --bg: #111315;
+      --panel: #1b1e21;
+      --panel-raised: #24282c;
+      --panel-inset: #0c0e10;
+      --text: #e8e8e8;
+      --muted: #b0b4b8;
+      --faint: #858b91;
+      --line: #383d42;
+      --line-soft: #292e32;
+      --accent: #dc6248;
+      --accent-bright: #f07b5d;
+      --accent-dark: #8d382b;
+      --max: 1120px;
+      --header: 72px;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: linear-gradient(#171a1d, #111315 280px);
+      font: 16px/1.62 Inter, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-bright); text-decoration: none; }
+    a:hover { color: #ff9a7f; text-decoration: underline; }
+    img { display: block; max-width: 100%; }
+    code, pre, kbd { font-family: "IBM Plex Mono", monospace; }
+    code { color: #ffd0c4; }
+    .wrap { width: min(var(--max), calc(100% - 44px)); margin: 0 auto; }
+
+    /* Traditional desktop-software site chrome */
+    .announcement {
+      min-height: 34px;
+      padding: 5px 16px;
+      text-align: center;
+      color: #d5d7d9;
+      background: #24282b;
+      border-bottom: 1px solid #08090a;
+      box-shadow: inset 0 -1px rgba(255,255,255,.035);
+      font: 12px/1.8 "IBM Plex Mono", monospace;
+      letter-spacing: .04em;
+    }
+    .announcement strong { color: var(--accent-bright); margin-right: 10px; }
+    .announcement a { margin-left: 12px; font-weight: 600; }
+    header {
+      position: relative;
+      z-index: 20;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+    .nav { min-height: var(--header); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; min-width: 150px; color: #fff; text-decoration: none; }
+    .brand:hover { color: #fff; text-decoration: none; }
+    .brand-name {
+      font-family: "Iceland", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 43px;
+      line-height: .9;
+      letter-spacing: .015em;
+      color: #f4f4f4;
+      text-shadow: 0 2px 0 #090a0b, 0 0 12px #dc624833;
+    }
+    .nav-links { display: flex; align-items: stretch; align-self: stretch; gap: 3px; }
+    .nav-links a {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 12px;
+      color: #c1c5c8;
+      font-size: 13px;
+      font-weight: 600;
+      transition: color .12s ease;
+    }
+    .nav-links a:hover, .nav-links a[aria-current="page"] {
+      color: var(--accent-bright);
+      text-decoration: none;
+    }
+    .nav-links a.nav-cta {
+      color: #fff;
+      background: linear-gradient(#ef8064, #b94a37);
+      border: 1px solid #70291f;
+      border-radius: 3px;
+      margin: 17px 0 17px 8px;
+      padding: 0 14px;
+      box-shadow: inset 0 1px #ffffff55, 0 1px 3px #0009;
+    }
+    .nav-links a.nav-cta:hover, .nav-links a.nav-cta[aria-current="page"] { color: #fff; background: linear-gradient(#ff9578, #cb5741); }
+    .menu-btn { display: none; color: var(--text); background: linear-gradient(#3b4146,#24292d); border: 1px solid #090a0b; border-radius: 3px; padding: 8px 12px; font: inherit; box-shadow: inset 0 1px #ffffff24; }
+
+    .page-frame { min-height: 65vh; padding: 28px 0 72px; }
+    .page { display: none; animation: page-in .16s ease-out; }
+    .page.active { display: block; }
+    @keyframes page-in { from { opacity: .65; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+    .page-titlebar {
+      padding: 19px 24px 18px;
+      margin: 0 0 25px;
+      background: linear-gradient(#30363a, #24292d);
+      border: 1px solid #090a0b;
+      box-shadow: inset 0 1px #ffffff16, 0 1px 0 #ffffff0b, 0 4px 14px #0005;
+    }
+    .page-titlebar .eyebrow { margin: 0 0 4px; color: var(--accent-bright); font: 11px "IBM Plex Mono", monospace; letter-spacing: .13em; text-transform: uppercase; }
+    .page-titlebar h1 { margin: 0; color: #f1f2f2; font-size: clamp(27px, 4vw, 39px); line-height: 1.12; letter-spacing: -.035em; }
+    .page-titlebar p { max-width: 760px; margin: 8px 0 0; color: #c1c5c8; }
+    .content-panel {
+      padding: 28px;
+      background: linear-gradient(145deg, #202428, #191d20);
+      border: 1px solid #08090a;
+      box-shadow: inset 0 1px #ffffff0c, 0 1px 0 #ffffff08, 0 8px 26px #0004;
+    }
+    .content-panel + .content-panel { margin-top: 20px; }
+    .content-panel h2 { margin: 0 0 12px; font-size: 23px; letter-spacing: -.025em; }
+    .content-panel h3 { margin: 24px 0 8px; font-size: 18px; }
+    .content-panel p { color: var(--muted); margin: 0 0 14px; }
+    .content-panel p:last-child { margin-bottom: 0; }
+    .content-panel ul, .content-panel ol { color: var(--muted); padding-left: 22px; }
+    .content-panel li { margin: 5px 0; }
+    .inset { padding: 15px 17px; background: var(--panel-inset); border: 1px solid #08090a; box-shadow: inset 0 2px 7px #0009; }
+    .inset p { margin: 0; }
+    .note { border-left: 3px solid var(--accent); padding: 12px 16px; background: #dc624812; color: #d2d3d4; }
+    .note strong { color: #fff; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .tile {
+      min-width: 0;
+      padding: 20px;
+      background: linear-gradient(#292e32, #1d2124);
+      border: 1px solid #090a0b;
+      box-shadow: inset 0 1px #ffffff12, 0 1px 0 #ffffff08;
+    }
+    .tile h3 { margin: 0 0 7px; font-size: 17px; }
+    .tile p { margin: 0; color: var(--muted); font-size: 14px; }
+    .tile .tile-label { display: block; color: var(--accent-bright); font: 11px "IBM Plex Mono", monospace; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .08em; }
+    .hero-layout { display: grid; grid-template-columns: .92fr 1.08fr; gap: 28px; align-items: center; }
+    .hero-copy h2 { margin: 0 0 14px; font-size: clamp(38px, 5.2vw, 58px); line-height: .98; letter-spacing: -.055em; }
+    .hero-copy h2 em { color: var(--accent-bright); font-style: normal; }
+    .hero-copy p { max-width: 520px; color: var(--muted); font-size: 17px; }
+    .hero-shot { padding: 7px; background: linear-gradient(#41474c,#171a1d); border: 1px solid #08090a; box-shadow: 0 12px 30px #0008, inset 0 1px #ffffff24; }
+    .hero-shot img { width: 100%; border: 1px solid #08090a; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 38px; padding: 8px 15px; cursor: pointer;
+      color: #f5f5f5; font: 600 13px Inter, sans-serif;
+      border: 1px solid #08090a; border-radius: 3px;
+      background: linear-gradient(#454b50, #292e32);
+      box-shadow: inset 0 1px #ffffff2b, 0 1px 2px #0008;
+      text-shadow: 0 1px #000;
+    }
+    .btn:hover { color: #fff; text-decoration: none; background: linear-gradient(#555d63,#343a3f); }
+    .btn-primary { background: linear-gradient(#ef8064, #b94a37); border-color: #70291f; box-shadow: inset 0 1px #ffffff55, 0 1px 3px #0009; }
+    .btn-primary:hover { background: linear-gradient(#ff9578, #cb5741); }
+    .btn:disabled { opacity: .6; cursor: wait; }
+    .architecture { border-top: 1px solid var(--line); }
+    .arch-row { display: grid; grid-template-columns: 110px 180px 1fr; gap: 18px; padding: 15px 10px; border-bottom: 1px solid var(--line); align-items: baseline; }
+    .arch-row:nth-child(odd) { background: #ffffff04; }
+    .arch-row span { color: var(--faint); font: 11px "IBM Plex Mono", monospace; text-transform: uppercase; }
+    .arch-row strong { font: 15px "IBM Plex Mono", monospace; color: #f2f2f2; }
+    .arch-row small { color: var(--muted); }
+    .shot-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+    .shot-frame { padding: 6px; background: linear-gradient(#41474c,#171a1d); border: 1px solid #08090a; box-shadow: 0 8px 24px #0008, inset 0 1px #ffffff22; }
+    .shot-frame img { width: 100%; }
+    .release-card { padding: 22px; background: linear-gradient(#292e32,#1d2124); border: 1px solid #090a0b; box-shadow: inset 0 1px #ffffff14; }
+    .release-card h3 { margin: 8px 0; font-size: 21px; }
+    .release-card p { color: var(--muted); }
+    .status { display: inline-block; padding: 3px 8px; color: #ffd0c4; background: #8d382b55; border: 1px solid #a74b3a; font: 10px "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
+
+    /* Original connected roadmap: orange nodes, graphite rail */
+    .timeline { position: relative; margin: 6px 0 0 12px; padding: 2px 0 0 34px; border-left: 2px solid #555b60; }
+    .timeline:before { content: ""; position: absolute; left: -4px; top: 0; bottom: 0; width: 6px; background: linear-gradient(90deg,#090a0b,#777e84,#202428); opacity: .75; }
+    .milestone { position: relative; padding: 0 0 34px 8px; }
+    .milestone:last-child { padding-bottom: 4px; }
+    .milestone:before { content: ""; position: absolute; left: -43px; top: 4px; width: 13px; height: 13px; border-radius: 50%; background: radial-gradient(circle at 35% 30%,#9da2a6,#454b50 62%,#171a1d); border: 2px solid #090a0b; box-shadow: 0 0 0 1px #62696f; }
+    .milestone.current:before { background: radial-gradient(circle at 35% 30%,#ffb29b,var(--accent) 58%,#853326); box-shadow: 0 0 0 1px #f07b5d, 0 0 0 5px #dc624826, 0 0 15px #dc624866; }
+    .milestone span { display: block; margin-bottom: 4px; color: var(--accent-bright); font: 11px "IBM Plex Mono", monospace; }
+    .milestone strong { display: block; color: #f0f1f1; font-size: 21px; }
+    .milestone p { max-width: 720px; margin: 5px 0 0; color: var(--muted); }
+    .milestone .btn { margin-top: 8px; }
+
+    /* Support manual */
+    .support-layout { display: grid; grid-template-columns: 220px minmax(0,1fr); gap: 20px; align-items: start; }
+    .support-index { padding: 8px; background: linear-gradient(#292e32,#1c2023); border: 1px solid #090a0b; box-shadow: inset 0 1px #ffffff12; }
+    .support-index strong { display: block; padding: 9px 10px; color: #fff; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; }
+    .support-index a { display: block; padding: 7px 10px; color: #c1c5c8; font-size: 13px; border-top: 1px solid #ffffff08; }
+    .support-index a:hover { color: #fff; background: #dc624818; text-decoration: none; }
+    .faq-group { margin-bottom: 22px; }
+    .faq-group:last-child { margin-bottom: 0; }
+    .faq-group h2 { margin: 0 0 10px; padding-bottom: 9px; border-bottom: 1px solid var(--line); font-size: 20px; }
+    details.faq { margin: 7px 0; border: 1px solid #0a0b0c; background: #191d20; box-shadow: inset 0 1px #ffffff08; }
+    details.faq summary { position: relative; padding: 12px 38px 12px 14px; color: #e5e6e7; cursor: pointer; list-style: none; font-weight: 600; font-size: 14px; }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary:after { content: "+"; position: absolute; right: 14px; top: 8px; color: var(--accent-bright); font: 22px "IBM Plex Mono", monospace; }
+    details.faq[open] summary:after { content: "−"; }
+    .faq-answer { padding: 0 15px 15px; color: var(--muted); font-size: 14px; }
+    .faq-answer p { margin: 0 0 10px; }
+    .faq-answer p:last-child { margin-bottom: 0; }
+    .faq-answer pre { overflow-x: auto; margin: 10px 0; padding: 12px 14px; color: #f0c6ba; background: #090b0c; border: 1px solid #050607; box-shadow: inset 0 2px 8px #000b; font-size: 12px; line-height: 1.65; }
+    .faq-answer ol, .faq-answer ul { padding-left: 20px; }
+    .faq-answer li { margin: 5px 0; }
+
+    .download-box { padding: 24px; background: linear-gradient(#292e32,#1c2023); border: 1px solid #090a0b; box-shadow: inset 0 1px #ffffff12; }
+    .download-box h2 { margin: 0 0 8px; }
+    .download-box p { color: var(--muted); }
+    .file-links { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; margin: 16px 0 8px; }
+    .file-size { color: var(--faint); font: 12px "IBM Plex Mono", monospace; margin-left: auto; }
+    #dlstatus { display: none; margin-top: 12px; color: var(--muted); font-size: 13px; }
+    #dlstatus.on { display: block; }
+    #dlstatus.busy:before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 8px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--accent-bright); animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .checksum { margin-top: 14px; color: var(--muted); font-size: 13px; }
+    .checksum summary { color: var(--accent-bright); cursor: pointer; }
+    .checksum-open { margin-top: 8px; padding: 12px; background: #0c0e10; border: 1px solid #08090a; }
+    .checksum-row { margin: 4px 0; font: 12px "IBM Plex Mono", monospace; word-break: break-all; }
+
+    footer { padding: 34px 0 20px; color: var(--muted); background: linear-gradient(#202428,#171a1d); border-top: 1px solid #08090a; box-shadow: inset 0 1px #ffffff10; }
+    .foot-grid { display: grid; grid-template-columns: 1.4fr repeat(4,minmax(0,1fr)); gap: 24px; padding-bottom: 28px; }
+    .foot-brand { margin-bottom: 5px; color: #fff; font: 32px/.95 "Iceland", sans-serif; }
+    .foot-intro p { margin: 0; max-width: 260px; font-size: 13px; }
+    .foot-group h4 { margin: 0 0 10px; color: #f0f1f1; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+    .foot-links { display: grid; gap: 6px; }
+    .foot-links a { color: #b8bdc1; font-size: 12px; }
+    .foot-links a:hover { color: #fff; }
+    .legal { display: flex; justify-content: space-between; gap: 12px; padding-top: 14px; border-top: 1px solid #ffffff12; color: #858b91; font: 11px "IBM Plex Mono", monospace; }
+
+    @media (max-width: 900px) {
+      .menu-btn { display: block; }
+      .nav { min-height: var(--header); }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 8px 22px 14px; background: #171a1d; border: 1px solid #383d42; box-shadow: 0 8px 15px #0009; flex-direction: column; }
+      .nav-links.open { display: flex; }
+      .nav-links a { min-height: 40px; border: 0; border-bottom: 1px solid #ffffff0a; }
+      .nav-links a.nav-cta { margin: 8px 0 0; justify-content: center; }
+      .hero-layout, .shot-row { grid-template-columns: 1fr; }
+      .hero-shot { max-width: 760px; }
+      .support-layout { grid-template-columns: 1fr; }
+      .support-index { display: flex; flex-wrap: wrap; gap: 2px; }
+      .support-index strong { width: 100%; }
+      .support-index a { border: 0; padding: 6px 9px; }
+      .foot-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .foot-intro { grid-column: 1/-1; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(var(--max), calc(100% - 28px)); }
+      .page-frame { padding-top: 17px; }
+      .page-titlebar, .content-panel { padding: 19px; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .arch-row { grid-template-columns: 76px 1fr; gap: 8px 12px; }
+      .arch-row small { grid-column: 2; }
+      .timeline { margin-left: 8px; padding-left: 28px; }
+      .milestone:before { left: -37px; }
+      .milestone strong { font-size: 19px; }
+      .foot-grid { gap: 22px 14px; }
+      .legal { display: block; line-height: 1.8; }
+      .file-size { width: 100%; margin: 4px 0 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *:before, *:after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
-  <div class="announcement">
-    <span>PREVIEW</span>
-    Release Preview
-    <a class="btn btn-primary" href="#download">Download Now</a>
-  </div>
 
   <header>
     <div class="wrap nav">
-      <a class="brand" href="#" aria-label="GonzOS home">
-        <span class="brand-name">GonzOS</span>
-      </a>
-      <button class="menu-btn" data-menu aria-label="Open menu">Menu</button>
-      <nav class="nav-links" data-nav>
-        <a href="#why">Why</a>
-        <a href="#system">System</a>
-        <a href="#numate">NuMATE</a>
-        <a href="#release">Release</a>
-        <a href="#roadmap">Roadmap</a>
-        <a class="nav-cta" href="#download">Get GonzOS</a>
+      <a class="brand" href="#home" data-page-link="home" aria-label="GonzOS home"><span class="brand-name">GonzOS</span></a>
+      <button class="menu-btn" data-menu type="button" aria-expanded="false" aria-label="Toggle navigation">Menu</button>
+      <nav class="nav-links" data-nav aria-label="Main navigation">
+        <a href="#home" data-page-link="home">Home</a>
+        <a href="#about" data-page-link="about">About</a>
+        <a href="#numate" data-page-link="numate">NuMATE</a>
+        <a href="#roadmap" data-page-link="roadmap">Roadmap</a>
+        <a href="#support" data-page-link="support">Support</a>
+        <a class="nav-cta" href="#download" data-page-link="download">Download</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="wrap">
-        <h1>Your computer.<br><em>Still yours.</em></h1>
-        <p class="lede">GonzOS is a focused desktop operating system built as a flavor of Devuan. It uses runit, preempt and XLibre on that base. The machine stays responsive, understandable, and useful.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="#download">Download GonzOS</a>
-          <a class="btn btn-ghost" href="#system">See the system</a>
+  <main class="page-frame wrap" id="main-content">
+    <!-- HOME -->
+    <section class="page active" id="page-home" data-page="home" aria-labelledby="home-title">
+      <div class="content-panel">
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <p class="section-label" style="color:var(--accent-bright);font:11px 'IBM Plex Mono',monospace;letter-spacing:.12em">A DEVUAN FLAVOR · XLibre · runit</p>
+            <h2 id="home-title">Your computer.<br><em>Still yours.</em></h2>
+            <p>GonzOS is a focused desktop operating system built as a flavor of Devuan. It uses runit, preempt and XLibre on that base. The machine stays responsive, understandable, and useful.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="#download" data-page-link="download">Download GonzOS</a>
+              <a class="btn" href="#about" data-page-link="about">Explore the system</a>
+            </div>
+          </div>
+          <div class="hero-shot"><img src="assets/desktop.jpg" alt="GonzOS NuMATE desktop"></div>
         </div>
-        <div class="hero-shot">
-          <img src="assets/desktop.jpg" alt="GonzOS NuMATE desktop">
+      </div>
+      <div class="content-panel" style="margin-top:18px">
+        <h2>Software should serve the machine.</h2>
+        <p>And the machine should stay yours. GonzOS is built around a traditional desktop, explicit system behavior and long-lived hardware.</p>
+        <div class="grid-3" style="margin-top:20px">
+          <article class="tile"><span class="tile-label">01 / Architecture</span><h3>Know what runs</h3><p>Clear system layers, explicit services and observable behavior.</p><p style="margin-top:12px"><a href="#about" data-page-link="about">The system »</a></p></article>
+          <article class="tile"><span class="tile-label">02 / Desktop</span><h3>Familiar by design</h3><p>A classic desktop model: panel, menu, windows, files and settings.</p><p style="margin-top:12px"><a href="#numate" data-page-link="numate">Meet NuMATE »</a></p></article>
+          <article class="tile"><span class="tile-label">03 / Help</span><h3>Get things installed</h3><p>Practical help for packages, Steam, Lutris, root access and everyday setup.</p><p style="margin-top:12px"><a href="#support" data-page-link="support">Visit Support »</a></p></article>
         </div>
       </div>
     </section>
 
-    <div class="principle">
-      <div class="wrap">
-        <strong>Software should serve the machine.</strong>
-        And the machine should stay yours.
-      </div>
-    </div>
-
-    <section id="why">
-      <div class="wrap">
-        <div class="section-head">
-          <p class="section-label">Why GonzOS</p>
-          <h2>Modern software.<br>Without the modern bloat.</h2>
-          <p>Old hardware is not disposable. A Core 2 Duo should be able to load a wiki. A well-kept workstation should remain a useful computer for years. GonzOS was developed on an Acer 5920G and a Dell Inspiron 1545. All types of hardware are first-class.</p>
-        </div>
-        <div class="values">
-          <article>
-            <div class="feature-icon">⚡</div>
-            <b>Responsive</b>
-            <p>Interactive work stays first-class when the browser, compiler, or background jobs get busy.</p>
-          </article>
-          <article>
-            <div class="feature-icon">≡</div>
-            <b>Predictable</b>
-            <p>System policy is explicit. Services have owners. Packages define the contract.</p>
-          </article>
-          <article>
-            <div class="feature-icon">◉</div>
-            <b>Observable</b>
-            <p>Memory pressure, page-cache behavior, CPU policy and system state are exposed instead of hidden behind magic.</p>
-          </article>
-          <article>
-            <div class="feature-icon">▢</div>
-            <b>Familiar</b>
-            <p>NuMATE keeps the classic desktop model: panel, menu, windows, desktop, files and settings.</p>
-          </article>
-          <article>
-            <div class="feature-icon">↓</div>
-            <b>Lean</b>
-            <p>A Devuan flavor. runit. XLibre. C-based components where they belong. No framework parade. The stack stays light and planted exactly where it is.</p>
-          </article>
-          <article>
-            <div class="feature-icon">∞</div>
-            <b>Long-lived</b>
-            <p>No major rebuilds for the foreseeable future. The stack stays light-weight where it already works. Five-year support window that does not throw away the desktop every release.</p>
-          </article>
+    <!-- ABOUT -->
+    <section class="page" id="page-about" data-page="about" aria-labelledby="about-title">
+      <div class="page-titlebar"><p class="eyebrow">The project</p><h1 id="about-title">About GonzOS</h1><p>A computer should remain understandable, responsive and useful for years.</p></div>
+      <div class="content-panel">
+        <h2>Modern software. Without the modern bloat.</h2>
+        <p>Old hardware is not disposable. A Core 2 Duo should be able to load a wiki. A well-kept workstation should remain a useful computer for years. GonzOS was developed on an Acer 5920G and a Dell Inspiron 1545. All types of hardware are first-class.</p>
+        <div class="grid-3" style="margin-top:22px">
+          <article class="tile"><h3>Responsive</h3><p>Interactive work stays first-class when the browser, compiler, or background jobs get busy.</p></article>
+          <article class="tile"><h3>Predictable</h3><p>System policy is explicit. Services have owners. Packages define the contract.</p></article>
+          <article class="tile"><h3>Observable</h3><p>Memory pressure, page-cache behavior, CPU policy and system state are exposed instead of hidden behind magic.</p></article>
+          <article class="tile"><h3>Familiar</h3><p>NuMATE keeps the classic desktop model: panel, menu, windows, desktop, files and settings.</p></article>
+          <article class="tile"><h3>Lean</h3><p>A Devuan flavor. runit. XLibre. C-based components where they belong. The stack stays light and planted exactly where it is.</p></article>
+          <article class="tile"><h3>Long-lived</h3><p>A five-year support window that does not throw away the desktop every release.</p></article>
         </div>
       </div>
-    </section>
-
-    <section id="about">
-      <div class="wrap">
-        <div class="section-head">
-          <p class="section-label">About</p>
-          <h2>Built by someone who has seen the inside of the machine.</h2>
-        </div>
-        <p style="max-width:720px;color:var(--muted);font-size:18px;line-height:1.55">My name is Josh. I'm the founder and lead technical director of GonzOS. For the past ten years I've worked in domestic appliance repair—consoles, phones, televisions, tablets, and more. I've dug through thousands of firmware images and system implementations inside jukeboxes, gambling machines, and all sorts of embedded hardware. That work taught me software can be fast and efficient, or bloated and incoherent. I know what makes it fast because I've spent years making it work on machines that had no business running anything at all.</p>
-      </div>
-    </section>
-
-    <section id="system" class="dark-band">
-      <div class="wrap">
-        <div class="section-head">
-          <p class="section-label">The machine</p>
-          <h2>GonzOS owns the computer.<br>NuMATE owns the session.</h2>
-          <p>Two layers. Clear responsibilities. No desktop component needs to become the operating system. GonzOS is a Devuan flavor. The stack stays light and planted where it already works.</p>
-        </div>
+      <div class="content-panel">
+        <h2>System architecture</h2>
+        <p>GonzOS is a Devuan flavor. The stack stays light and planted where it already works. No desktop component needs to become the operating system.</p>
         <div class="architecture">
           <div class="arch-row"><span>Kernel</span><strong>preempt</strong><small>Optional in Drift · real-time scheduling when you need it</small></div>
           <div class="arch-row"><span>PID 1</span><strong>runit</strong><small>Simple service supervision and explicit service state</small></div>
@@ -195,57 +342,71 @@
           <div class="arch-row"><span>Cache</span><strong>gonzocache</strong><small>Launch scores · page-cache hold · watermark</small></div>
         </div>
       </div>
+      <div class="content-panel"><h2>Clear ownership</h2><p>The operating-system layer handles machine policy and services. The desktop session handles the user's workspace. Keeping those responsibilities separate makes the system easier to reason about and maintain.</p></div>
+      <div class="content-panel">
+        <h2>Built by someone who has seen the inside of the machine.</h2>
+        <p>I'm the founder and lead technical director of GonzOS. For the past ten years I've worked in domestic appliance repair—consoles, phones, televisions, tablets, and more. I've dug through thousands of firmware images and system implementations inside jukeboxes, gambling machines, and all sorts of embedded hardware. That work taught me software can be fast and efficient, or bloated and incoherent. I know what makes it fast because I've spent years making it work on machines that had no business running anything at all.</p>
+      </div>
     </section>
 
-    <section id="numate">
-      <div class="wrap split">
-        <div class="shot-frame">
-          <img src="assets/wall.jpg" alt="NuMATE desktop wallpaper and panel">
+    <!-- NUMATE -->
+    <section class="page" id="page-numate" data-page="numate" aria-labelledby="numate-title">
+      <div class="page-titlebar"><p class="eyebrow">The desktop</p><h1 id="numate-title">NuMATE</h1><p>A desktop with a point of view: familiar, direct and deliberately consistent.</p></div>
+      <div class="content-panel">
+        <div class="shot-row">
+          <div class="shot-frame"><img src="assets/wall.jpg" alt="NuMATE desktop wallpaper and panel"></div>
+          <div><h2>A familiar desktop, not a new puzzle.</h2><p>NuMATE is the session around GonzOS. Axiom-panel owns the panel and notifications. Nemo owns the desktop and files. Marco composes. mate-session holds the login together.</p><p>It is deliberately familiar. You should not have to learn an operating system before you can use one.</p></div>
         </div>
-        <div class="split-copy">
-          <p class="section-label">NuMATE</p>
-          <h2>A desktop with a point of view.</h2>
-          <p>NuMATE is the session around GonzOS. Axiom-panel owns the panel and notifications. Nemo owns the desktop and files. Marco composes. mate-session holds the login together.</p>
-          <p>It is deliberately familiar. You should not have to learn an operating system before you can use one.</p>
+      </div>
+      <div class="content-panel">
+        <div class="shot-row">
+          <div><h2>The shell</h2><p>Axiom-panel handles the panel, launcher, running applications, status and notifications. Quick settings are immediate. Notifications are clear and actionable.</p><p>The desktop is familiar, direct, and deliberately consistent.</p></div>
+          <div class="shot-frame"><img src="assets/panels.jpg" alt="NuMATE notifications and quick settings"></div>
+        </div>
+      </div>
+      <div class="content-panel">
+        <div class="shot-row">
+          <div class="shot-frame"><img src="assets/settings.jpg" alt="NuMATE Settings"></div>
+          <div><h2>One window, all your Settings.</h2><p>NuMATE Settings replaces the old control-center sprawl with one application and one sidebar. Appearance, display, sound, input, power, users, network and defaults live together.</p></div>
         </div>
       </div>
     </section>
 
-    <section>
-      <div class="wrap split reverse">
-        <div class="shot-frame portrait">
-          <img src="assets/panels.jpg" alt="NuMATE notifications and quick settings">
-        </div>
-        <div class="split-copy">
-          <p class="section-label">The shell</p>
-          <h2>One place for the things you change.</h2>
-          <p>Axiom-panel handles the panel, launcher, running applications, status and notifications. Quick settings are immediate. Notifications are clear and actionable.</p>
-          <p>The desktop is familiar, direct, and deliberately consistent.</p>
-        </div>
+    <!-- DOWNLOAD / RELEASE -->
+    <section class="page" id="page-download" data-page="download" aria-labelledby="download-title">
+      <div class="page-titlebar"><p class="eyebrow">Get GonzOS</p><h1 id="download-title">Downloads</h1><p>Public Release Preview for amd64. The Drift release-candidate track follows when it is ready.</p></div>
+      <div class="grid-2">
+        <article class="release-card">
+          <span class="status">Available now</span>
+          <h3>GonzOS Release Preview</h3>
+          <p>Live image for amd64. NuMATE desktop included. Intended for evaluation and feedback.</p>
+          <div class="file-links">
+            <button class="btn btn-primary" id="dlbtn" type="button">Direct download</button>
+            <button class="btn" id="dltorrent" type="button">Torrent file</button>
+            <a class="btn" href="magnet:?xt=urn:btih:J7WMOITENU5UWR7MHCLHBAOPVRXZYPXL&amp;dn=gonzos-live-release-preview-amd64-2026-11-16_2142&amp;tr=http%3A%2F%2Fbt1.archive.org%3A6969%2Fannounce">Magnet link</a>
+            <span class="file-size">~2.4 GB</span>
+          </div>
+          <div id="dlstatus" aria-live="polite">Starting download…</div>
+          <div class="checksum" aria-label="ISO checksum"><div class="checksum-open"><div class="checksum-row">ISO: <code>gonzos-live-release-preview-amd64-2026-11-16_2142.iso</code></div><div class="checksum-row">MD5: <code>a326ff34e57f2c19150e211896322921</code></div></div></div>
+        </article>
+        <article class="release-card">
+          <span class="status">Coming</span>
+          <h3>Drift RC1 → Stable</h3>
+          <p>Drift RC1 is the first formal release candidate. RC2 only if needed. Then Stable.</p>
+          <ul><li>Feature-complete release candidate</li><li>Conditional RC2, only if required</li><li>Stable promoted from the validated candidate</li></ul>
+          <a class="btn" href="#roadmap" data-page-link="roadmap">View roadmap</a>
+        </article>
       </div>
+      <div class="content-panel install-warning" style="margin-top:20px"><h2>Before installing — read this first</h2><p><strong>GonzOS is currently an incomplete release preview.</strong> It is still under development and has known security issues. It is <strong>not recommended for daily use</strong>, and you should not rely on it for sensitive work, personal data or a production machine.</p><p>Use it for evaluation and testing on hardware where instability or data loss would be acceptable. Back up important data before changing partitions or installing any operating system. Test hardware compatibility from the live environment first.</p><p>For help with software and system setup after installation, see the <a href="#support" data-page-link="support">Support manual</a>.</p></div>
+      <div class="content-panel"><h2>Release promotion</h2><p>RC2 is conditional. If RC1 is validated and no release-blocking defects remain, there is no reason to manufacture another candidate. Stable is promoted from the final validated candidate.</p></div>
     </section>
 
-    <section>
-      <div class="wrap split">
-        <div class="shot-frame">
-          <img src="assets/settings.jpg" alt="NuMATE Settings">
-        </div>
-        <div class="split-copy">
-          <p class="section-label">Settings</p>
-          <h2>One window, all your Settings.</h2>
-          <p>NuMATE Settings replaces the old control-center sprawl with one application and one sidebar. Appearance, display, sound, input, power, users, network and defaults live together.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="roadmap">
-      <div class="wrap">
-        <div class="section-head">
-          <p class="section-label">Roadmap</p>
-          <h2>Build it once.<br>Keep it coherent.</h2>
-        </div>
+    <!-- ROADMAP -->
+    <section class="page" id="page-roadmap" data-page="roadmap" aria-labelledby="roadmap-title">
+      <div class="page-titlebar"><p class="eyebrow">Development plan</p><h1 id="roadmap-title">GonzOS roadmap</h1><p>Milestones are shown in sequence. Dates and candidate steps remain conditional on validation.</p></div>
+      <div class="content-panel">
         <div class="timeline">
-          <div class="milestone current"><span>Now</span><strong>Public Release Preview</strong><p><a class="btn btn-primary" href="#download">Download Now</a></p></div>
+          <div class="milestone current"><span>Now</span><strong>Public Release Preview</strong><p>Initial public live image for amd64 evaluation.</p><a class="btn btn-primary" href="#download" data-page-link="download">Download preview</a></div>
           <div class="milestone"><span>Following months</span><strong>Drift RC1</strong><p>First formal release candidate. Feature-complete, tested, and suitable for serious evaluation.</p></div>
           <div class="milestone"><span>Conditional</span><strong>Drift RC2</strong><p>Only if RC1 exposes defects that justify another candidate. No arbitrary RC schedule.</p></div>
           <div class="milestone"><span>GA</span><strong>Drift Stable</strong><p>Promote the final validated candidate. No rebuild between candidate approval and stable publication.</p></div>
@@ -255,66 +416,63 @@
       </div>
     </section>
 
-    <section class="manifesto">
-      <div class="wrap">
-        <p class="section-label">The standard</p>
-        <h2>Open the menu.<br>Launch an app.<br>Open a file.<br>Load a wiki.<br>Get back to work.</h2>
-        <p>That is what a computer is for.</p>
-      </div>
-    </section>
+    <!-- SUPPORT -->
+    <section class="page" id="page-support" data-page="support" aria-labelledby="support-title">
+      <div class="page-titlebar"><p class="eyebrow">Help & documentation</p><h1 id="support-title">GonzOS Support</h1><p>Practical answers for setting up your system, installing applications and managing your machine.</p></div>
+      <div class="support-layout">
+        <aside class="support-index" aria-label="Support topics">
+          <strong>Support topics</strong>
+          <a href="#support-basics">Getting started</a>
+          <a href="#support-packages">Installing software</a>
+          <a href="#support-steam">Steam</a>
+          <a href="#support-lutris">Lutris</a>
+          <a href="#support-admin">Root & sudo</a>
+          <a href="#support-trouble">Troubleshooting</a>
+        </aside>
+        <div class="content-panel">
+          <div class="faq-group" id="support-basics">
+            <h2>Getting started</h2>
+            <details class="faq" open><summary>Is GonzOS compatible with Debian packages?</summary><div class="faq-answer"><p>GonzOS is based on Devuan and uses the Debian package format. Many applications distributed as <code>.deb</code> packages can be installed with APT. Compatibility still depends on the package's dependencies, supported distribution versions and architecture.</p></div></details>
+            <details class="faq"><summary>Why isn't every application preinstalled?</summary><div class="faq-answer"><p>GonzOS aims to provide a useful desktop without deciding that every user needs the same collection of applications. Some software is best installed directly from its publisher, particularly when the publisher maintains its own Debian package.</p></div></details>
+            <details class="faq"><summary>What is the terminal?</summary><div class="faq-answer"><p>The terminal lets you issue commands directly to the operating system. Open your terminal application, type a command and press Enter. Commands that change system-wide settings or install packages require administrator privileges.</p></div></details>
+          </div>
 
-    <section id="download" class="download">
-      <div class="wrap">
-        <p class="section-label">Get GonzOS</p>
-        <h2>Start with the Preview.</h2>
-        <p>One public Release Preview. One active release-candidate track. RC1, followed by RC2 only when necessary. One Stable release.</p>
-        <div class="branches">
-          <article class="branch branch-stable">
-            <div class="branch-top">
-              <span class="branch-tag">Available Now!</span>
-              <span class="branch-version">Release Preview</span>
-            </div>
-            <h3>GonzOS Release Preview</h3>
-            <p>Live image for amd64. NuMATE desktop included. Establishes the initial user-facing release channel.</p>
-            <div class="file-links">
-              <button class="btn btn-primary" id="dlbtn" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
-                Direct
-              </button>
-              <button class="btn btn-ghost" id="dltorrent" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M640 264v-16c0-8.84-7.16-16-16-16H344v-40h72c17.67 0 32-14.33 32-32V32c0-17.67-14.33-32-32-32H224c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h72v40H16c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16h104v40H64c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h160c17.67 0 32-14.33 32-32V352c0-17.67-14.33-32-32-32h-56v-40h304v40h-56c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h160c17.67 0 32-14.33 32-32V352c0-17.67-14.33-32-32-32h-56v-40h104c8.84 0 16-7.16 16-16zM256 128V64h128v64H256zm-64 320H96v-64h96v64zm352 0h-96v-64h96v64z"/></svg>
-                Torrent
-              </button>
-              <a class="btn btn-ghost" href="magnet:?xt=urn:btih:J7WMOITENU5UWR7MHCLHBAOPVRXZYPXL&amp;dn=gonzos-live-release-preview-amd64-2026-11-16_2142&amp;tr=http%3A%2F%2Fbt1.archive.org%3A6969%2Fannounce">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.07 148.1H12a12 12 0 0 1-12-12v-80a36 36 0 0 1 36-36h104a36 36 0 0 1 36 36v80a11.89 11.89 0 0 1-11.93 12zm347.93-12V56a36 36 0 0 0-36-36H372a36 36 0 0 0-36 36v80a12 12 0 0 0 12 12h152a11.89 11.89 0 0 0 12-11.9zm-164 44a12 12 0 0 0-12 12v52c0 128.1-160 127.9-160 0v-52a12 12 0 0 0-12-12H12.1a12 12 0 0 0-12 12.1c.1 21.4.6 40.3 0 53.3 0 150.6 136.17 246.6 256.75 246.6s255-96 255-246.7c-.6-12.8-.2-33 0-53.2a12 12 0 0 0-12-12.1z"/></svg>
-                Magnet
-              </a>
-              <span class="file-size">~2.4 GB</span>
-            </div>
-            <div id="dlstatus">Starting download…</div>
-            <details class="checksum">
-              <summary>Checksum</summary>
-              <div class="checksum-open">
-                <div class="checksum-row">gonzos-live-release-preview-amd64-2026-11-16_2142.iso</div>
-                <div class="checksum-row">SHA256: <code>Temporarily unavailable</code></div>
-              </div>
-            </details>
-          </article>
+          <div class="faq-group" id="support-packages">
+            <h2>Installing software</h2>
+            <details class="faq" open><summary>How do I install a downloaded .deb package?</summary><div class="faq-answer"><p>Download the Debian package from the application's official publisher. Most browsers save it in your <code>Downloads</code> directory. Open a terminal and move into that directory:</p><pre>cd ~/Downloads</pre><p>If your account has sudo access, install the package with APT. Replace the filename with the exact name of the file you downloaded:</p><pre>sudo apt install ./package-name.deb</pre><p>The <code>./</code> tells APT that this is a local file. APT can then resolve and install the package's available dependencies from your configured repositories.</p><p><strong>Don't have sudo configured?</strong> Use the root account instead. See <a href="#support-admin">Root access and sudo</a> below.</p></div></details>
+            <details class="faq"><summary>Why use apt install ./file.deb instead of dpkg -i?</summary><div class="faq-answer"><p><code>dpkg -i</code> installs a package file but does not fetch missing dependencies. <code>apt install ./file.deb</code> understands that the argument is a local package and can resolve dependencies using your configured APT repositories. It is generally the more convenient method.</p></div></details>
+            <details class="faq"><summary>Where should I download applications?</summary><div class="faq-answer"><p>Prefer the application's own website or a trusted distribution repository. Check that the download is intended for Debian-based systems and matches your system architecture. Avoid random package mirrors and repackaged installers from download portals.</p></div></details>
+          </div>
 
-          <article class="branch branch-experimental">
-            <div class="branch-top">
-              <span class="branch-tag">Coming</span>
-              <span class="branch-version">Drift RC1 → Stable</span>
-            </div>
-            <h3>One RC track.</h3>
-            <p>Drift RC1 is the first formal release candidate. RC2 only if needed. Then Stable.</p>
-            <ul>
-              <li>Feature-complete RC</li>
-              <li>Conditional RC2</li>
-              <li>Then GA</li>
-            </ul>
-            <a class="btn btn-ghost" href="#roadmap">See Roadmap</a>
-          </article>
+          <div class="faq-group" id="support-steam">
+            <h2>Steam</h2>
+            <details class="faq" open><summary>How do I install Steam?</summary><div class="faq-answer"><p>Download the Debian installer from <a href="https://store.steampowered.com/about/" target="_blank" rel="noopener noreferrer">Steam's official website</a>. Save the <code>.deb</code> file, then install it with APT from the directory where it was downloaded:</p><pre>cd ~/Downloads
+sudo apt install ./steam_latest.deb</pre><p>The filename may differ. Use the exact filename shown in your Downloads folder.</p><p>Steam also relies on 32-bit compatibility libraries on 64-bit systems. If the installer reports missing 32-bit dependencies, enable the i386 architecture and refresh package lists:</p><pre>sudo dpkg --add-architecture i386
+sudo apt update</pre><p>Then retry the local package installation. Your configured Devuan repositories must provide the required packages; depending on repository configuration, additional components such as <code>contrib</code> and <code>non-free</code> may be needed.</p><p class="note"><strong>Note:</strong> Steam is third-party software. GonzOS does not maintain the Steam client or control its system requirements and updates.</p></div></details>
+            <details class="faq"><summary>Steam installed, but games do not launch. What now?</summary><div class="faq-answer"><p>First let Steam finish updating. Check that your graphics driver is installed and that the required 32-bit graphics libraries are available. For Windows-only games, enable Steam Play/Proton in Steam's settings. Individual games may have additional compatibility requirements.</p></div></details>
+          </div>
+
+          <div class="faq-group" id="support-lutris">
+            <h2>Lutris</h2>
+            <details class="faq" open><summary>How do I install Lutris?</summary><div class="faq-answer"><p>Get the Debian package from the <a href="https://lutris.net/downloads/" target="_blank" rel="noopener noreferrer">official Lutris downloads page</a>. Download the package intended for Debian, then install it using APT:</p><pre>cd ~/Downloads
+sudo apt install ./lutris_*.deb</pre><p>If the wildcard matches more than one Lutris package, use the exact filename instead. APT will install dependencies that are available in your configured repositories.</p><p>Lutris is a game library and launcher. Running many Windows games also requires a compatible runner such as Wine or a Proton-based runner, plus suitable graphics drivers and libraries. Lutris can help manage runners, but the required components are not all bundled into the Lutris .deb.</p><p class="note"><strong>Note:</strong> Lutris is maintained by its own developers. Consult their documentation for current runner requirements and game-specific setup.</p></div></details>
+            <details class="faq"><summary>Do I need Lutris if I already have Steam?</summary><div class="faq-answer"><p>No. Steam is the natural choice for games in your Steam library. Lutris is useful for organizing games and launchers from other sources. You can use either, both, or neither.</p></div></details>
+          </div>
+
+          <div class="faq-group" id="support-admin">
+            <h2>Root access & sudo</h2>
+            <details class="faq" open><summary>How do I add my account to sudo?</summary><div class="faq-answer"><p>On a standard installation where you set a root password, use that root password to become the administrator. It is the root password chosen during installation—not necessarily the password you use to log into your normal account.</p><p>Open a terminal and switch to a root login shell:</p><pre>su -</pre><p>Enter the root password when prompted. Then install sudo if it is not already installed:</p><pre>apt update
+apt install sudo</pre><p>Add your normal user account to the <code>sudo</code> group. Replace <code>YOUR_USERNAME</code> with your actual login name:</p><pre>adduser YOUR_USERNAME sudo</pre><p>Exit the root shell and completely log out of your desktop session, then log back in. Group membership is applied to new login sessions. You can check it with:</p><pre>groups</pre><p>You should see <code>sudo</code> in the list. You can now run administrative commands with <code>sudo</code>, for example:</p><pre>sudo apt update</pre><p class="note"><strong>Important:</strong> Do not share your root password. The <code>su -</code> command asks for the root account's password, while <code>sudo</code> normally asks for your own account password.</p></div></details>
+            <details class="faq"><summary>What if I don't know the root password?</summary><div class="faq-answer"><p>The <code>su -</code> method requires the root password configured during installation. Your normal user password will not work unless it was deliberately set to the same value. If you cannot authenticate as root, use the documented recovery procedure for your installation rather than repeatedly guessing passwords.</p></div></details>
+            <details class="faq"><summary>Why does sudo say my user is not in the sudoers file?</summary><div class="faq-answer"><p>Your account may not be in the <code>sudo</code> group yet, or you may not have started a new login session after being added. Check group membership with <code>groups</code>. If it is missing, repeat <code>adduser YOUR_USERNAME sudo</code> from a root shell, then log out and back in.</p></div></details>
+          </div>
+
+          <div class="faq-group" id="support-trouble">
+            <h2>Troubleshooting</h2>
+            <details class="faq"><summary>APT reports that a dependency cannot be found.</summary><div class="faq-answer"><p>Run <code>sudo apt update</code> and retry. If the package is still unavailable, the publisher may require repository components that are not enabled in your Devuan sources, or the package may target a different Debian release or architecture. Read the publisher's installation notes before adding external repositories.</p></div></details>
+            <details class="faq"><summary>APT says the package architecture is wrong.</summary><div class="faq-answer"><p>Check your system architecture with <code>dpkg --print-architecture</code>. GonzOS Release Preview is an amd64 image. Do not install an ARM or 32-bit package on an amd64 system unless the publisher explicitly documents multiarch support for that package.</p></div></details>
+            <details class="faq"><summary>Where can I report a GonzOS issue?</summary><div class="faq-answer"><p>For issues in GonzOS itself, use the <a href="https://github.com/TTR-IND/GonzOS" target="_blank" rel="noopener noreferrer">GonzOS source repository</a>. Include the release you are running, the relevant hardware details and the exact error output. For Steam or Lutris application problems, consult the respective upstream support channels.</p></div></details>
+          </div>
         </div>
       </div>
     </section>
@@ -322,96 +480,108 @@
 
   <footer>
     <div class="wrap foot-grid">
-      <div class="foot-intro">
-        <div class="foot-brand">GonzOS</div>
-        <p>A focused desktop operating system built around the idea that your hardware still matters.</p>
-        <div class="foot-credit">A Devuan-based system, using the XLibre display server.</div>
-      </div>
-
-      <div class="foot-group">
-        <h4>GonzOS</h4>
-        <div class="foot-links">
-          <a href="#system">Architecture</a>
-          <a href="#release">Release model</a>
-          <a href="#roadmap">Roadmap</a>
-          <a href="#download">Downloads</a>
-        </div>
-      </div>
-
-      <div class="foot-group">
-        <h4>Project</h4>
-        <div class="foot-links">
-          <a href="https://github.com/TTR-IND/GonzOS">Source code</a>
-          <a href="https://docs.gonzos.org">Documentation</a>
-          <a href="https://github.com/TTR-IND/NuMATE">NuMATE desktop</a>
-        </div>
-      </div>
-
-      <div class="foot-group">
-        <h4>Components</h4>
-        <div class="foot-links">
-          <a href="https://github.com/TTR-IND/gonzod">gonzod</a>
-          <a href="https://github.com/TTR-IND/detritusd">detritusd</a>
-          <a href="https://github.com/TTR-IND/gonzocache">gonzocache</a>
-        </div>
-      </div>
-
-      <div class="foot-group">
-        <h4>Upstream</h4>
-        <div class="foot-links">
-          <a href="https://www.devuan.org/" target="_blank" rel="noopener noreferrer">Devuan</a>
-          <a href="https://xlibre.net/" target="_blank" rel="noopener noreferrer">XLibre website</a>
-          <a href="https://github.com/X11Libre" target="_blank" rel="noopener noreferrer">XLibre source</a>
-        </div>
-      </div>
+      <div class="foot-intro"><div class="foot-brand">GonzOS</div><p>A focused desktop operating system built around the idea that your hardware still matters.</p></div>
+      <div class="foot-group"><h4>GonzOS</h4><div class="foot-links"><a href="#about" data-page-link="about">About</a><a href="#download" data-page-link="download">Downloads</a><a href="#roadmap" data-page-link="roadmap">Roadmap</a></div></div>
+      <div class="foot-group"><h4>Get started</h4><div class="foot-links"><a href="#download" data-page-link="download">Downloads</a><a href="#support" data-page-link="support">Support & FAQ</a><a href="https://docs.gonzos.org" target="_blank" rel="noopener noreferrer">Documentation</a></div></div>
+      <div class="foot-group"><h4>Project</h4><div class="foot-links"><a href="https://github.com/TTR-IND/GonzOS" target="_blank" rel="noopener noreferrer">Source code</a><a href="https://github.com/TTR-IND/NuMATE" target="_blank" rel="noopener noreferrer">NuMATE desktop</a></div></div>
+      <div class="foot-group"><h4>Upstream</h4><div class="foot-links"><a href="https://www.devuan.org/" target="_blank" rel="noopener noreferrer">Devuan</a><a href="https://xlibre.net/" target="_blank" rel="noopener noreferrer">XLibre website</a><a href="https://github.com/X11Libre" target="_blank" rel="noopener noreferrer">XLibre source</a></div></div>
     </div>
-    <div class="wrap legal">
-      <span>© 2026 Josh Wheatstone | TechnyxLabs</span>
-      <span>GonzOS · A Devuan flavor · Powered by XLibre</span>
-    </div>
+    <div class="wrap legal"><span>© 2026 Josh Wheatstone | TechnyxLabs</span><span>GonzOS · A Devuan flavor · Powered by XLibre</span></div>
   </footer>
 
-  <iframe id="dlframe" style="display:none;width:0;height:0;border:0" aria-hidden="true"></iframe>
-
+  <iframe id="dlframe" title="Download frame" style="display:none;width:0;height:0;border:0" aria-hidden="true"></iframe>
   <script>
-    (function(){
-      var b=document.querySelector('[data-menu]'),n=document.querySelector('[data-nav]');
-      if(b&&n)b.addEventListener('click',function(){n.classList.toggle('open');});
-      document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){n&&n.classList.remove('open');});});
+    (function () {
+      'use strict';
+      var nav = document.querySelector('[data-nav]');
+      var menuButton = document.querySelector('[data-menu]');
+      var pages = Array.prototype.slice.call(document.querySelectorAll('[data-page]'));
+      var links = Array.prototype.slice.call(document.querySelectorAll('[data-page-link]'));
 
-      var st=document.getElementById('dlstatus');
-      var fr=document.getElementById('dlframe');
-      if(!fr)return;
-      // Assembled so the origin never appears as a contiguous string in source.
-      var p=['h','t','t','p','s',':','/','/'].join('');
-      var h=['a','r','c','h','i','v','e','.','o','r','g'].join('');
-      var d='/download/gonzos-live-release-preview-amd64-2026-11-16_2142/gonzos-live-release-preview-amd64-2026-11-16_2142';
-      // The browser exposes no completion event for a cross-origin download in an
-      // iframe, so the status reports only what is known: the request was issued.
-      var last=0;
-      function wire(id,file){
-        var b=document.getElementById(id);
-        if(!b)return;
-        b.addEventListener('click',function(){
-          var label=b.innerHTML;
-          var me=++last;
-          fr.src=p+h+d+file;
-          b.textContent='Download started';
-          b.disabled=true;
-          if(st){st.className='on busy';st.textContent='Starting download…';}
-          setTimeout(function(){
-            b.innerHTML=label;
-            b.disabled=false;
-            if(st&&me===last){
-              st.className='on';
-              st.textContent='Download started. Check your browser\u2019s downloads.';
-            }
-          },3000);
+      function showPage(name, updateHistory) {
+        var target = pages.find(function (page) { return page.getAttribute('data-page') === name; });
+        if (!target) {
+          name = 'home';
+          target = document.querySelector('[data-page="home"]');
+        }
+        pages.forEach(function (page) {
+          var active = page === target;
+          page.classList.toggle('active', active);
+          page.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+        links.forEach(function (link) {
+          var active = link.getAttribute('data-page-link') === name;
+          if (active) link.setAttribute('aria-current', 'page');
+          else link.removeAttribute('aria-current');
+        });
+        if (updateHistory && window.location.hash !== '#' + name) {
+          window.history.pushState({ page: name }, '', '#' + name);
+        }
+        if (nav) nav.classList.remove('open');
+        if (menuButton) menuButton.setAttribute('aria-expanded', 'false');
+        window.scrollTo(0, 0);
+        document.title = name === 'home' ? 'GonzOS — Your computer. Still yours.' : 'GonzOS — ' + name.charAt(0).toUpperCase() + name.slice(1);
+      }
+
+      links.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          var name = link.getAttribute('data-page-link');
+          if (!name) return;
+          event.preventDefault();
+          showPage(name, true);
+        });
+      });
+      function handleLocationChange() {
+        var fragment = window.location.hash.slice(1) || 'home';
+        var isPage = pages.some(function (page) { return page.getAttribute('data-page') === fragment; });
+        if (isPage) {
+          showPage(fragment, false);
+          return;
+        }
+        /* In-page anchors (for example, Support topic links) must not be
+           mistaken for page names by the single-document navigation. */
+        if (!document.getElementById(fragment)) showPage('home', false);
+      }
+      window.addEventListener('hashchange', handleLocationChange);
+      window.addEventListener('popstate', handleLocationChange);
+      if (menuButton && nav) {
+        menuButton.addEventListener('click', function () {
+          var open = nav.classList.toggle('open');
+          menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
         });
       }
-      wire('dlbtn','.iso');
-      wire('dltorrent','_archive.torrent');
-    })();
+      showPage(window.location.hash.slice(1) || 'home', false);
+
+      var status = document.getElementById('dlstatus');
+      var frame = document.getElementById('dlframe');
+      var base = 'https://archive.org/download/gonzos-live-release-preview-amd64-2026-11-16_2142/gonzos-live-release-preview-amd64-2026-11-16_2142';
+      var requestNumber = 0;
+      function wireDownload(id, suffix) {
+        var button = document.getElementById(id);
+        if (!button || !frame) return;
+        button.addEventListener('click', function () {
+          var originalLabel = button.textContent;
+          var thisRequest = ++requestNumber;
+          frame.src = base + suffix;
+          button.textContent = 'Download started';
+          button.disabled = true;
+          if (status) {
+            status.className = 'on busy';
+            status.textContent = 'Starting download…';
+          }
+          window.setTimeout(function () {
+            button.textContent = originalLabel;
+            button.disabled = false;
+            if (status && thisRequest === requestNumber) {
+              status.className = 'on';
+              status.textContent = 'Download started. Check your browser’s downloads.';
+            }
+          }, 3000);
+        });
+      }
+      wireDownload('dlbtn', '.iso');
+      wireDownload('dltorrent', '_archive.torrent');
+    }());
   </script>
 </body>
 </html>
