@@ -65,8 +65,17 @@
       box-shadow: none;
     }
     .nav { min-height: var(--header); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .brand { display: inline-flex; align-items: center; min-width: 150px; color: #fff; text-decoration: none; }
+    .brand { display: inline-flex; align-items: center; min-width: 190px; color: #fff; text-decoration: none; }
     .brand:hover { color: #fff; text-decoration: none; }
+    .brand-lockup { display: flex; flex-direction: column; gap: 3px; }
+    .brand-tagline {
+      padding-left: 2px;
+      color: #d2a092;
+      font: 10px/1 "IBM Plex Mono", monospace;
+      letter-spacing: .19em;
+      text-transform: uppercase;
+      text-shadow: 0 1px #000;
+    }
     .brand-name {
       font-family: "Iceland", sans-serif;
       font-weight: 400;
@@ -146,6 +155,90 @@
     .tile h3 { margin: 0 0 7px; font-size: 17px; }
     .tile p { margin: 0; color: var(--muted); font-size: 14px; }
     .tile .tile-label { display: block; color: var(--accent-bright); font: 11px "IBM Plex Mono", monospace; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .08em; }
+    .altitude-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 72px minmax(0,1fr) auto;
+      gap: 17px;
+      align-items: center;
+      overflow: hidden;
+      margin: 0 0 24px;
+      padding: 19px 22px;
+      background:
+        radial-gradient(ellipse at 8% 0%, #ffb15a35, transparent 42%),
+        linear-gradient(115deg, #493126, #29272a 48%, #202428);
+      border: 1px solid #100d0c;
+      box-shadow: inset 0 1px #ffffff55, inset 0 -1px #0008, 0 5px 16px #0008, 0 0 22px #e66b3020;
+    }
+    .altitude-card:before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 1px;
+      background: linear-gradient(90deg, #fff9, #ffb36a88 45%, transparent);
+    }
+    .altitude-stamp {
+      display: grid;
+      place-items: center;
+      width: 66px;
+      height: 66px;
+      color: #fff3cf;
+      font: 34px/1 "Segoe UI Symbol", sans-serif;
+      border: 1px solid #f3b47799;
+      border-radius: 15px 11px 16px 10px;
+      background: radial-gradient(circle at 32% 22%, #fff7c9, #f4a14e 22%, #b94b2e 68%, #57271f);
+      box-shadow: inset 0 2px 3px #fff9, inset 0 -5px 9px #55201599, 0 3px 8px #0009, 0 0 16px #f28a4b44;
+      text-shadow: 0 2px 2px #74301e;
+    }
+    .altitude-copy { min-width: 0; }
+    .altitude-kicker {
+      display: block;
+      margin-bottom: 3px;
+      color: #ffc18a;
+      font: 10px "IBM Plex Mono", monospace;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .altitude-copy h2 {
+      margin: 0 0 4px;
+      color: #fff3e8;
+      font-size: clamp(21px, 3vw, 29px);
+      line-height: 1.05;
+      letter-spacing: -.045em;
+      text-shadow: 0 2px 0 #301a15, 0 0 13px #ff9a5933;
+    }
+    .altitude-copy p { margin: 0; color: #d3c3b9; font-size: 13px; }
+    .altitude-side {
+      max-width: 160px;
+      padding: 8px 11px;
+      color: #ffe2c4;
+      text-align: center;
+      font: 10px/1.5 "IBM Plex Mono", monospace;
+      background: linear-gradient(#78412f, #44251f);
+      border: 1px solid #a65c42;
+      box-shadow: inset 0 1px #ffffff55, 0 2px 4px #0008;
+      transform: rotate(2deg);
+    }
+    .icon-tile {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .icon-badge {
+      flex: 0 0 42px;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      color: #fff4db;
+      font: 23px/1 "Segoe UI Symbol", sans-serif;
+      border: 1px solid #08090a;
+      border-radius: 10px 7px 11px 7px;
+      background: radial-gradient(circle at 30% 18%, #fff7c5, #e5a34b 25%, #a94c32 70%, #572b26);
+      box-shadow: inset 0 1px #ffffffb0, inset 0 -3px 5px #51271f99, 0 2px 5px #0009, 0 0 10px #e77b3b22;
+      text-shadow: 0 1px 2px #56291e;
+    }
+    .icon-tile h3 { margin-top: 0; }
     .hero-layout { display: grid; grid-template-columns: .92fr 1.08fr; gap: 28px; align-items: center; }
     .hero-copy h2 { margin: 0 0 14px; font-size: clamp(38px, 5.2vw, 58px); line-height: .98; letter-spacing: -.055em; }
     .hero-copy h2 em { color: var(--accent-bright); font-style: normal; }
@@ -230,6 +323,7 @@
     footer { padding: 34px 0 20px; color: var(--muted); background: linear-gradient(#202428,#171a1d); border-top: 1px solid #08090a; box-shadow: inset 0 1px #ffffff10; }
     .foot-grid { display: grid; grid-template-columns: 1.4fr repeat(4,minmax(0,1fr)); gap: 24px; padding-bottom: 28px; }
     .foot-brand { margin-bottom: 5px; color: #fff; font: 32px/.95 "Iceland", sans-serif; }
+    .foot-tagline { margin: 0 0 9px; color: #d2a092; font: 9px "IBM Plex Mono", monospace; letter-spacing: .16em; text-transform: uppercase; }
     .foot-intro p { margin: 0; max-width: 260px; font-size: 13px; }
     .foot-group h4 { margin: 0 0 10px; color: #f0f1f1; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
     .foot-links { display: grid; gap: 6px; }
@@ -245,6 +339,9 @@
       .nav-links a { min-height: 40px; border: 0; border-bottom: 1px solid #ffffff0a; }
       .nav-links a.nav-cta { margin: 8px 0 0; justify-content: center; }
       .hero-layout, .shot-row { grid-template-columns: 1fr; }
+      .altitude-card { grid-template-columns: 58px minmax(0,1fr); gap: 13px; }
+      .altitude-stamp { width: 56px; height: 56px; font-size: 29px; }
+      .altitude-side { grid-column: 2; justify-self: start; max-width: none; transform: none; }
       .hero-shot { max-width: 760px; }
       .support-layout { grid-template-columns: 1fr; }
       .support-index { display: flex; flex-wrap: wrap; gap: 2px; }
@@ -258,6 +355,8 @@
       .page-frame { padding-top: 17px; }
       .page-titlebar, .content-panel { padding: 19px; }
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .altitude-card { padding: 16px; }
+      .altitude-copy p { font-size: 12px; }
       .arch-row { grid-template-columns: 76px 1fr; gap: 8px 12px; }
       .arch-row small { grid-column: 2; }
       .timeline { margin-left: 8px; padding-left: 28px; }
@@ -274,7 +373,9 @@
 
   <header>
     <div class="wrap nav">
-      <a class="brand" href="#home" data-page-link="home" aria-label="GonzOS home"><span class="brand-name">GonzOS</span></a>
+      <a class="brand" href="#home" data-page-link="home" aria-label="GonzOS home">
+        <span class="brand-lockup"><span class="brand-name">GonzOS</span><span class="brand-tagline">Beyond Convention</span></span>
+      </a>
       <button class="menu-btn" data-menu type="button" aria-expanded="false" aria-label="Toggle navigation">Menu</button>
       <nav class="nav-links" data-nav aria-label="Main navigation">
         <a href="#home" data-page-link="home">Home</a>
@@ -291,6 +392,15 @@
     <!-- HOME -->
     <section class="page active" id="page-home" data-page="home" aria-labelledby="home-title">
       <div class="content-panel">
+        <aside class="altitude-card" aria-label="GonzOS philosophy">
+          <div class="altitude-stamp" aria-hidden="true">✦</div>
+          <div class="altitude-copy">
+            <span class="altitude-kicker">A small announcement from the developer of GonzOS</span>
+            <h2>Now supports switchable graphics!</h2>
+            <p>Have a headless/compute GPU or even a laptop with GPU passthrough? Play your games with the descrite GPU using the "Preferred Graphics Processor" option in settings.</p>
+          </div>
+          <div class="altitude-side">NO SACRED COWS<br>JUST WORKING COMPUTERS</div>
+        </aside>
         <div class="hero-layout">
           <div class="hero-copy">
             <p class="section-label" style="color:var(--accent-bright);font:11px 'IBM Plex Mono',monospace;letter-spacing:.12em">A DEVUAN FLAVOR · XLibre · runit</p>
@@ -308,9 +418,9 @@
         <h2>Software should serve the machine.</h2>
         <p>And the machine should stay yours. GonzOS is built around a traditional desktop, explicit system behavior and long-lived hardware.</p>
         <div class="grid-3" style="margin-top:20px">
-          <article class="tile"><span class="tile-label">01 / Architecture</span><h3>Know what runs</h3><p>Clear system layers, explicit services and observable behavior.</p><p style="margin-top:12px"><a href="#about" data-page-link="about">The system »</a></p></article>
-          <article class="tile"><span class="tile-label">02 / Desktop</span><h3>Familiar by design</h3><p>A classic desktop model: panel, menu, windows, files and settings.</p><p style="margin-top:12px"><a href="#numate" data-page-link="numate">Meet NuMATE »</a></p></article>
-          <article class="tile"><span class="tile-label">03 / Help</span><h3>Get things installed</h3><p>Practical help for packages, Steam, Lutris, root access and everyday setup.</p><p style="margin-top:12px"><a href="#support" data-page-link="support">Visit Support »</a></p></article>
+          <article class="tile"><div class="icon-tile"><span class="icon-badge" aria-hidden="true">⚙</span><div><span class="tile-label">01 / Architecture</span><h3>Know what runs</h3></div></div><p>Clear system layers, explicit services and observable behavior.</p><p style="margin-top:12px"><a href="#about" data-page-link="about">The system »</a></p></article>
+          <article class="tile"><div class="icon-tile"><span class="icon-badge" aria-hidden="true">✺</span><div><span class="tile-label">02 / Desktop</span><h3>Familiar by design</h3></div></div><p>A classic desktop model: panel, menu, windows, files and settings.</p><p style="margin-top:12px"><a href="#numate" data-page-link="numate">Meet NuMATE »</a></p></article>
+          <article class="tile"><div class="icon-tile"><span class="icon-badge" aria-hidden="true">➜</span><div><span class="tile-label">03 / Help</span><h3>Get things installed</h3></div></div><p>Practical help for packages, Steam, Lutris, root access and everyday setup.</p><p style="margin-top:12px"><a href="#support" data-page-link="support">Visit Support »</a></p></article>
         </div>
       </div>
     </section>
@@ -480,7 +590,7 @@ apt install sudo</pre><p>Add your normal user account to the <code>sudo</code> g
 
   <footer>
     <div class="wrap foot-grid">
-      <div class="foot-intro"><div class="foot-brand">GonzOS</div><p>A focused desktop operating system built around the idea that your hardware still matters.</p></div>
+      <div class="foot-intro"><div class="foot-brand">GonzOS</div><div class="foot-tagline">Beyond Convention</div><p>A focused desktop operating system built around the idea that your hardware still matters.</p></div>
       <div class="foot-group"><h4>GonzOS</h4><div class="foot-links"><a href="#about" data-page-link="about">About</a><a href="#download" data-page-link="download">Downloads</a><a href="#roadmap" data-page-link="roadmap">Roadmap</a></div></div>
       <div class="foot-group"><h4>Get started</h4><div class="foot-links"><a href="#download" data-page-link="download">Downloads</a><a href="#support" data-page-link="support">Support & FAQ</a><a href="https://docs.gonzos.org" target="_blank" rel="noopener noreferrer">Documentation</a></div></div>
       <div class="foot-group"><h4>Project</h4><div class="foot-links"><a href="https://github.com/TTR-IND/gonzod" target="_blank" rel="noopener noreferrer">gonzod</a><a href="https://github.com/TTR-IND/detritusd" target="_blank" rel="noopener noreferrer">detritusd</a><a href="https://github.com/TTR-IND/gonzocache" target="_blank" rel="noopener noreferrer">gonzocache</a><a href="https://github.com/TTR-IND/NuMATE" target="_blank" rel="noopener noreferrer">NuMATE desktop</a></div></div>
